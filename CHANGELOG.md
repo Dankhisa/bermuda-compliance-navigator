@@ -27,8 +27,10 @@ review dates. Earlier release notes below are historical.
 - Added 16 dependency-free regression checks and verified core flows in the
   browser, including 375px mobile reflow, save/reopen, and invalid-import rejection.
 
-See STAGE_2_CHANGES.md for verification instructions and the local precise diff.
-Hosting, public link verification and the personal portfolio remain later stages.
+See README.md for usage, verification and the live demonstration. The local
+STAGE_2_CHANGES.md records the precise improvement diff. GitHub Pages publication
+and public desktop/mobile viewport checks completed on 16 September 2026; direct
+file and print-output checks remain unverified. The personal portfolio is a later stage.
 
 ## v2.0.0 — 2 July 2026
 

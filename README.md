@@ -5,7 +5,9 @@ structured regulatory information can support clear, source-aware workflows.
 Built with vanilla HTML, CSS and JavaScript. No installation, build step,
 subscription, API key or backend is required.
 
-**Publication status:** release prepared; live hosting URL awaiting deployment.
+**Live demonstration:** [Bermuda Compliance Navigator](https://dankhisa.github.io/bermuda-compliance-navigator/)
+
+**Source:** [Dankhisa/bermuda-compliance-navigator](https://github.com/Dankhisa/bermuda-compliance-navigator)
 
 ## Who it is for
 
@@ -91,8 +93,12 @@ storage failures, saved-record changes and stale import previews. The tests use
 an isolated VM with DOM stubs. Separate browser checks covered report generation,
 save/reopen, keyboard/dialog behavior, invalid imports and 375px reflow.
 
-Live desktop/mobile, direct-file operation and print-output checks remain launch
-checks; they must not be inferred from the automated results.
+The public GitHub Pages deployment was verified on 16 September 2026 at desktop
+and 375px mobile viewport sizes: Class E report generation and invalid-import
+rejection passed, the mobile page had no horizontal overflow, and no console
+warnings/errors were observed in those flows. This was viewport testing, not a
+physical-phone test. Direct-file operation and print-output checks remain
+unverified because the automated browser blocks local-file navigation.
 
 ## Sources, currency and limitations
 
