@@ -1,0 +1,9 @@
+.claude/
+.review/
+.env
+.env.*
+*-assessments.json
+bcn-kb-overlay-*.json
+__pycache__/
+node_modules/
+compliance-navigator-release-*.zip

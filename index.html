@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bermuda Regulatory Compliance Navigator</title>
+<meta name="description" content="An educational portfolio project by Daniel Khisa: explore Bermuda regulatory frameworks, filing guidance and draft correspondence with dated sources and clear verification limits.">
+<meta name="author" content="Daniel Khisa">
+<meta name="theme-color" content="#0b1f3a">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Bermuda Compliance Navigator — Daniel Khisa">
+<meta property="og:description" content="A free, browser-based educational demonstration of structured regulatory guidance, source transparency and practical compliance workflows.">
+<meta property="og:site_name" content="Bermuda Compliance Navigator">
+<meta name="twitter:card" content="summary">
+<!-- Add an absolute og:url and preview image only after a public hosting URL is confirmed. -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b1f3a'/%3E%3Ctext x='32' y='46' text-anchor='middle' font-size='45' font-family='Georgia' fill='%23e8dcc2'%3E%C2%A7%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --navy:#0b1f3a; --navy-2:#12294a; --navy-3:#1a3560;
+    --gold:#c2a05c; --gold-soft:#e8dcc2;
+    --ivory:#f7f5f0; --card:#ffffff; --line:#e3ded4;
+    --ink:#22293a; --muted:#6b7280;
+    --green:#1e7a4f; --green-bg:#e6f3ec;
+    --amber:#8a5a00; --amber-bg:#fdf3dd;
+    --red:#9b2226; --red-bg:#fbe9e9;
+    --radius:12px;
+    --shadow:0 2px 10px rgba(11,31,58,.07), 0 12px 30px rgba(11,31,58,.05);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",Inter,system-ui,-apple-system,sans-serif;background:var(--ivory);color:var(--ink);line-height:1.55}
+  h1,h2,h3,.serif{font-family:Georgia,"Times New Roman",serif}
+
+  /* ---------- Header ---------- */
+  header{position:sticky;top:0;z-index:50;background:var(--navy);color:#fff;box-shadow:0 2px 12px rgba(0,0,0,.25)}
+  .hwrap{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand .mark{width:38px;height:38px;border:1.5px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;color:var(--gold);font-size:17px;letter-spacing:.5px}
+  .brand b{font-family:Georgia,serif;font-weight:600;font-size:17px;letter-spacing:.3px}
+  .brand small{display:block;color:var(--gold-soft);font-size:11px;letter-spacing:1.6px;text-transform:uppercase}
+  nav a{color:#d7dce6;text-decoration:none;font-size:13.5px;margin-left:22px;letter-spacing:.4px;cursor:pointer}
+  nav a:hover{color:var(--gold)}
+
+  .banner{background:var(--navy-3);color:#cfd6e4;font-size:12.5px;text-align:center;padding:7px 16px;border-top:1px solid rgba(194,160,92,.35)}
+  .banner b{color:var(--gold)}
+
+  main{max-width:1100px;margin:0 auto;padding:0 24px 80px}
+
+  /* ---------- Landing ---------- */
+  .hero{padding:64px 0 40px;text-align:center}
+  .hero .kicker{color:var(--gold);font-size:12px;letter-spacing:3px;text-transform:uppercase;margin-bottom:14px}
+  .hero h1{font-size:clamp(30px,4.5vw,44px);color:var(--navy);font-weight:600;max-width:760px;margin:0 auto 16px;line-height:1.2}
+  .hero p{max-width:640px;margin:0 auto 30px;color:var(--muted);font-size:16.5px}
+  .btn{display:inline-block;border:none;cursor:pointer;font-size:15px;font-weight:600;padding:13px 30px;border-radius:8px;letter-spacing:.3px;transition:all .18s}
+  .btn-primary{background:var(--navy);color:#fff}
+  .btn-primary:hover{background:var(--navy-3);transform:translateY(-1px)}
+  .btn-gold{background:var(--gold);color:var(--navy)}
+  .btn-gold:hover{filter:brightness(1.06)}
+  .btn-ghost{background:transparent;color:var(--navy);border:1.5px solid var(--navy)}
+  .btn-ghost:hover{background:var(--navy);color:#fff}
+  .btn-sm{padding:8px 16px;font-size:13px}
+
+  .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin:26px 0 10px}
+  .feature{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);text-align:left}
+  .feature .ico{width:40px;height:40px;border-radius:9px;background:var(--navy);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:14px;font-family:Georgia,serif}
+  .feature h3{font-size:16.5px;color:var(--navy);margin-bottom:7px}
+  .feature p{font-size:13.5px;color:var(--muted)}
+
+  /* ---------- Wizard ---------- */
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:34px 38px;margin-top:26px}
+  .steps{display:flex;gap:0;margin-bottom:30px}
+  .step{flex:1;text-align:center;position:relative;font-size:12.5px;color:var(--muted);padding-top:30px}
+  .step::before{content:attr(data-n);position:absolute;top:0;left:50%;transform:translateX(-50%);width:26px;height:26px;border-radius:50%;background:var(--ivory);border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+  .step::after{content:"";position:absolute;top:13px;left:calc(50% + 15px);width:calc(100% - 30px);height:1.5px;background:var(--line)}
+  .step:last-child::after{display:none}
+  .step.active{color:var(--navy);font-weight:600}
+  .step.active::before{background:var(--navy);border-color:var(--navy);color:var(--gold)}
+  .step.done::before{background:var(--gold);border-color:var(--gold);color:var(--navy);content:"✓"}
+
+  .qtitle{font-size:22px;color:var(--navy);margin-bottom:6px}
+  .qsub{color:var(--muted);font-size:14px;margin-bottom:22px}
+  label.fld{display:block;font-size:13px;font-weight:600;color:var(--navy);margin:16px 0 6px;letter-spacing:.3px}
+  select,input[type=date],input[type=text]{width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:8px;font-size:14.5px;background:#fff;color:var(--ink);font-family:inherit}
+  select:focus,input:focus{outline:none;border-color:var(--gold)}
+  .choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:6px}
+  .choice{border:1.5px solid var(--line);border-radius:10px;padding:16px;cursor:pointer;background:#fff;transition:all .15s}
+  .choice:hover{border-color:var(--gold)}
+  .choice.sel{border-color:var(--navy);background:#f2f5fa;box-shadow:inset 0 0 0 1px var(--navy)}
+  .choice h4{font-size:14.5px;color:var(--navy);margin-bottom:4px}
+  .choice p{font-size:12.5px;color:var(--muted)}
+  .checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:6px}
+  .chk{display:flex;gap:9px;align-items:flex-start;border:1.5px solid var(--line);border-radius:9px;padding:11px 13px;cursor:pointer;background:#fff;font-size:13.5px}
+  .chk input{margin-top:3px;accent-color:var(--navy)}
+  .chk.sel{border-color:var(--navy);background:#f2f5fa}
+  .wnav{display:flex;justify-content:space-between;margin-top:30px;padding-top:22px;border-top:1px solid var(--line)}
+
+  /* ---------- Results ---------- */
+  .rhead{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin:34px 0 8px}
+  .rhead h2{font-size:26px;color:var(--navy)}
+  .rhead .meta{color:var(--muted);font-size:13px;margin-top:4px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-top:18px}
+  .card>h3{font-size:17px;color:var(--navy);margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid var(--gold-soft);display:flex;align-items:center;gap:10px}
+  .card>h3 .n{width:24px;height:24px;border-radius:50%;background:var(--navy);color:var(--gold);font-size:12px;display:inline-flex;align-items:center;justify-content:center;font-family:Georgia,serif;flex-shrink:0}
+
+  .badge{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.6px;padding:3px 9px;border-radius:20px;text-transform:uppercase;white-space:nowrap}
+  .b-est{background:var(--green-bg);color:var(--green)}
+  .b-ver{background:var(--amber-bg);color:var(--amber)}
+  .b-unv{background:var(--red-bg);color:var(--red)}
+
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:4px}
+  th{background:var(--navy);color:#fff;text-align:left;padding:10px 12px;font-weight:600;font-size:12px;letter-spacing:.5px;text-transform:uppercase}
+  th:first-child{border-radius:8px 0 0 0}th:last-child{border-radius:0 8px 0 0}
+  td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:nth-child(even) td{background:#faf9f6}
+  td .prov{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+
+  ul.list{list-style:none}
+  ul.list li{padding:9px 0 9px 26px;position:relative;border-bottom:1px dashed var(--line);font-size:14px}
+  ul.list li:last-child{border-bottom:none}
+  ul.list li::before{content:"—";position:absolute;left:2px;color:var(--gold);font-weight:700}
+  ul.tick li::before{content:"☐";color:var(--navy);font-size:15px;top:7px}
+
+  .callout{border-radius:10px;padding:16px 18px;font-size:13.5px;margin-top:14px;display:flex;gap:12px}
+  .callout .ci{font-size:17px;line-height:1.2}
+  .c-warn{background:var(--amber-bg);border:1px solid #ecd9a8;color:#5c4300}
+  .c-danger{background:var(--red-bg);border:1px solid #eec4c4;color:#6e181b}
+  .c-info{background:#eaf0f8;border:1px solid #ccd9ec;color:var(--navy)}
+
+  .pillrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .pill{background:#eef1f6;border:1px solid var(--line);color:var(--navy);border-radius:20px;padding:5px 13px;font-size:12.5px}
+
+  pre.tpl{background:#0f2340;color:#e8ecf4;border-radius:10px;padding:22px;font-size:13px;line-height:1.65;overflow-x:auto;white-space:pre-wrap;font-family:Consolas,Menlo,monospace;margin-top:8px}
+  pre.tpl .ph{color:var(--gold)}
+
+  footer{background:var(--navy);color:#9aa6ba;font-size:12.5px;margin-top:60px}
+  .fwrap{max-width:1100px;margin:0 auto;padding:30px 24px;line-height:1.7}
+  .fwrap b{color:var(--gold-soft)}
+
+  .hidden{display:none!important}
+
+  /* ---------- Additive components (same visual language, existing tokens) ---------- */
+  .revmeta{display:inline-block;color:var(--muted);font-size:11.5px;margin-left:8px;white-space:nowrap}
+  .pill-src{display:inline-block;background:var(--amber-bg);border:1px solid #ecd9a8;color:var(--amber);border-radius:20px;padding:2px 10px;font-size:11px;margin-left:6px;white-space:nowrap}
+  .pill-kb{display:inline-block;background:#eef1f6;border:1px solid var(--line);color:var(--navy);border-radius:20px;padding:2px 10px;font-size:11px;white-space:nowrap}
+  .modal-back{position:fixed;inset:0;background:rgba(11,31,58,.55);z-index:100;display:flex;align-items:flex-start;justify-content:center;padding:60px 20px 20px;overflow:auto}
+  .modal{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);max-width:600px;width:100%;padding:28px 30px}
+  .modal h3{font-size:18px;color:var(--navy);margin-bottom:10px;font-family:Georgia,serif}
+  .modal p{font-size:13.5px;color:var(--muted);margin-bottom:12px}
+  textarea.box{width:100%;min-height:130px;padding:11px 13px;border:1.5px solid var(--line);border-radius:8px;font-size:13px;font-family:Consolas,Menlo,monospace;background:#fff;color:var(--ink)}
+  textarea.box:focus{outline:none;border-color:var(--gold)}
+  .difflist{font-size:13px;max-height:280px;overflow:auto;border:1px solid var(--line);border-radius:8px;padding:10px 14px;background:#faf9f6;margin-top:10px;line-height:1.7}
+  .kvline{font-size:13px;color:var(--muted);margin:3px 0}
+
+  @media print{
+    header,.banner,.wnav,.no-print,footer .no-print{display:none!important}
+    body{background:#fff}
+    .card,.panel{box-shadow:none;border:1px solid #ccc;break-inside:avoid}
+    main{max-width:100%;padding:0}
+  }
+  @media(max-width:640px){
+    .panel{padding:24px 18px}
+    .hwrap{padding:12px 14px}
+    .site-nav{width:100%}
+  }
+
+  /* ---------- Accessible controls, reflow and dialogs ---------- */
+  :root{--muted:#596273}
+  .skip-link{position:absolute;left:12px;top:-100px;z-index:1000;background:white;color:var(--navy);padding:12px}
+  .skip-link:focus{top:8px}
+  :focus-visible{outline:3px solid #216cba!important;outline-offset:3px}
+  h1:focus,h2:focus,h3:focus{outline-offset:6px}
+  a{color:#164c83;text-underline-offset:3px}
+  .hwrap{flex-wrap:wrap;gap:16px}.brand{min-width:0}.brand .mark{flex-shrink:0}
+  .site-nav{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center}
+  .site-nav button,.site-nav a{font:inherit;font-size:13px;letter-spacing:0;border:0;background:none;color:#eef1f6;padding:10px 8px;margin:0;cursor:pointer;border-radius:4px}
+  .site-nav button:hover,.site-nav a:hover{background:var(--navy-3);color:white}
+  .hero .kicker{color:#795b23}
+  fieldset{border:0;min-width:0}.choice{display:block;font-family:inherit;text-align:left}.choice input{margin-right:9px;accent-color:var(--navy)}
+  .choice-title{font-size:14.5px;font-weight:700;color:var(--navy)}.choice-description{display:block;font-size:13px;color:var(--muted);margin-top:6px}
+  .choice:focus-within{outline:3px solid #216cba;outline-offset:3px}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+  .status{padding:12px 16px;background:var(--amber-bg);color:#5c4300;border:1px solid #b58932;border-radius:8px;margin:16px 0}
+  .actions,.wnav{display:flex;flex-wrap:wrap;gap:12px}
+  .btn{min-height:44px}.btn-sm{padding:10px 14px}
+  main,.card,.panel,.rhead>div,.callout>span{min-width:0;overflow-wrap:anywhere}
+  .table-scroll{max-width:100%;overflow-x:auto;margin-top:12px;border-radius:8px}
+  .table-scroll table{min-width:560px}.revmeta,.pill-src,.pill-ai,.pill-kb{white-space:normal;overflow-wrap:anywhere}
+  .card>h3{flex-wrap:wrap}.rhead h2{overflow-wrap:anywhere}.difflist{overflow-wrap:anywhere}
+  dialog.modal-back{position:fixed;inset:0;margin:auto;padding:0;border:0;border-radius:12px;background:transparent;color:var(--ink);width:min(600px,calc(100% - 32px));max-height:90vh;display:none}
+  dialog.modal-back[open]{display:block}dialog::backdrop{background:rgba(11,31,58,.65)}
+  dialog .modal{max-width:none;padding:24px}.modal .actions{margin:16px 0}.modal p{margin:12px 0}
+  .fwrap p{margin-bottom:14px}
+  @media(max-width:640px){
+    header{position:static}main{padding:0 16px 40px}.hero{padding:36px 0 20px}.hero p{font-size:16px}
+    .card,.panel{padding:20px 16px}.features,.choices,.checks{grid-template-columns:1fr}
+    .callout{padding:14px 12px;gap:8px}.card>h3{font-size:17px}.rhead h2{font-size:25px}
+    .steps{gap:6px}.step{font-size:11px}.modal .btn{flex:1}
+    input,select,textarea{font-size:16px!important}
+  }
+  @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+  .source-note{display:block;font-size:12px;margin-top:5px;color:var(--muted);overflow-wrap:anywhere}
+  .export-notes{padding:14px 0;font-size:13px}.export-notes summary{cursor:pointer;font-weight:600;min-height:44px;padding:10px}
+  .diff-value{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#fff;padding:12px;border:1px solid var(--line)}
+  #kbFile{max-width:100%;margin-bottom:16px}
+  .about-project p{margin:12px 0}.report-contents{display:flex;flex-wrap:wrap;gap:8px 18px;padding:14px 0;font-size:13px}
+  .report-contents a{display:inline-block;padding:8px 0;color:#164c83}
+  .report-contents a:hover{color:#10385f;text-decoration:underline}
+  .source-note{font-weight:400}.card{scroll-margin-top:150px}summary{cursor:pointer}
+  @media print{
+    @page{size:auto;margin:14mm}
+    .skip-link,.site-nav,.report-contents,.status,dialog,.no-print,button{display:none!important}
+    body{font-size:10pt;color:#111}main{padding:0;max-width:none}
+    .card,.panel{break-inside:auto;padding:12pt;margin-top:12pt;border:1px solid #bbb}
+    .card h3,h4{break-after:avoid}.table-scroll{overflow:visible;max-width:none}
+    .table-scroll table{min-width:0!important;width:100%;table-layout:fixed;font-size:8pt}
+    th,td{padding:5pt;overflow-wrap:anywhere;white-space:normal}th{color:#111;background:#eee}
+    thead{display:table-header-group}tr{break-inside:avoid}pre.tpl{color:#111;background:white;border:1px solid #bbb;overflow:visible;overflow-wrap:anywhere;font-size:9pt}
+    pre.tpl .ph{color:#333}.callout{break-inside:avoid}.source-note a{color:#111}
+    footer{background:white;color:#333;margin-top:18pt}.fwrap{padding:0}.fwrap b{color:#111}
+    .export-notes{display:block}.export-notes summary{font-weight:bold}
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#mainContent">Skip to main content</a>
+
+<header>
+  <div class="hwrap">
+    <div class="brand">
+      <div class="mark">§</div>
+      <div><b>Bermuda Compliance Navigator</b><small>Educational Portfolio Project</small></div>
+    </div>
+    <nav class="site-nav" aria-label="Main navigation">
+      <button type="button" onclick="goHome();return false;">Home</button>
+      <button type="button" onclick="startWizard();return false;">New Assessment</button>
+      <button type="button" onclick="showSaved();return false;">Saved Assessments</button>
+      <button type="button" onclick="showKbAdmin();return false;">Knowledge Base</button>
+      <button type="button" onclick="openSettings();return false;">Privacy &amp; storage</button>
+      <a href="https://www.bma.bm" target="_blank" rel="noopener">BMA Website ↗</a>
+    </nav>
+  </div>
+</header>
+<div class="banner"><b>Informational tool only.</b> This platform does not provide legal, regulatory, or professional advice. Verify all requirements against current Bermuda legislation and BMA guidance.</div>
+
+<main id="mainContent" tabindex="-1">
+<p id="appStatus" class="status hidden" role="status" aria-live="polite"></p>
+<noscript><p class="callout c-warn">JavaScript is required for the guided assessment. Consult current official sources directly if scripts are unavailable.</p></noscript>
+
+  <!-- ================= LANDING ================= -->
+  <section id="landing">
+    <div class="hero">
+      <div class="kicker">Bermuda · Financial Services · Regulatory Guidance</div>
+      <h1>Navigate Bermuda's regulatory framework with structure and confidence</h1>
+      <p>Answer a short guided questionnaire about your entity and objective, and receive a structured summary of the applicable framework, filing obligations, governance expectations, non-compliance consequences, required documents, and next steps — with verification labels and review dates. This is an educational demonstration, not an operational compliance system.</p>
+      <button class="btn btn-gold" onclick="startWizard()">Start Guided Assessment →</button>
+    </div>
+    <div class="features">
+      <div class="feature"><div class="ico">I</div><h3>Regulatory Landscape</h3><p>Map the Acts, Rules, Codes of Conduct, and Guidance Notes that apply to your entity class, including recent and pending changes.</p></div>
+      <div class="feature"><div class="ico">II</div><h3>Obligations &amp; Deadlines</h3><p>Distil the framework into a filing calendar, board-level governance expectations, non-compliance consequences, and an exportable deadline calendar.</p></div>
+      <div class="feature"><div class="ico">III</div><h3>Applications &amp; Drafting</h3><p>Prepare regulatory applications and requests — enabling provision, timing, fee reference, document checklist, and a draft letter template.</p></div>
+    </div>
+    <div class="callout c-info"><span class="ci">ⓘ</span><span><b>How verification works.</b> Every requirement shown is labelled <span class="badge b-est">Established</span> (long-standing, confirm current text), <span class="badge b-ver">Verify</span> (subject to amendment or annual update), or <span class="badge b-unv">Unverified</span> (must be confirmed against primary sources). Content not drawn from BMA or legislation carries a visible source label. These labels describe the knowledge base, not a guarantee of accuracy. Confirm source text and applicability before use.</span></div>
+    <section class="card about-project" aria-labelledby="aboutTitle">
+      <h2 id="aboutTitle">About this project</h2>
+      <p>Created by <strong>Daniel Khisa</strong>, this educational portfolio project demonstrates how regulatory research can be organised into practical, inspectable workflows: an entity questionnaire, dated source references, filing estimates, and correspondence starting points.</p>
+      <p>The navigator uses vanilla HTML, CSS and JavaScript with a versioned local knowledge base. There is no account, subscription, paid AI service, analytics, backend or build step. Assessment bookmarks and knowledge-base updates stay in your browser unless you export them.</p>
+      <p><strong>Scope:</strong> insurance content is more detailed; other sectors have limited framework coverage. SBA refers to the Scenario-Based Approach used in insurance valuation. This project does not provide quizzes, professional advice, regulatory approval or a complete compliance calendar.</p>
+      <p><strong>Independent demonstration:</strong> not issued, endorsed or approved by the Bermuda Monetary Authority. The knowledge base is pending legal review. Confirm the current source text and your entity's circumstances before relying on any output.</p>
+      <p><a href="SOURCES.md">Read the source log</a> · <a href="CHANGELOG.md">Read the change history</a></p>
+    </section>
+  </section>
+
+  <!-- ================= WIZARD ================= -->
+  <section id="wizard" class="hidden">
+    <div class="panel">
+      <div class="steps" aria-label="Assessment progress">
+        <div class="step" data-n="1" id="st1">Entity Profile</div>
+        <div class="step" data-n="2" id="st2">Objective</div>
+        <div class="step" data-n="3" id="st3">Focus Areas</div>
+        <div class="step" data-n="4" id="st4">Results</div>
+      </div>
+
+      <!-- Step 1 -->
+      <div id="step1">
+        <h2 class="qtitle">Tell us about the entity</h2>
+        <p class="qsub">Select the entity type and, where relevant, its class or licence category. Requirements differ materially between classes — the tool will not conflate them.</p>
+        <label class="fld" for="entityType">Entity type</label>
+        <select id="entityType" onchange="onEntityType()">
+          <option value="">— Select entity type —</option>
+          <option value="insurer">Insurer / Reinsurer</option>
+          <option value="intermediary">Insurance Manager / Broker / Agent</option>
+          <option value="daba">Digital Asset Business</option>
+          <option value="investment">Investment Business</option>
+          <option value="fundadmin">Fund Administrator</option>
+          <option value="trust">Trust Company</option>
+          <option value="bank">Bank / Deposit Company</option>
+          <option value="msb">Money Service Business</option>
+          <option value="csp">Corporate Service Provider</option>
+        </select>
+        <div id="classWrap" class="hidden">
+          <label class="fld" for="entityClass">Class of insurer / licence category</label>
+          <select id="entityClass"></select>
+        </div>
+        <label class="fld" for="fye">Financial year end <span style="color:var(--muted);font-weight:400">(optional — used to compute concrete due dates)</span></label>
+        <input type="date" id="fye">
+        <div class="wnav"><button class="btn btn-ghost btn-sm" onclick="goHome()">← Cancel</button><button class="btn btn-primary" onclick="toStep(2)">Continue →</button></div>
+      </div>
+
+      <!-- Step 2 -->
+      <div id="step2" class="hidden">
+        <h2 class="qtitle">What do you need today?</h2>
+        <p class="qsub">Choose the mode. Each produces a different structured output.</p>
+        <fieldset class="choices"><legend class="sr-only">Assessment objective</legend>
+          <label class="choice" data-mode="MAP"><input type="radio" name="mode" value="MAP" onchange="pickMode(this.closest('.choice'))"><span class="choice-title">Regulatory landscape overview</span><span class="choice-description">The Acts, Rules, Codes, and Guidance Notes applying to this entity, plus recent changes.</span></label>
+          <label class="choice" data-mode="DISTIL"><input type="radio" name="mode" value="DISTIL" onchange="pickMode(this.closest('.choice'))"><span class="choice-title">Ongoing obligations &amp; filings</span><span class="choice-description">Filing calendar, statutory deadlines, governance expectations, and a compliance checklist.</span></label>
+          <label class="choice" data-mode="EXECUTE"><input type="radio" name="mode" value="EXECUTE" onchange="pickMode(this.closest('.choice'))"><span class="choice-title">Prepare an application or request</span><span class="choice-description">Enabling provision, timing, fee reference, document checklist, and a draft letter.</span></label>
+        </fieldset>
+        <p id="scopeNote" class="callout c-info hidden"></p>
+        <div id="taskWrap" class="hidden">
+          <label class="fld" for="taskType">Type of application or request</label>
+          <select id="taskType">
+            <option value="extension">Statutory filing deadline extension request</option>
+            <option value="newlicence">New registration / licence application</option>
+            <option value="modification">Exemption / modification request</option>
+            <option value="controller">Change of shareholder controller notification</option>
+            <option value="approvedperson">Approval of auditor / actuary / principal representative</option>
+          </select>
+        </div>
+        <div class="wnav"><button class="btn btn-ghost btn-sm" onclick="toStep(1)">← Back</button><button class="btn btn-primary" onclick="toStep(3)">Continue →</button></div>
+      </div>
+
+      <!-- Step 3 -->
+      <div id="step3" class="hidden">
+        <h2 class="qtitle">Select focus areas <span style="font-size:14px;color:var(--muted);font-weight:400">(optional)</span></h2>
+        <p class="qsub" id="focusNote">The results will include available targeted analysis for each selected area.</p>
+        <fieldset class="checks" id="focusChecks"><legend class="sr-only">Focus areas</legend></fieldset>
+        <div class="wnav"><button class="btn btn-ghost btn-sm" onclick="toStep(2)">← Back</button><button class="btn btn-gold" onclick="renderResults()">Generate Guidance →</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= RESULTS ================= -->
+  <section id="results" class="hidden"></section>
+
+  <!-- ================= SAVED ASSESSMENTS ================= -->
+  <section id="saved" class="hidden"></section>
+
+  <!-- ================= KNOWLEDGE BASE ADMIN ================= -->
+  <section id="kbadmin" class="hidden"></section>
+
+</main>
+
+<!-- ================= MODALS ================= -->
+<dialog aria-labelledby="privacyTitle" id="settingsModal" class="modal-back hidden" onclick="if(event.target===this)closeSettings()">
+  <div class="modal">
+    <h3 id="privacyTitle">Privacy &amp; local storage</h3>
+    <p>This free edition uses a local knowledge base. It does not send assessment inputs to an AI service, request an API key, or use analytics. External source links open third-party sites when you choose them.</p>
+    <p>Saved assessment inputs and imported updates remain in this browser. Browser data can be lost or read by someone with access to this device. Use initials or a pseudonym and keep confidential entity information out of this demonstration. Exports contain the saved information.</p>
+    <p>If you used an earlier edition, its API key may still be stored here. This edition does not read or use it. You can remove it explicitly below.</p>
+    <div class="actions"><button class="btn btn-ghost btn-sm" onclick="clearLegacyKey()">Remove legacy API key</button><button class="btn btn-primary btn-sm" onclick="closeSettings()">Close</button></div>
+    <p id="apiKeyStatus" role="status"></p>
+  </div>
+</dialog>
+
+<dialog aria-labelledby="saveTitle" id="saveModal" class="modal-back hidden" onclick="if(event.target===this)closeSaveModal()">
+  <div class="modal">
+    <p id="saveStatus" role="status"></p>
+    <h3 id="saveTitle">Save this assessment</h3>
+    <p>Saves the wizard inputs, mode, and knowledge-base version to this browser's localStorage as an input bookmark, not as a frozen report. <b>Browser-local storage is per-device and per-browser: it is not a controlled compliance system of record.</b></p>
+    <label class="fld" for="preparedBy">Prepared by (name / initials)</label>
+    <input type="text" maxlength="80" autocomplete="off" id="preparedBy" placeholder="e.g. DK (avoid confidential details)">
+    <div style="display:flex;gap:10px;margin-top:16px">
+      <button class="btn btn-primary btn-sm" onclick="confirmSaveAssessment()">Save</button>
+      <button class="btn btn-ghost btn-sm" onclick="closeSaveModal()">Cancel</button>
+    </div>
+  </div>
+</dialog>
+
+<footer>
+  <div class="fwrap">
+    <p><b>Created by Daniel Khisa.</b> Educational portfolio project · App updated <time datetime="2026-09-16">16 September 2026</time>. Original KB research: 2 July 2026; individual entries carry their own review dates.</p>
+    <b>Disclaimer.</b> This tool provides general information only, generated from a static knowledge base as at the date shown on each report. It is not legal, regulatory, actuarial, tax, or other professional advice, and it does not create an adviser–client relationship. Regulatory requirements, fees, forms, and deadlines change. Before acting or filing, verify every obligation against the current consolidated Bermuda legislation, the Bermuda Monetary Authority's Rules, Codes of Conduct, and Guidance Notes (<b>bma.bm</b>), and obtain professional advice appropriate to your circumstances. Where an item is marked "Verify" or "Unverified", confirmation against primary sources is required.
+  </div>
+</footer>
+
+<script src="kb.js?v=2.1.0"></script>
+<script>
+/* =========================================================================
+   APP — presentation layer. All regulatory content lives in kb.js (KB).
+   ========================================================================= */
+const OVERLAY_KEY = "bcn_kb_overlay";
+const ASSESS_KEY = "bcn_assessments";
+
+
+const state = {entityType:"", entityClass:"", fye:"", mode:"", task:"", focus:[]};
+let usedEntryIds = [];      // Entries actually displayed in the last report
+let legalPendingSeen = false;
+let reopenNotice = "";      // set when re-opening a saved assessment
+
+/* ---------- KB access (shipped KB + localStorage overlay) ---------- */
+/* ---------- Validated local storage and immutable report context ---------- */
+let storageMessage = "";
+let reportContext = null;
+function readStored(key){
+  try { const raw=localStorage.getItem(key); return raw===null?null:JSON.parse(raw); }
+  catch(e){storageMessage="Browser storage is unavailable or contains unreadable data. Static reports still work; existing data has not been removed.";return null;}
+}
+function writeStored(key,value){
+  try{localStorage.setItem(key,JSON.stringify(value));return true;}
+  catch(e){announce("Could not save: browser storage is unavailable or full. Export existing records before clearing any browser data.");return false;}
+}
+function removeStored(key){
+  try{localStorage.removeItem(key);return true;}
+  catch(e){announce("Browser storage could not be changed. Use browser site-data controls if needed.");return false;}
+}
+function getOverlay(){
+  const obj=readStored(OVERLAY_KEY);
+  if(obj===null)return null;
+  const checked=validateFragment(JSON.stringify(obj),true);
+  if(!checked.ok){storageMessage="A saved knowledge-base overlay failed validation and was ignored. The shipped knowledge base is in use; the stored overlay has not been deleted.";return null;}
+  return {entries:checked.entries,version:checked.meta.version||KB.version+"+local",modified_at:validDate(obj.modified_at)?obj.modified_at:undefined,merges:Number.isSafeInteger(obj.merges)&&obj.merges>=0?obj.merges:0};
+}
+function activeKB(){
+  const overlay=getOverlay();
+  const entries=new Map(KB.entries.map(e=>[e.id,e]));
+  if(overlay)overlay.entries.forEach(e=>entries.set(e.id,e));
+  return {version:overlay?.version||KB.version,as_at:KB.as_at,entries:[...entries.values()],overlay};
+}
+function canonical(value){
+  if(Array.isArray(value))return '['+value.map(canonical).join(',')+']';
+  if(value&&typeof value==='object')return '{'+Object.keys(value).sort().map(k=>JSON.stringify(k)+':'+canonical(value[k])).join(',')+'}';
+  return JSON.stringify(value);
+}
+// A non-security change indicator, not a signature or proof of regulatory review.
+function kbFingerprint(kb){
+  const text=canonical(kb.entries);let hash=2166136261;
+  for(let i=0;i<text.length;i++){hash^=text.charCodeAt(i);hash=Math.imul(hash,16777619);}
+  return text.length+':'+(hash>>>0).toString(16);
+}
+function validDate(value){
+  if(typeof value!=="string"||!/^\d{4}-\d{2}-\d{2}$/.test(value))return false;
+  const date=new Date(value+'T00:00:00Z');
+  return Number.isFinite(date.getTime())&&date.toISOString().slice(0,10)===value&&Number(value.slice(0,4))>=1900&&Number(value.slice(0,4))<=2199;
+}
+function safeSourceUrl(value){
+  if(typeof value!=="string"||value.length>2000)return null;
+  try{const url=new URL(value);return url.protocol==='https:'&&!url.username&&!url.password?url.href:null;}catch(e){return null;}
+}
+function sourceLink(entry){
+  const url=safeSourceUrl(entry.source?.url),name=entry.source?.name||"Source not identified";
+  if(!url)return `<span class="source-note">${esc(name)} — direct source unavailable; verify the cited provision.</span>`;
+  const library=new URL(url).pathname==='/'||/documents?-centre\/?$/.test(new URL(url).pathname);
+  return `<span class="source-note"><a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(name)} ↗</a>${library?' · Source library: locate and verify the exact instrument.':''}</span>`;
+}
+
+/* Only established month-based dates with no unresolved condition are computed.
+   Import metadata can explicitly withhold dates; it cannot override verification. */
+function deadlineFor(entry,inputs=state){
+  if(!inputs.fye)return {date:null,reason:"Enter a financial year end to compute a date."};
+  if(entry.data.date_note)return {date:null,reason:entry.data.date_note};
+  if(!entry.data.months)return {date:null,reason:"No supported year-end calculation: fixed-date, event-driven or unresolved deadline."};
+  if(entry.verification!=="established")return {date:null,reason:"Not computed: verify the requirement and its applicability first."};
+  if(entry.last_reviewed<inputs.fye&&entry.review_due<inputs.fye)return {date:null,reason:"The selected reporting period is beyond this entry's review window."};
+  if(entry.review_due<new Date().toISOString().slice(0,10))return {date:null,reason:"Review overdue: verify this entry before computing a date."};
+  const date=addMonthsDate(inputs.fye,entry.data.months);
+  return {date,reason:date?"Arithmetic estimate only; confirm any extension, exemption or changed rule.":"Invalid financial year end."};
+}
+
+/* ---------- Import validation: every field used by a renderer is checked ---------- */
+function validateFragment(raw,allowEmpty=false){
+  if(typeof raw!=="string"||raw.length>1000000)return {ok:false,errors:["Use JSON text no larger than 1 MB."]};
+  let obj;try{obj=JSON.parse(raw);}catch(e){return {ok:false,errors:["Not valid JSON."]};}
+  const record=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
+  if(!Array.isArray(obj)&&!record(obj))return {ok:false,errors:["Expected an entry array or an object containing entries."]};
+  const entries=Array.isArray(obj)?obj:obj.entries,meta=Array.isArray(obj)?{}:obj;
+  if(!Array.isArray(entries)||entries.length>500||(!allowEmpty&&!entries.length))return {ok:false,errors:["Provide between 1 and 500 entries."]};
+  const errors=[],ids=new Set(),S=KB.schema;
+  const str=(x,max=30000)=>typeof x==='string'&&x.trim().length>0&&x.length<=max&&!/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(x);
+  const plainTree=(value,depth=0)=>{
+    if(depth>10)return false;
+    if(value===null||typeof value!=='object')return true;
+    return Object.keys(value).every(k=>!['__proto__','constructor','prototype'].includes(k)&&plainTree(value[k],depth+1));
+  };
+  if(!plainTree(obj))errors.push("Unsupported object keys or nesting depth.");
+  if(meta.version!==undefined&&!str(meta.version,80))errors.push("version must be a non-empty string of at most 80 characters.");
+  for(const key of ['as_at','modified_at'])if(meta[key]!==undefined&&!validDate(meta[key]))errors.push(key+" must be a real YYYY-MM-DD date.");
+  const scopes=new Set(['*',...Object.keys(KB.insurerClasses),...KB.scopeGroups.nonInsurers]);
+  entries.forEach((e,i)=>{
+    const prefix='Entry '+(i+1)+': ',bad=message=>errors.push(prefix+message);
+    if(!record(e)){bad("must be an object.");return;}
+    if(!str(e.id,100)||!/^[a-zA-Z0-9][a-zA-Z0-9_.-]*$/.test(e.id))bad("invalid id.");
+    if(ids.has(e.id))bad("duplicate id.");ids.add(e.id);
+    if(!Array.isArray(e.entity_scope)||!e.entity_scope.length||e.entity_scope.some(x=>!scopes.has(x))||new Set(e.entity_scope).size!==e.entity_scope.length)bad("entity_scope must contain unique, supported scope tokens.");
+    if(!S.topics.includes(e.topic))bad("unknown topic.");
+    if(!str(e.text))bad("text must be a non-empty string.");
+    if(e.citation!==undefined&&e.citation!==null&&!str(e.citation,3000))bad("invalid citation.");
+    if(!S.verifications.includes(e.verification))bad("invalid verification status.");
+    if(!S.legalReview.includes(e.legal_review))bad("invalid legal_review status.");
+    if(!validDate(e.last_reviewed)||!validDate(e.review_due)||e.review_due<e.last_reviewed)bad("review dates must be real dates in chronological order.");
+    if(e.editorial_updated!==undefined&&!validDate(e.editorial_updated))bad("invalid editorial_updated date.");
+    if(!record(e.source)||!S.sourceTypes.includes(e.source.type)||!str(e.source.name,1000))bad("source requires a supported type and a name.");
+    else{
+      if(e.source.url!==undefined&&e.source.url!==null&&!safeSourceUrl(e.source.url))bad("source.url must be an HTTPS URL without credentials, or null.");
+      if(e.source.published!==undefined&&e.source.published!==null&&!validDate(e.source.published))bad("invalid source publication date.");
+    }
+    const d=e.data;
+    if(!record(d)){bad("data must be an object with the fields required for its topic.");return;}
+    const need=(key,max)=>{if(!str(d[key],max))bad('data.'+key+' must be a non-empty string.');};
+    if(e.topic==='filing'){
+      need('name',1000);need('freq',100);
+      if(d.months!==null&&(!Number.isInteger(d.months)||d.months<1||d.months>24))bad("data.months must be null or an integer from 1 to 24.");
+      if(d.date_note!==undefined&&!str(d.date_note,3000))bad("invalid data.date_note.");
+    }
+    if(e.topic==='framework'){
+      if(d.role!==undefined&&!['summary','recent'].includes(d.role))bad("invalid framework role.");
+      if(d.role==='recent'){need('instrument',3000);need('effective',1000);}
+      if(d.name!==undefined&&!str(d.name,3000))bad("invalid data.name.");
+      if(d.label!==undefined&&!str(d.label,1000))bad("invalid data.label.");
+    }
+    if(e.topic==='focus'){need('title',1000);if(!KB.focusAreas.some(a=>a[0]===d.area))bad("unknown focus area.");}
+    if(e.topic==='task'){
+      if(!e.id.startsWith('task-'))bad("task IDs must begin with task-.");
+      ['title','template','escalate'].forEach(k=>need(k));
+      for(const key of ['timing','fee','method'])if(!record(d[key])||!str(d[key].t)||!S.verifications.includes(d[key].ver))bad('invalid data.'+key+'.');
+      if(!Array.isArray(d.docs)||!d.docs.length||d.docs.some(x=>!str(x,3000)))bad("data.docs must contain text items.");
+    }
+    if(e.topic==='consequence'){
+      need('title',1000);
+      if(d.role!==undefined&&d.role!=='escalation')bad("invalid consequence role.");
+      if(d.role!=='escalation'){
+        if(!Array.isArray(d.rows)||!d.rows.length||d.rows.some(r=>!record(r)||!['breach','consequence','provision'].every(k=>str(r[k]))||!S.verifications.includes(r.ver)))bad("invalid consequence rows.");
+        if(!Array.isArray(d.taskIds)||d.taskIds.some(t=>!str(t,100)||!/^[a-zA-Z0-9_.-]+$/.test(t)))bad("invalid taskIds.");
+      }
+      if(d.practice!==undefined&&(!Array.isArray(d.practice)||d.practice.some(r=>!record(r)||!str(r.t)||!str(r.srcLabel,1000))))bad("invalid practitioner guidance.");
+    }
+  });
+  return {ok:errors.length===0,errors,entries,meta:{version:meta.version}};
+}
+
+function scopeTokens(){
+  if(state.entityType==="insurer") return [state.entityClass];
+  return [state.entityType];
+}
+function scoped(topic){
+  const toks = scopeTokens();
+  return activeKB().entries.filter(e => e.topic===topic &&
+    (e.entity_scope.includes("*") || e.entity_scope.some(s=>toks.includes(s))));
+}
+function use(e){
+  if(!usedEntryIds.includes(e.id)) usedEntryIds.push(e.id);
+  if(e.legal_review==="pending") legalPendingSeen = true;
+  return e;
+}
+
+/* ---------- navigation ---------- */
+const SECTIONS = ["landing","wizard","results","saved","kbadmin"];
+function focusHeading(root){
+  const heading=root.querySelector("h1,h2,h3");
+  if(heading){heading.tabIndex=-1;heading.focus({preventScroll:true});}
+}
+function showOnly(id){ SECTIONS.forEach(s=>document.getElementById(s).classList.toggle("hidden", s!==id)); window.scrollTo(0,0); focusHeading(document.getElementById(id)); }
+function announce(message){ const el=document.getElementById("appStatus");el.textContent=message;el.classList.toggle("hidden",!message); }
+function openDialog(id){ const el=document.getElementById(id);el.classList.remove("hidden");el.showModal(); }
+function closeDialog(id){ document.getElementById(id).close(); }
+function goHome(){ showOnly("landing"); }
+function startWizard(){
+  Object.assign(state,{entityType:"",entityClass:"",fye:"",mode:"",task:"",focus:[]});
+  document.getElementById("entityType").value="";
+  document.getElementById("fye").value="";
+  document.getElementById("preparedBy").value="";
+  document.querySelectorAll('input[name="mode"]').forEach(r=>r.checked=false);
+  document.querySelectorAll(".choice").forEach(c=>c.classList.remove("sel"));
+  document.getElementById("focusChecks").innerHTML='';
+  onEntityType(); hide("taskWrap"); hide("scopeNote");
+  announce(""); showOnly("wizard"); toStep(1);
+}
+function syncForm(){
+  document.getElementById("entityType").value=state.entityType;onEntityType();
+  document.getElementById("entityClass").value=state.entityClass;
+  document.getElementById("fye").value=state.fye;
+  document.querySelectorAll('input[name="mode"]').forEach(r=>r.checked=r.value===state.mode);
+  document.querySelectorAll(".choice").forEach(c=>c.classList.toggle("sel",c.dataset.mode===state.mode));
+  updateTasks(); buildFocus();
+}
+function editAssessment(){syncForm();showOnly("wizard");toStep(1);}
+function buildFocus(){
+  const fc=document.getElementById("focusChecks");
+  fc.innerHTML='<legend class="sr-only">Focus areas</legend>';
+  KB.focusAreas.forEach(([key,label])=>{
+    const l=document.createElement("label"), input=document.createElement("input");
+    l.className="chk";input.type="checkbox";input.value=key;input.checked=state.focus.includes(key);
+    l.classList.toggle("sel",input.checked);
+    input.addEventListener("change",()=>{l.classList.toggle("sel",input.checked);state.focus=[...fc.querySelectorAll("input:checked")].map(i=>i.value);});
+    l.append(input,document.createTextNode(label));fc.append(l);
+  });
+}
+function updateTasks(){
+  const sel=document.getElementById("taskType");sel.replaceChildren();
+  const tasks=scoped("task");
+  tasks.forEach(e=>{const o=document.createElement("option");o.value=e.id.replace(/^task-/,"");o.textContent=e.data.title;sel.append(o);});
+  if(tasks.some(e=>e.id==="task-"+state.task))sel.value=state.task;
+  else state.task=sel.value;
+  document.getElementById("taskWrap").classList.toggle("hidden",state.mode!=="EXECUTE"||!tasks.length);
+  const note=document.getElementById("scopeNote");
+  note.classList.toggle("hidden",state.entityType==="insurer");
+  note.textContent="Coverage for this sector is framework-level only. Licence classes do not change this limited coverage. Application templates and sector-specific fees are not available; an application report will show the coverage limitation.";
+}
+function show(id){document.getElementById(id).classList.remove("hidden");}
+function hide(id){document.getElementById(id).classList.add("hidden");}
+
+function onEntityType(){
+  const t=document.getElementById("entityType").value;
+  const wrap=document.getElementById("classWrap"), sel=document.getElementById("entityClass");
+  sel.innerHTML="";
+  if(t==="insurer"||t==="daba"){
+    const src=t==="insurer"?KB.insurerClasses:KB.dabaClasses;
+    for(const[k,v]of Object.entries(src)){const o=document.createElement("option");o.value=k;o.textContent=v;sel.appendChild(o);}
+    wrap.classList.remove("hidden");
+  } else wrap.classList.add("hidden");
+}
+
+function toStep(n){
+  state.entityType=document.getElementById("entityType").value;
+  state.entityClass=document.getElementById("entityClass").value;
+  state.fye=document.getElementById("fye").value;
+  if(n>=2 && !state.entityType){announce("Select an entity type to continue.");document.getElementById("entityType").focus();return;}
+  if(n===3 && !state.mode){announce("Choose an assessment objective to continue.");document.querySelector('input[name="mode"]').focus();return;}
+  if(state.fye&&!validDate(state.fye)){announce("Enter a valid financial year end between 1900 and 2199.");document.getElementById("fye").focus();return;}
+  announce(""); updateTasks();
+  [1,2,3].forEach(i=>hide("step"+i));
+  if(n<=3) show("step"+n);
+  for(let i=1;i<=4;i++){
+    const s=document.getElementById("st"+i);
+    s.classList.toggle("active",i===n);
+    s.classList.toggle("done",i<n);
+  }
+  if(n===3) buildFocus();
+  document.getElementById("focusNote").textContent="The report includes available analysis for your selections. Gaps in this knowledge base will be identified.";
+  [1,2,3,4].forEach(i=>{const el=document.getElementById("st"+i);if(i===n)el.setAttribute("aria-current","step");else el.removeAttribute("aria-current");});
+  if(n<=3)focusHeading(document.getElementById("step"+n));
+  window.scrollTo(0,0);
+}
+
+function pickMode(el){
+  document.querySelectorAll(".choice").forEach(c=>c.classList.remove("sel"));
+  el.classList.add("sel");
+  state.mode=el.dataset.mode;
+  updateTasks();
+}
+
+/* =========================================================================
+   RENDER HELPERS
+   ========================================================================= */
+const BADGE={established:'<span class="badge b-est">Established</span>',verify:'<span class="badge b-ver">Verify</span>',unverified:'<span class="badge b-unv">Unverified</span>'};
+const esc=value=>String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[char]);
+
+function fmtD(iso){
+  if(!validDate(iso)) return "Date not available";
+  const d=new Date(iso+"T00:00:00");
+  return d.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"});
+}
+function revMeta(e){
+  const today=new Date().toISOString().slice(0,10);
+  let h=`<span class="revmeta">Reviewed ${fmtD(e.last_reviewed)}</span>`;
+  if(e.review_due && e.review_due < today) h+=` <span class="badge b-ver">Review overdue</span>`;
+  return h+sourceLink(e);
+}
+const SRC_LABELS={"expert-opinion":"Expert opinion — not a BMA source","practitioner-best-practice":"Practitioner view — not a BMA source","news":"News — not a BMA source"};
+function srcPill(e){
+  const lbl=SRC_LABELS[e.source && e.source.type];
+  return lbl?` <span class="pill-src">${lbl}</span>`:"";
+}
+function entityLabel(){
+  if(state.entityType==="insurer") return KB.insurerClasses[state.entityClass]||"Insurer";
+  if(state.entityType==="daba") return "Digital Asset Business — "+(KB.dabaClasses[state.entityClass]||"");
+  const s=scoped("framework").find(e=>e.data && e.data.role==="summary");
+  return (s && s.data.label) || "Entity";
+}
+
+/* Date arithmetic: FYE + statutory months, clamped to end of month
+   (e.g. 31 Dec + 4 months = 30 Apr, not 1 May). Returns Date or null. */
+function addMonthsDate(dateStr,m){
+  if(!validDate(dateStr)||!Number.isInteger(m)||m<1||m>24) return null;
+  const d=new Date(dateStr+"T00:00:00"), day=d.getDate();
+  d.setDate(1); d.setMonth(d.getMonth()+m);
+  const last=new Date(d.getFullYear(), d.getMonth()+1, 0).getDate();
+  d.setDate(Math.min(day,last));
+  return d;
+}
+function addMonths(dateStr,m){
+  const d=addMonthsDate(dateStr,m);
+  return d?d.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"}):null;
+}
+
+/* =========================================================================
+   RESULTS RENDERING
+   ========================================================================= */
+function currentSummary(){
+  const list=scoped("framework").filter(e=>e.data && e.data.role==="summary");
+  const e=list[0];
+  if(!e) return null;
+  use(e);
+  const text=state.entityType==="insurer"?KB.insurerClasses[state.entityClass]+" — "+e.text:e.text;
+  return esc(text)+" "+BADGE[e.verification]+srcPill(e)+revMeta(e);
+}
+
+function renderResults(fromSaved){
+  storageMessage="";
+  if(!fromSaved){
+    state.focus=[...document.querySelectorAll("#focusChecks input:checked")].map(i=>i.value);
+    state.task=document.getElementById("taskType").value;
+  }
+  if(!validInputs(state)){announce("Assessment inputs are invalid. Start a new assessment.");return;}
+  usedEntryIds=[]; legalPendingSeen=false;
+  const akb=activeKB();
+  const today=new Date().toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
+  const modeName={MAP:"Regulatory Landscape Overview",DISTIL:"Obligations & Filing Guidance",EXECUTE:"Application Preparation"}[state.mode];
+  let n=0; const num=()=>{n++;return `<span class="n">${n}</span>`;};
+
+  const filings=(state.mode==="MAP"||state.mode==="DISTIL")?scoped("filing").map(use):[];
+  const framework=(state.mode==="MAP"||state.mode==="DISTIL")?scoped("framework").filter(e=>!e.data||!e.data.role).map(use):[];
+  const recents=scoped("framework").filter(e=>e.data&&e.data.role==="recent");
+  const governance=state.mode==="DISTIL"?scoped("governance").map(use):[];
+
+  let html=`
+    <div class="rhead">
+      <div><h2>${esc(entityLabel())}</h2>
+        <div class="meta">${modeName} · Generated ${today} · Bermuda Monetary Authority regime${state.fye?` · FYE ${new Date(state.fye+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"})}`:""}</div>
+        <div class="meta"><span class="pill-kb">KB v${esc(akb.version)}</span> <span class="pill-kb">Original KB research ${fmtD(akb.as_at)}</span>${akb.overlay?` <span class="pill-kb">Includes local KB overlay (${akb.overlay.entries.length} entr${akb.overlay.entries.length===1?"y":"ies"})</span>`:""}</div>
+      </div>
+      <div class="no-print" style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-ghost btn-sm" onclick="startWizard()">New Assessment</button>
+        <button class="btn btn-ghost btn-sm" onclick="editAssessment()">Edit assessment</button>
+        <button class="btn btn-ghost btn-sm" onclick="openSaveModal()">Save this assessment</button>
+        ${state.mode==="DISTIL"?`<button class="btn btn-ghost btn-sm" onclick="exportIcs()">Export calendar (.ics)</button>`:""}
+        <button class="btn btn-primary btn-sm" onclick="window.print()">Print / Export PDF</button>
+      </div>
+    </div>
+    ${reopenNotice}
+    <div id="legalReviewNotice"></div>
+    <div class="card"><h3>${num()}Entity Class Summary</h3><p style="font-size:14.5px">${currentSummary()||"—"}</p></div>`;
+
+  if(state.mode==="MAP"||state.mode==="DISTIL"){
+    html+=`<div class="card"><h3>${num()}Legislative & Regulatory Framework</h3><ul class="list">`+
+      framework.map(f=>`<li><b>${esc((f.data&&f.data.name)||f.citation||f.id)}</b> ${BADGE[f.verification]}${srcPill(f)}<br><span style="color:var(--muted);font-size:13px">${esc(f.text)}</span>${f.citation?`<span class="prov" style="display:block;color:var(--muted);font-size:12px">${esc(f.citation)}</span>`:""}${revMeta(f)}</li>`).join("")+
+      `</ul><div class="callout c-warn"><span class="ci">⚠</span><span><b>Coverage statement:</b> this mapping lists the principal instruments held in this tool's knowledge base (original research ${fmtD(akb.as_at)}; individual entries and imported updates have separate review dates) and is <b>not exhaustive</b>. Instruments issued or amended after that date may exist. Confirm the current framework on <b>bma.bm</b> and against consolidated legislation before relying on it.</span></div></div>`;
+  }
+
+  if(state.mode==="MAP" && recents.length){
+    recents.forEach(use);
+    html+=`<div class="card"><h3>${num()}Selected Changes &amp; Pending Items <span style="font-weight:400;font-size:12px;color:var(--muted)">(selected history recorded at ${fmtD(akb.as_at)}; not a live update feed)</span></h3>
+      <table><thead><tr><th>Instrument</th><th>Change Summary</th><th>Effective / Phase-in</th><th>Status</th></tr></thead><tbody>`+
+      recents.map(r=>`<tr><td><b>${esc(r.data.instrument)}</b>${revMeta(r)}</td><td>${esc(r.text)}${srcPill(r)}</td><td>${esc(r.data.effective||"—")}</td><td>${BADGE[r.verification]}</td></tr>`).join("")+
+      `</tbody></table></div>`;
+  }
+
+  if(state.mode==="DISTIL"||state.mode==="MAP"){
+    html+=`<div class="card"><h3>${num()}Filing & Reporting Calendar</h3>
+      <table><thead><tr><th>Filing / Return</th><th>Frequency</th><th>Statutory Deadline</th>${state.fye?"<th>Computed Due Date</th>":""}<th>Status</th></tr></thead><tbody>`+
+      filings.map(f=>{
+        const deadline=deadlineFor(f),cd=deadline.date?deadline.date.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"}):null;
+        return `<tr><td><b>${esc(f.data.name)}</b><span class="prov">${esc(f.citation||"")}</span>${revMeta(f)}</td><td>${esc(f.data.freq||"")}</td><td>${esc(f.text)}${srcPill(f)}</td>${state.fye?`<td>${cd?`<b>${esc(cd)}</b><span class="prov">Estimated — confirm before use</span>`:esc(deadline.reason)}</td>`:""}<td>${BADGE[f.verification]}</td></tr>`;
+      }).join("")+`</tbody></table>
+      <div class="callout c-warn"><span class="ci">⚠</span><span>Requirements are drawn from a dated knowledge base and may since have been amended. Unverified or conditional dates are withheld. Computed dates are arithmetic only (financial year end + statutory period) and assume no extension, transition provision, or class-specific variation. <b>Confirm every deadline against the current legislation before relying on it.</b></span></div></div>`;
+  }
+
+  if(state.mode==="DISTIL")html+=calendarSummary();
+
+  if(state.mode==="DISTIL"){
+    html+=`<div class="card"><h3>${num()}Governance & Board Expectations — Checklist</h3><ul class="list tick">`+
+      governance.map(g=>`<li>${esc(g.text)} ${BADGE[g.verification]}${srcPill(g)}<span class="prov" style="display:block;color:var(--muted);font-size:12px">${esc(g.citation||"")}</span>${revMeta(g)}</li>`).join("")+`</ul></div>`;
+  }
+
+  if(state.focus.length){
+    const focusEntries=scoped("focus");
+    let inner="";
+    state.focus.forEach(k=>{
+      const items=focusEntries.filter(e=>e.data.area===k);
+      if(!items.length){inner+=`<p class="callout c-warn">No scoped analysis is available for ${esc((KB.focusAreas.find(a=>a[0]===k)||[k,k])[1])}. Confirm the applicable requirements with official sources.</p>`;return;}
+      items.forEach(use);
+      inner+=`<h4 style="color:var(--navy);margin:16px 0 4px;font-size:15px">${esc(items[0].data.title)}</h4><ul class="list">`+
+        items.map(i=>`<li>${esc(i.text)} ${BADGE[i.verification]}${srcPill(i)}${i.citation?`<span class="prov" style="display:block;color:var(--muted);font-size:12px">${esc(i.citation)}</span>`:""}${revMeta(i)}</li>`).join("")+`</ul>`;
+    });
+    if(inner) html+=`<div class="card"><h3>${num()}Focus-Area Analysis</h3>${inner}</div>`;
+  }
+
+  if(state.mode==="EXECUTE"){
+    const t=scoped("task").find(e=>e.id==="task-"+state.task);
+    if(t){
+      use(t); const d=t.data;
+      html+=`
+      <div class="card"><h3>${num()}Task: ${esc(d.title)}</h3>
+        <h4 style="color:var(--navy);font-size:14px;margin-bottom:4px">Regulatory authority</h4>
+        <p style="font-size:14px">${esc(t.text)} ${BADGE[t.verification]}${srcPill(t)}</p>
+        ${t.citation?`<p class="prov" style="color:var(--muted);font-size:12px">${esc(t.citation)}</p>`:""}
+        <p>${revMeta(t)}</p>
+        <table style="margin-top:16px"><thead><tr><th style="width:180px">Parameter</th><th>Detail</th><th style="width:110px">Status</th></tr></thead><tbody>
+          <tr><td><b>Timing</b></td><td>${esc(d.timing.t)}</td><td>${BADGE[d.timing.ver]}</td></tr>
+          <tr><td><b>Fee</b></td><td>${esc(d.fee.t)}</td><td>${BADGE[d.fee.ver]}</td></tr>
+          <tr><td><b>Submission method</b></td><td>${esc(d.method.t)}</td><td>${BADGE[d.method.ver]}</td></tr>
+        </tbody></table></div>
+      <div class="card"><h3>${num()}Required Documents & Information</h3><ul class="list tick">${d.docs.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+      <div class="card"><h3>${num()}Draft Correspondence Template</h3>
+        <p style="font-size:13px;color:var(--muted)">Bracketed <span style="color:var(--amber);font-weight:600">[placeholders]</span> must be completed and every citation verified before use. This is a starting draft, not a filing-ready document.</p>
+        <pre class="tpl">${esc(d.template).replace(/\[[^\]\n]+\]/g,m=>`<span class="ph">${m}</span>`)}</pre>
+        <button class="btn btn-ghost btn-sm no-print" style="margin-top:12px" onclick="copyTemplate(this)">Copy template</button>
+        <p id="copyStatus" role="status" class="no-print"></p><label id="copyFallbackLabel" for="tplraw" class="hidden">Select and copy the template below</label><textarea id="tplraw" readonly class="box hidden no-print">${esc(d.template)}</textarea>
+      </div>
+      <div class="callout c-danger"><span class="ci">■</span><span><b>Escalation note:</b> ${esc(d.escalate)}</span></div>`;
+    } else {
+      html+=`<div class="card"><h3>${num()}Application guidance unavailable</h3><p>This knowledge base has no application template, enabling provision, timing or fee verified for this selection. Do not use an insurer template for another sector. Consult the current sector legislation and BMA guidance, and obtain appropriate professional advice.</p></div>`;
+    }
+  }
+
+  /* ---- Non-Compliance & Consequences (DISTIL + EXECUTE) ---- */
+  if(state.mode==="DISTIL"||state.mode==="EXECUTE"){
+    html+=consequencesCard(num);
+  }
+
+  // Next steps
+  const steps = state.mode==="EXECUTE"
+    ? ["Verify the enabling provision and any prescribed form against the current consolidated legislation and BMA guidance (owner: compliance / counsel).","Confirm the current fee and submission channel with the BMA or the latest fee schedule (owner: compliance).","Complete all bracketed placeholders and obtain board or senior management sign-off (owner: CCO / board).","Obtain professional advice where the escalation note above applies (owner: board).","Submit via the confirmed channel and diarise the follow-up (owner: compliance)."]
+    : ["Verify each item marked “Verify” or “Unverified” against current legislation, Rules, Codes, and Guidance Notes on bma.bm (owner: compliance).","Map each filing to an owner and diarise deadlines with adequate lead time for board and auditor/actuary sign-off (owner: CCO).","Review the applicable governance expectations with the board and document responses (owner: company secretary / board).","Confirm AML/ATF and economic substance scoping for this specific entity — both are fact-dependent (owner: compliance / counsel).","Obtain professional advice on any item involving interpretation, discretion, or material exposure (owner: board)."];
+  html+=`<div class="card"><h3>${num()}Recommended Next Steps</h3><ol style="padding-left:22px;font-size:14px">${steps.map(s=>`<li style="padding:5px 0">${s}</li>`).join("")}</ol></div>`;
+
+  html+=`<div class="callout c-info" style="margin-top:20px"><span class="ci">§</span><span><b>Disclaimer.</b> This output is general information generated ${today} from knowledge base v${esc(akb.version)} (as at ${fmtD(akb.as_at)}), not legal, regulatory, actuarial, or professional advice. Requirements change; verify all obligations, deadlines, fees, and forms against current Bermuda legislation and BMA Rules, Codes, and Guidance Notes (bma.bm), and obtain professional advice before acting or filing.</span></div>`;
+
+
+
+  const r=document.getElementById("results");
+  r.innerHTML=html;
+  enhanceTables(r);
+  if(legalPendingSeen){
+    document.getElementById("legalReviewNotice").innerHTML =
+      `<div class="callout c-warn" style="margin-top:10px"><span class="ci">⚠</span><span><b>Illustrative content — pending legal review; not for operational reliance.</b> One or more items in this report have not yet been signed off by Bermuda counsel.</span></div>`;
+  }
+  reportContext={inputs:JSON.parse(JSON.stringify(state)),kb:JSON.parse(JSON.stringify(akb)),filings:JSON.parse(JSON.stringify(filings)),entryIds:[...usedEntryIds]};
+  reopenNotice="";
+  showOnly("results");announce(storageMessage);
+  for(let i=1;i<=4;i++){const s=document.getElementById("st"+i);s.classList.toggle("done",i<4);s.classList.toggle("active",i===4);if(i===4)s.setAttribute("aria-current","step");else s.removeAttribute("aria-current");}
+  window.scrollTo(0,0);
+}
+
+function enhanceTables(root){
+  if(root.id==='results'){
+    const headings=[...root.querySelectorAll('.card>h3')];
+    if(headings.length){
+      const contents=document.createElement('nav');contents.className='report-contents no-print';contents.setAttribute('aria-label','Report sections');
+      headings.forEach((heading,i)=>{heading.id='report-section-'+(i+1);const link=document.createElement('a');link.href='#'+heading.id;link.textContent=heading.textContent.replace(/^(\d+)(?=[A-Za-z])/,'$1. ');contents.append(link);});
+      root.querySelector('.rhead').after(contents);
+    }
+  }
+  root.querySelectorAll("table").forEach((table,i)=>{
+    const heading=table.closest(".card")?.querySelector("h3");
+    const label=heading?.textContent||"Assessment records";
+    const wrap=document.createElement("div");wrap.className="table-scroll";wrap.tabIndex=0;wrap.setAttribute("role","region");wrap.setAttribute("aria-label",label+" — scroll horizontally if needed");
+    table.before(wrap);wrap.append(table);
+    table.querySelectorAll("thead th").forEach(th=>th.setAttribute("scope","col"));
+    const caption=document.createElement("caption");caption.className="sr-only";caption.textContent=label;table.prepend(caption);
+  });
+}
+
+/* ---------- Consequences card ---------- */
+function consequencesCard(num){
+  let items=scoped("consequence");
+  const escal=items.find(e=>e.data.role==="escalation");
+  let list=items.filter(e=>e.data.role!=="escalation");
+  if(state.mode==="EXECUTE") list=list.filter(e=>(e.data.taskIds||[]).includes(state.task));
+  if(!list.length) return "";
+  list.forEach(use);
+  let inner="";
+  if(escal){
+    use(escal);
+    inner+=`<div class="callout c-info"><span class="ci">ⓘ</span><span><b>${esc(escal.data.title)}.</b> ${esc(escal.text)} ${BADGE[escal.verification]}${srcPill(escal)}${revMeta(escal)}</span></div>`;
+  }
+  list.forEach(c=>{
+    inner+=`<h4 style="color:var(--navy);margin:20px 0 4px;font-size:15px">${esc(c.data.title)} ${BADGE[c.verification]}${srcPill(c)}${revMeta(c)}</h4>
+      <p style="font-size:13.5px;color:var(--muted);margin:4px 0 8px"><b style="color:var(--ink)">Breach trigger:</b> ${esc(c.text.replace(/^Breach trigger:\s*/i,""))}${c.citation?` <span class="prov" style="display:inline">${esc(c.citation)}</span>`:""}</p>
+      <table><thead><tr><th>Breach</th><th>Consequence</th><th>Provision</th><th style="width:110px">Status</th></tr></thead><tbody>`+
+      (c.data.rows||[]).map(r=>`<tr><td>${esc(r.breach)}</td><td>${esc(r.consequence)}</td><td>${esc(r.provision)}</td><td>${BADGE[r.ver]||""}</td></tr>`).join("")+
+      `</tbody></table>`;
+    if(c.data.practice && c.data.practice.length){
+      inner+=`<p style="font-size:12.5px;color:var(--muted);margin:10px 0 2px"><b style="color:var(--ink)">Practitioner guidance</b> <span class="pill-src">Not from a BMA source</span></p><ul class="list">`+
+        c.data.practice.map(p=>`<li style="font-size:13px">${esc(p.t)} <span class="pill-src">${esc(p.srcLabel)}</span></li>`).join("")+`</ul>`;
+    }
+  });
+  inner+=`<div class="callout c-danger" style="margin-top:18px"><span class="ci">■</span><span><b>Important.</b> This is general information about the statutory framework, not an assessment of enforcement risk in any actual case. Enforcement outcomes depend on facts, conduct and supervisory history. <b>Obtain Bermuda counsel's advice on any actual or suspected breach.</b></span></div>`;
+  return `<div class="card"><h3>${num()}Non-Compliance & Consequences</h3>${inner}</div>`;
+}
+
+/* =========================================================================
+   CALENDAR — UTF-8-safe RFC 5545 serialization; no network dependencies
+   ========================================================================= */
+function icsEscapeText(value){return String(value).replace(/\\/g,"\\\\").replace(/;/g,"\\;").replace(/,/g,"\\,").replace(/\r\n|\r|\n/g,"\\n");}
+function icsFold(line){
+  const encoder=new TextEncoder(),out=[];let part='',bytes=0;
+  for(const char of line){
+    const size=encoder.encode(char).length;
+    if(bytes+size>75){out.push(part);part=' ';bytes=1;}
+    part+=char;bytes+=size;
+  }
+  out.push(part);return out.join('\r\n');
+}
+function icsDate(date){return date.getFullYear()+String(date.getMonth()+1).padStart(2,'0')+String(date.getDate()).padStart(2,'0');}
+function calendarPlan(inputs=state,entries=scoped('filing')){
+  return entries.map(entry=>({entry,...deadlineFor(entry,inputs)}));
+}
+function calendarSummary(){
+  const plan=calendarPlan(),included=plan.filter(x=>x.date),skipped=plan.filter(x=>!x.date);
+  return `<div class="callout c-info"><span><b>Calendar export: ${included.length} estimated date(s); ${skipped.length} item(s) omitted.</b> Only established, current month-based calculations are included. Conditional, unverified, fixed-date and event-driven items need separate review. Reminders do not constitute a compliance calendar.</span></div><details class="export-notes"><summary>Inspect included and omitted items</summary><ul class="list">${plan.map(x=>`<li><b>${esc(x.entry.data.name)}</b>: ${x.date?'Included — '+esc(x.date.toLocaleDateString('en-GB')):esc(x.reason)}</li>`).join('')}</ul></details>`;
+}
+function buildIcs(inputs=state,entries=scoped('filing'),kb=activeKB()){
+  const included=calendarPlan(inputs,entries).filter(x=>x.date);
+  if(!included.length)return null;
+  const label=inputs.entityType==='insurer'?KB.insurerClasses[inputs.entityClass]:inputs.entityType;
+  const stamp=new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z');
+  const lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Daniel Khisa//Compliance Navigator 2.1//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH'];
+  for(const {entry,date} of included){
+    const next=new Date(date);next.setDate(next.getDate()+1);
+    const summary='[VERIFY DATE] '+entry.data.name+' — '+label;
+    const description=entry.text+' | '+(entry.citation||'Verify current source')+' | Source: '+(safeSourceUrl(entry.source.url)||'Not linked')+' | KB '+kb.version+'; original research '+kb.as_at+'. Arithmetic estimate only; no extensions or exemptions applied. Educational content, pending legal review; not for operational reliance. Verify against current legislation and BMA guidance. This calendar represents a class profile, not an individual legal entity. Reimporting the same profile may update existing events.';
+    lines.push('BEGIN:VEVENT','UID:'+entry.id+'-'+inputs.entityType+'-'+(inputs.entityClass||'sector')+'-'+icsDate(date)+'@compliance-navigator','DTSTAMP:'+stamp,'DTSTART;VALUE=DATE:'+icsDate(date),'DTEND;VALUE=DATE:'+icsDate(next),'SUMMARY:'+icsEscapeText(summary),'DESCRIPTION:'+icsEscapeText(description),'STATUS:TENTATIVE','TRANSP:TRANSPARENT');
+    for(const days of [30,7])lines.push('BEGIN:VALARM','ACTION:DISPLAY','TRIGGER:-P'+days+'D','DESCRIPTION:'+icsEscapeText(days+' days before estimated date: '+summary),'END:VALARM');
+    lines.push('END:VEVENT');
+  }
+  lines.push('END:VCALENDAR');return lines.map(icsFold).join('\r\n')+'\r\n';
+}
+function validateIcs(text){
+  const errors=[],encoder=new TextEncoder();
+  if(!text.startsWith('BEGIN:VCALENDAR\r\n')||!text.endsWith('END:VCALENDAR\r\n'))errors.push('Invalid calendar boundaries.');
+  if(/(?<!\r)\n|\r(?!\n)/.test(text))errors.push('Invalid line endings.');
+  if(text.split('\r\n').some(l=>encoder.encode(l).length>75))errors.push('Physical line exceeds 75 UTF-8 bytes.');
+  const unfolded=text.replace(/\r\n[ \t]/g,''),events=unfolded.split('BEGIN:VEVENT\r\n').slice(1);
+  if(!events.length||events.length!==(unfolded.match(/END:VEVENT\r\n/g)||[]).length)errors.push('Unbalanced or empty event list.');
+  const uids=[];
+  events.forEach(event=>{
+    const content=event.split('END:VEVENT\r\n')[0];
+    for(const property of ['UID:','DTSTAMP:','DTSTART;VALUE=DATE:','DTEND;VALUE=DATE:','SUMMARY:'])if(!content.split('\r\n').some(l=>l.startsWith(property)))errors.push('Missing '+property);
+    if((content.match(/BEGIN:VALARM/g)||[]).length!==2||(content.match(/END:VALARM/g)||[]).length!==2)errors.push('Expected two complete alarms.');
+    const uid=content.split('\r\n').find(l=>l.startsWith('UID:'));uids.push(uid);
+    const start=content.match(/DTSTART;VALUE=DATE:(\d{8})\r\n/),end=content.match(/DTEND;VALUE=DATE:(\d{8})\r\n/);
+    if(!start||!end||end[1]<=start[1])errors.push('Invalid all-day date range.');
+  });
+  if(new Set(uids).size!==uids.length)errors.push('Duplicate event identifiers.');
+  return {ok:!errors.length,errors,events:events.length};
+}
+function downloadText(text,type,name){
+  const url=URL.createObjectURL(new Blob([text],{type})),a=document.createElement('a');
+  a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function exportIcs(){
+  if(!reportContext){announce('Generate a report first.');return;}
+  const {inputs,filings,kb}=reportContext,ics=buildIcs(inputs,filings,kb);
+  if(!ics){announce('No eligible dates to export. Enter a year end and inspect the calendar coverage notes.');return;}
+  const result=validateIcs(ics);
+  if(!result.ok){announce('Calendar validation failed: '+result.errors.join(' '));return;}
+  downloadText(ics,'text/calendar;charset=utf-8','bermuda-estimated-dates-'+(inputs.entityClass||inputs.entityType)+'.ics');
+  announce(result.events+' estimated date(s) exported. Review omitted items listed in the report.');
+}
+
+/* =========================================================================
+   SAVED INPUT BOOKMARKS — validated records; no compliance audit-trail claim
+   ========================================================================= */
+function validInputs(inputs){
+  if(!inputs||typeof inputs!=='object'||Array.isArray(inputs))return false;
+  const types=['insurer',...KB.scopeGroups.nonInsurers];
+  if(!types.includes(inputs.entityType)||!['MAP','DISTIL','EXECUTE'].includes(inputs.mode))return false;
+  if(inputs.entityType==='insurer'&&!Object.hasOwn(KB.insurerClasses,inputs.entityClass))return false;
+  if(inputs.entityType==='daba'&&!Object.hasOwn(KB.dabaClasses,inputs.entityClass))return false;
+  return typeof inputs.entityClass==='string'&&(inputs.fye===''||validDate(inputs.fye))&&typeof inputs.task==='string'&&inputs.task.length<=100&&Array.isArray(inputs.focus)&&inputs.focus.every(key=>KB.focusAreas.some(a=>a[0]===key));
+}
+function getAssessments(){
+  const obj=readStored(ASSESS_KEY);
+  if(obj===null)return [];
+  if(!Array.isArray(obj)){storageMessage='Saved assessment data is malformed and has been ignored without deletion.';return [];}
+  const valid=obj.filter(r=>r&&typeof r.id==='string'&&/^[a-zA-Z0-9_-]{1,100}$/.test(r.id)&&validInputs(r.inputs)&&typeof r.prepared_by==='string'&&r.prepared_by.length<=200&&typeof r.kb_version==='string'&&typeof r.saved_at==='string'&&Number.isFinite(Date.parse(r.saved_at)));
+  if(valid.length!==obj.length)storageMessage='Some malformed saved records were ignored. The stored data has not been changed.';
+  return valid;
+}
+function openSaveModal(){document.getElementById("saveStatus").textContent="";openDialog('saveModal');document.getElementById('preparedBy').focus();}
+function closeSaveModal(){closeDialog('saveModal');}
+function confirmSaveAssessment(){
+  if(!reportContext){closeSaveModal();announce('Generate an assessment before saving.');return;}
+  const by=document.getElementById('preparedBy').value.trim()||'(not stated)';
+  const {inputs,kb,entryIds}=reportContext;
+  const list=getAssessments();
+  // Never overwrite unreadable storage while reporting a successful save.
+  if(storageMessage){document.getElementById('saveStatus').textContent=storageMessage+' Export or recover your data before saving.';return;}
+  if(list.length>=100){document.getElementById('saveStatus').textContent='This demo holds up to 100 bookmarks. Export and remove unneeded bookmarks first.';return;}
+  const rec={id:'a'+Date.now()+'-'+Math.random().toString(36).slice(2,10),saved_at:new Date().toISOString(),prepared_by:by,inputs:JSON.parse(JSON.stringify(inputs)),mode:inputs.mode,app_version:KB.app_version,kb_version:kb.version,kb_fingerprint:kbFingerprint(kb),entry_ids:[...entryIds]};
+  if(!writeStored(ASSESS_KEY,[rec,...list])){document.getElementById('saveStatus').textContent='Save failed. Browser storage is unavailable or full; this report remains available.';return;}
+  closeSaveModal();announce('Assessment inputs saved in this browser. Reopening regenerates the report from the then-current knowledge base.');
+}
+function showSaved(){
+  storageMessage='';const list=getAssessments();
+  const root=document.getElementById('saved');
+  root.innerHTML=`<div class="rhead"><div><h2>Saved Assessments</h2><p class="meta">Input bookmarks in this browser. These are not frozen reports or an audit trail. Exporting includes the prepared-by information.</p></div><div class="actions no-print"><button class="btn btn-ghost btn-sm" onclick="exportAssessments()">Export all (JSON)</button><button class="btn btn-primary btn-sm" onclick="startWizard()">New Assessment</button></div></div>`+
+    (list.length?`<div class="card"><table><thead><tr><th>Date</th><th>Prepared by</th><th>Entity</th><th>Mode</th><th>KB version</th><th>Actions</th></tr></thead><tbody>${list.map(r=>`<tr><td>${esc(new Date(r.saved_at).toLocaleString('en-GB'))}</td><td>${esc(r.prepared_by)}</td><td>${esc(r.inputs.entityType==='insurer'?KB.insurerClasses[r.inputs.entityClass]:r.inputs.entityType)}</td><td>${esc(r.mode||r.inputs.mode)}</td><td>${esc(r.kb_version)}</td><td><div class="actions"><button class="btn btn-ghost btn-sm" data-reopen="${esc(r.id)}">Re-open</button><button class="btn btn-ghost btn-sm" data-delete="${esc(r.id)}">Delete</button></div></td></tr>`).join('')}</tbody></table></div>`:'<div class="card"><p>No saved assessments yet. Generate results and choose Save this assessment.</p></div>');
+  root.querySelectorAll('[data-reopen]').forEach(button=>button.addEventListener('click',()=>reopenAssessment(button.dataset.reopen)));
+  root.querySelectorAll('[data-delete]').forEach(button=>button.addEventListener('click',()=>deleteAssessment(button.dataset.delete)));
+  enhanceTables(root);showOnly('saved');announce(storageMessage);
+}
+function deleteAssessment(id){
+  if(!confirm('Delete this local bookmark? Export first if you need a copy.'))return;
+  storageMessage='';const list=getAssessments();
+  if(storageMessage){announce(storageMessage+' No records deleted.');return;}
+  if(writeStored(ASSESS_KEY,list.filter(r=>r.id!==id)))showSaved();
+}
+function exportAssessments(){
+  storageMessage='';const list=getAssessments();
+  if(storageMessage){announce(storageMessage+' Export cancelled to avoid omitting damaged records. Recover the original through browser site-data tools.');return;}
+  downloadText(JSON.stringify(list,null,2),'application/json','bcn-saved-assessments.json');announce('Local bookmarks exported; the file includes prepared-by details.');
+}
+function reopenAssessment(id){
+  const record=getAssessments().find(r=>r.id===id);if(!record)return;
+  Object.assign(state,JSON.parse(JSON.stringify(record.inputs)));syncForm();
+  const kb=activeKB(),changed=record.kb_version!==kb.version||record.kb_fingerprint!==kbFingerprint(kb);
+  reopenNotice=`<div class="callout c-info"><span><b>Re-opened input bookmark</b>, saved ${esc(new Date(record.saved_at).toLocaleString('en-GB'))} by ${esc(record.prepared_by)} against KB ${esc(record.kb_version)}. This report is regenerated from current content.${changed?' <b>Content has changed, or the legacy record has no change fingerprint; results may differ.</b>':''}</span></div>`;
+  renderResults(true);
+}
+
+/* =========================================================================
+   KNOWLEDGE-BASE IMPORTS — plain text, explicit preview, atomic local merge
+   ========================================================================= */
+let pendingFragment=null;
+function invalidatePreview(){
+  pendingFragment=null;
+  document.getElementById('mergeBtn')?.classList.add('hidden');
+  const out=document.getElementById('kbDiff');if(out)out.textContent='Preview required after any edit.';
+}
+function showKbAdmin(){
+  pendingFragment=null;storageMessage='';const kb=activeKB();
+  const root=document.getElementById('kbadmin');
+  root.innerHTML=`<div class="rhead"><div><h2>Knowledge Base</h2><p class="meta">Version ${esc(kb.version)} · ${kb.entries.length} entries · original shipped research ${fmtD(KB.as_at)}</p><p class="meta">${kb.overlay?'Local overlay: '+kb.overlay.entries.length+' entries. Modified '+(fmtD(kb.overlay.modified_at)||'date unavailable')+'.':'No local overlay.'} Each entry has its own review date; importing does not reverify the rest of the knowledge base.</p></div></div>
+    <div class="card"><h3>Import a local update</h3><p>Use a JSON array or an object with an entries array and optional version. Maximum 1 MB / 500 entries. All content is plain text. Required fields: id, entity_scope, topic, text, source (type and name), verification, last_reviewed, review_due, legal_review and topic-specific data. Export an example below to inspect the schema.</p>
+    <p>Imported source labels and review statuses are supplied by the importer; this app does not independently verify them. Import only material you have reviewed. Updates stay in this browser.</p>
+    <label for="kbFragment" class="fld">Knowledge-base JSON</label><textarea id="kbFragment" class="box" spellcheck="false"></textarea>
+    <label for="kbFile" class="fld">Or choose a JSON file</label><input type="file" id="kbFile" accept=".json,application/json">
+    <div class="actions"><button class="btn btn-primary btn-sm" onclick="previewFragment()">Validate &amp; preview diff</button><button class="btn btn-gold btn-sm hidden" id="mergeBtn" onclick="mergeFragment()">Merge reviewed update</button><button class="btn btn-ghost btn-sm" onclick="exportExample()">Export example</button></div>
+    <div id="kbDiff" role="status" aria-live="polite"></div></div>
+    <div class="actions no-print" style="margin-top:20px">${kb.overlay?'<button class="btn btn-ghost btn-sm" onclick="exportOverlay()">Export overlay (JSON)</button><button class="btn btn-ghost btn-sm" onclick="clearOverlay()">Remove overlay</button>':''}${storageMessage?'<button class="btn btn-ghost btn-sm" onclick="recoverOverlay()">Export stored overlay for recovery</button><button class="btn btn-ghost btn-sm" onclick="clearOverlay()">Remove stored overlay</button>':''}<button class="btn btn-primary btn-sm" onclick="startWizard()">New Assessment</button></div>`;
+  document.getElementById('kbFragment').addEventListener('input',invalidatePreview);
+  document.getElementById('kbFile').addEventListener('change',event=>loadKbFile(event.target));
+  showOnly('kbadmin');announce(storageMessage);
+}
+function exportExample(){downloadText(JSON.stringify({version:KB.version+'+example',entries:[KB.entries.find(e=>e.id==='filing-sfs-sfr-4m')||KB.entries.find(e=>e.topic==='filing')]},null,2),'application/json','kb-example.json');}
+function loadKbFile(input){
+  invalidatePreview();const file=input.files?.[0];if(!file)return;
+  if(file.size>1000000){document.getElementById('kbDiff').textContent='File exceeds the 1 MB limit.';return;}
+  const reader=new FileReader();
+  reader.onload=()=>{const field=document.getElementById('kbFragment');if(field){field.value=String(reader.result);invalidatePreview();}};
+  reader.onerror=()=>{document.getElementById('kbDiff').textContent='The file could not be read.';};reader.readAsText(file);
+}
+function previewFragment(){
+  const raw=document.getElementById('kbFragment').value;invalidatePreview();
+  const out=document.getElementById('kbDiff'),checked=validateFragment(raw);
+  if(!checked.ok){out.textContent='Validation failed: '+checked.errors.slice(0,20).join(' ');return;}
+  storageMessage='';const kb=activeKB();
+  if(storageMessage){out.textContent=storageMessage+' Merge is disabled until the stored data is recovered or explicitly removed.';return;}
+  const current=new Map(kb.entries.map(e=>[e.id,e]));let changes=0;
+  const diff=checked.entries.map(entry=>{
+    const before=current.get(entry.id);
+    if(before&&canonical(before)===canonical(entry))return `<li>${esc(entry.id)} — unchanged</li>`;
+    changes++;
+    const keys=[...new Set([...Object.keys(before||{}),...Object.keys(entry)])].filter(k=>canonical(before?.[k])!==canonical(entry[k]));
+    return `<li><b>${esc(entry.id)} — ${before?'changed':'new'}</b><details><summary>Inspect ${keys.length} changed field(s)</summary>${keys.map(key=>`<p><b>${esc(key)}</b></p><pre class="diff-value">Before: ${esc(JSON.stringify(before?.[key],null,2)||'(absent)')}\nAfter: ${esc(JSON.stringify(entry[key],null,2)||'(absent)')}</pre>`).join('')}</details></li>`;
+  });
+  out.innerHTML=`<div class="difflist"><b>Validation passed: ${changes} changed/new entries.</b><ul>${diff.join('')}</ul></div>`;
+  pendingFragment={raw,checked,baseline:kbFingerprint(kb)};
+  document.getElementById('mergeBtn').classList.toggle('hidden',!changes);
+}
+function mergeFragment(){
+  const raw=document.getElementById('kbFragment').value;
+  if(!pendingFragment||pendingFragment.raw!==raw){invalidatePreview();announce('Preview the current JSON before merging.');return;}
+  const checked=validateFragment(raw),kb=activeKB();
+  if(!checked.ok||pendingFragment.baseline!==kbFingerprint(kb)){invalidatePreview();announce('Content changed since preview. Validate and review again.');return;}
+  const overlay=kb.overlay||{entries:[],merges:0},entries=new Map(overlay.entries.map(e=>[e.id,e]));
+  checked.entries.forEach(e=>entries.set(e.id,e));
+  if(entries.size>500){announce('The combined overlay cannot exceed 500 entries. Export and consolidate it first.');return;}
+  const next={entries:[...entries.values()],merges:overlay.merges+1,version:checked.meta.version||KB.version+'+local.'+(overlay.merges+1),modified_at:new Date().toISOString().slice(0,10)};
+  if(JSON.stringify(next).length>1000000){announce('The combined overlay exceeds 1 MB. No changes saved.');return;}
+  if(!writeStored(OVERLAY_KEY,next))return;
+  showKbAdmin();announce('Reviewed update saved locally. Original research date unchanged.');
+}
+function exportOverlay(){
+  const overlay=getOverlay();if(!overlay){announce('No valid overlay to export.');return;}
+  downloadText(JSON.stringify(overlay,null,2),'application/json','bcn-kb-overlay-'+overlay.version.replace(/[^\w.-]/g,'_')+'.json');
+}
+function clearOverlay(){
+  if(!confirm('Remove the local overlay? Export it first if you need a copy. Shipped content will be restored.'))return;
+  if(removeStored(OVERLAY_KEY))showKbAdmin();
+}
+function recoverOverlay(){
+  try{const raw=localStorage.getItem(OVERLAY_KEY);if(raw===null){announce('No stored overlay to recover.');return;}downloadText(raw,'text/plain','kb-overlay-recovery.txt');}
+  catch(e){announce('Storage cannot be read. Use browser site-data recovery tools.');}
+}
+
+async function copyTemplate(button){
+  const field=document.getElementById("tplraw"),status=document.getElementById("copyStatus");
+  try{if(!navigator.clipboard?.writeText)throw new Error("Clipboard unavailable");await navigator.clipboard.writeText(field.value);status.textContent="Template copied. Confirm every placeholder before use.";}
+  catch(e){field.classList.remove("hidden");document.getElementById("copyFallbackLabel").classList.remove("hidden");field.focus();field.select();status.textContent="Automatic copy is unavailable. Use Ctrl+C or your device's Copy command on the selected text.";}
+}
+
+/* ---------- Legacy credential removal (explicit local user action only) ---------- */
+function openSettings(){document.getElementById("apiKeyStatus").textContent="";openDialog("settingsModal");}
+function closeSettings(){ closeDialog("settingsModal"); }
+function clearLegacyKey(){
+  try { localStorage.removeItem("bcn_api_key"); document.getElementById("apiKeyStatus").textContent="Legacy key removed from this browser."; }
+  catch(e){ document.getElementById("apiKeyStatus").textContent="Storage is unavailable. Use your browser's site-data settings to remove the key."; }
+}
+// Include calendar coverage details in print, then restore the screen state.
+let printDetails=[];
+window.addEventListener?.('beforeprint',()=>{printDetails=[...document.querySelectorAll('details')].map(el=>({el,open:el.open}));printDetails.forEach(({el})=>el.open=true);});
+window.addEventListener?.('afterprint',()=>{printDetails.forEach(({el,open})=>el.open=open);printDetails=[];});
+if(typeof KB==='undefined'){
+  announce('The knowledge base did not load. Keep index.html and kb.js in the same folder and reload.');
+  document.querySelectorAll('button').forEach(button=>button.disabled=true);
+}
+</script>
+</body>
+</html>
