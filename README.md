@@ -18,7 +18,8 @@ framework-level information, with explicit gaps rather than insurer assumptions.
 
 ## Features
 
-- A guided entity/profile questionnaire with EXPLAIN, DISTIL and EXECUTE modes.
+- A guided entity/profile questionnaire for regulatory landscape, ongoing
+  obligations and application drafting (MAP, DISTIL and EXECUTE modes).
 - A versioned, 156-entry knowledge base with sources, verification labels,
   individual review dates and legal-review status.
 - Filing guidance, governance checklists, focus-topic analysis and draft
