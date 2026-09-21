@@ -1,0 +1,24 @@
+{
+  "reviewed": "2026-09-21",
+  "purpose": "Expected outcomes specified from primary provisions, independently of the application's filtering logic. Not legal sign-off.",
+  "opres": {
+    "source": "Operational Resilience and Outsourcing Code, I paragraph 3 and XVI",
+    "includedInsurers": ["class3a", "class3b", "class4", "classC", "classD", "classE", "iigb"],
+    "excludedInsurers": ["class1", "class2", "class3", "classA", "classB", "spi", "collateralized"],
+    "includedDaba": ["classF"], "excludedDaba": ["classM", "classT"],
+    "insurerCompliance": "2028-03-31", "bankCompliance": "2027-01-01"
+  },
+  "dividends": {
+    "source": "Insurance Act 1978, 31B(1), 31C(1), (4), (5)",
+    "affidavitIncluded": ["class3a", "class3b", "class4", "classC", "classD", "classE", "iigb"],
+    "affidavitExcluded": ["class1", "class2", "class3", "classA", "classB", "spi", "collateralized"]
+  },
+  "extensionFees": [
+    {"class": "classE", "filing": "statutory", "fee": "$2,500", "item": "2(c)"},
+    {"class": "classE", "filing": "bscr", "fee": "$1,500", "item": "2(x)"},
+    {"class": "class4", "filing": "other", "fee": "$1,500", "item": "2(z)"},
+    {"class": "class1", "filing": "statutory", "fee": "$750", "item": "2(c)"}
+  ],
+  "pcc": {"source": "BMA notice, 13 August 2026, New Requirement and Implementation", "effective": "2026-10-01"},
+  "consultation": {"source": "June 2026 Code/group consultation, section 1 paragraphs 7/10, section 2 paragraph 6, section 3 paragraph 8", "conductCompliance": "180 days"}
+}

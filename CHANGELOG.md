@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v2.2.0 — 21 September 2026
+
+Targeted accuracy and saved-data release; 161 entries. Original research and per-entry review history are retained. This is not a complete regulatory or legal re-verification.
+
+- Corrected Operational Resilience scope, current outsourcing Act treatment, insurer officer citations, dividend/capital row scope, filing-specific extension fees, annual fees, Code dates, ALS wording and economic-substance administration/source links.
+- Added conditional Key Person PCC guidance, including new licensing, and separated the June consultation's proposed timings. Added resolution/PSPI developments as pending information.
+- Added optional applicability questions and explicit limits for unsupported profiles, reporting periods and fee years. Withheld unsupported SBA/internal-model breach conclusions.
+- Preserved legacy overlays without activation; new overlays use baseline version/fingerprint. Merge rejects raw-storage changes; local review claims remain unendorsed. Legacy bookmarks ask for new facts.
+- Reviewed all five letter templates, added report scope/assumptions, sample report, portfolio case study and social preview.
+- Added source-derived regression cases: 33 automated tests. Browser approval blocked the fresh preview; browser/mobile, print/direct-file and related interactive checks remain outstanding. See VERIFICATION.md.
+
+Earlier notes are historical.
+
+
 ## v2.1.0 — 16 September 2026
 
 Stage 2 improvement release. Author attribution: Daniel Khisa. This is an

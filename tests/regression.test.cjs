@@ -21,8 +21,8 @@ function fixture({blocked=false}={}){
   const data=expression=>JSON.parse(JSON.stringify(run(expression)));
   return {run,data,values,elements,element};
 }
-test('all 156 shipped entries pass the import schema',()=>{
-  const f=fixture();assert.equal(f.run('KB.entries.length'),156);assert.deepEqual(f.data('validateFragment(JSON.stringify(KB.entries)).errors'),[]);
+test('all 161 shipped entries pass the import schema',()=>{
+  const f=fixture();assert.equal(f.run('KB.entries.length'),161);assert.deepEqual(f.data('validateFragment(JSON.stringify(KB.entries)).errors'),[]);
 });
 test('malformed root, fields, impossible dates, unsafe URLs and duplicate IDs are rejected',()=>{
   const f=fixture();
@@ -43,7 +43,7 @@ test('rendered untrusted text is escaped in summaries, headings, bodies and sour
   const f=fixture();
   f.run("Object.assign(state,{entityType:'insurer',entityClass:'classE',fye:'2025-12-31',mode:'MAP',task:'',focus:[]})");
   const raw=f.run(`JSON.stringify({entries:[{...KB.entries.find(e=>e.id==='summary-commercial'),text:'<img src=x onerror="alert(1)">',data:{role:'summary'}},{...KB.entries.find(e=>e.id==='fw-insurance-act'),text:'<svg onload="alert(1)">',data:{name:'<img src=x onerror="alert(1)">'},source:{type:'legislation',name:'<script>example</script>',url:'https://example.org/?q="x"'}}]})`);
-  f.values.set('bcn_kb_overlay',raw);f.run('renderResults(true)');
+  f.values.set('bcn_kb_overlay_v2',f.run(`JSON.stringify({...${raw},schema_version:2,base_version:KB.version,base_fingerprint:kbFingerprint(KB)})`));f.run('renderResults(true)');
   const result=f.element('results').innerHTML;
   assert.ok(result.includes('&lt;img'));assert.ok(!result.includes('<img'));assert.ok(!result.includes('<svg'));assert.ok(!result.includes('<script>'));
 });
@@ -85,7 +85,7 @@ test('calendar uses CRLF, unique class UIDs, two alarms and UTF-8 byte folding',
 test('storage failure and corrupted overlays do not break static reports',()=>{
   const f=fixture({blocked:true});f.run("Object.assign(state,{entityType:'insurer',entityClass:'class1',fye:'2025-12-31',mode:'DISTIL',task:'',focus:[]});renderResults(true)");
   assert.ok(f.element('results').innerHTML.includes('Class 1'));assert.ok(f.run('storageMessage').includes('unavailable'));
-  const g=fixture();g.values.set('bcn_kb_overlay','{"entries":[null]}');assert.equal(g.run('activeKB().entries.length'),156);assert.ok(g.run('storageMessage').includes('ignored'));
+  const g=fixture();g.values.set('bcn_kb_overlay_v2','{"entries":[null]}');assert.equal(g.run('activeKB().entries.length'),161);assert.ok(g.run('storageMessage').includes('invalid'));
 });
 test('malformed saved data is ignored and not overwritten by save',()=>{
   const f=fixture();f.values.set('bcn_assessments','{}');f.run("Object.assign(state,{entityType:'insurer',entityClass:'class1',fye:'',mode:'MAP',task:'',focus:[]});renderResults(true);confirmSaveAssessment()");assert.equal(f.values.get('bcn_assessments'),'{}');
@@ -94,14 +94,109 @@ test('bookmark fingerprint catches content change with an unchanged version',()=
   const f=fixture();assert.equal(f.run("(()=>{const a=JSON.parse(JSON.stringify(activeKB())),b=JSON.parse(JSON.stringify(a));b.entries[0].text+=' Updated.';return kbFingerprint(a)===kbFingerprint(b)})()"),false);
 });
 test('new resets inputs; reopen synchronizes focus checkboxes through syncForm',()=>{
-  const f=fixture();f.run("Object.assign(state,{entityType:'insurer',entityClass:'classE',fye:'2025-12-31',mode:'MAP',task:'extension',focus:['capital']});startWizard()");assert.deepEqual(f.data('state'),{entityType:'',entityClass:'',fye:'',mode:'',task:'',focus:[]});
+  const f=fixture();f.run("Object.assign(state,{entityType:'insurer',entityClass:'classE',fye:'2025-12-31',mode:'MAP',task:'extension',focus:['capital']});startWizard()");assert.deepEqual(f.data('state'),{entityType:'',entityClass:'',fye:'',mode:'',task:'',focus:[],facts:{}});
 });
 test('changed input after preview cannot merge an old fragment',()=>{
-  const f=fixture();f.element('kbFragment').value=f.run('JSON.stringify([KB.entries[0]])');f.run('previewFragment()');f.element('kbFragment').value='null';f.run('mergeFragment()');assert.equal(f.values.has('bcn_kb_overlay'),false);assert.equal(f.run('pendingFragment'),null);
+  const f=fixture();f.element('kbFragment').value=f.run('JSON.stringify([KB.entries[0]])');f.run('previewFragment()');f.element('kbFragment').value='null';f.run('mergeFragment()');assert.equal(f.values.has('bcn_kb_overlay_v2'),false);assert.equal(f.run('pendingFragment'),null);
 });
-test('merge preserves the original research date and never overwrites invalid stored overlay',()=>{
+test('merge preserves original research date and records the shipped baseline',()=>{
   const f=fixture();f.element('kbFragment').value=f.run("JSON.stringify({version:'same-version',entries:[{...KB.entries[0],text:'Edited locally.'}]})");f.run('previewFragment();mergeFragment()');assert.equal(f.run('activeKB().as_at'),'2026-07-02');assert.equal(f.run('activeKB().version'),'same-version');
 });
 test('public app has no API request, password prompt, remote scripts or embedded LLM prompt',()=>{
   assert.ok(!html.includes('fetch('));assert.ok(!html.includes('api.anthropic.com'));assert.ok(!html.includes('type="password"'));assert.ok(!html.includes('MASTER_PROMPT_TEXT'));assert.ok(!/<script[^>]+src="https?:/.test(html));
+});
+
+const expected=JSON.parse(fs.readFileSync(path.join(__dirname,'accuracy-cases.json'),'utf8'));
+function profile(f,entityClass='classE',facts={},mode='DISTIL',task=''){
+  f.run(`Object.assign(state,${JSON.stringify({entityType:'insurer',entityClass,facts,mode,task,fye:'2025-12-31',focus:[]})})`);
+}
+test('Op Res scope follows the primary class/licence matrix',()=>{
+ const f=fixture();
+ for(const cls of [...expected.opres.includedInsurers,...expected.opres.excludedInsurers]){
+  profile(f,cls);assert.equal(f.run("scoped('framework').some(e=>e.id==='fw-opres-code')"),expected.opres.includedInsurers.includes(cls),cls);
+  assert.equal(f.run("scoped('focus').some(e=>e.id==='focus-out-3')"),true,'Current Act route retained for '+cls);
+ }
+ for(const cls of ['classF','classM','classT']){
+  f.run(`Object.assign(state,{entityType:'daba',entityClass:'${cls}'})`);
+  assert.equal(f.run("scoped('framework').some(e=>e.id==='rec-opres')"),cls==='classF');
+ }
+ f.run("Object.assign(state,{entityType:'investment',entityClass:'',facts:{investmentLicence:'unknown'}})");
+ assert.match(f.run("scoped('framework').find(e=>e.id==='fw-opres-code').text"),/CONDITIONAL/);
+ f.run("state.facts.investmentLicence='other'");assert.equal(f.run("scoped('framework').some(e=>e.id==='fw-opres-code')"),false);
+ f.run("Object.assign(state,{entityType:'bank',facts:{}})");assert.equal(f.run("scoped('framework').find(e=>e.id==='fw-opres-code').compliance_by"),expected.opres.bankCompliance);
+});
+test('dividend and capital rows are filtered by legal class scope',()=>{
+ const f=fixture();
+ for(const cls of [...expected.dividends.affidavitIncluded,...expected.dividends.affidavitExcluded]){
+  profile(f,cls);const rows=f.data("scoped('consequence').find(e=>e.id==='conseq-dividends').data.rows");
+  assert.equal(rows.some(r=>r.provision.startsWith('s.31B(1)')),expected.dividends.affidavitIncluded.includes(cls),cls);
+  assert.equal(rows.some(r=>r.provision==='s.31C(5)'),cls==='collateralized');
+  if(cls==='collateralized')assert.ok(!rows.some(r=>r.provision.startsWith('s.31C(1)')));
+ }
+});
+test('extension fees depend on filing type, class and supported fee year',()=>{
+ const f=fixture();
+ for(const c of expected.extensionFees){profile(f,c.class,{filingType:c.filing},'EXECUTE','extension');const t=f.run("scoped('task').find(e=>e.id==='task-extension').data.fee.t");assert.ok(t.includes(c.fee)&&t.includes(c.item),t);}
+ profile(f,'classE',{filingType:'combined'},'EXECUTE','extension');assert.ok(!f.run('extensionFee().t').includes('$'));
+ profile(f,'class1',{filingType:'bscr'},'EXECUTE','extension');assert.equal(f.run('extensionFee().ver'),'unverified');
+ profile(f,'classE',{filingType:'statutory',applicationDate:'2027-01-01'},'EXECUTE','extension');assert.ok(!f.run('extensionFee().t').includes('$'));
+});
+test('PCC has effective-date, RFI, Key Person and full-receipt conditions in new licensing',()=>{
+ const f=fixture();const facts={amlRfi:'yes',keyVetting:'yes',completeBefore:'no',applicationDate:'2026-10-01'};
+ profile(f,'classE',facts,'EXECUTE','newlicence');f.run('renderResults(true)');assert.match(f.element('results').innerHTML,/Applicable on the selected facts/);assert.match(f.element('results').innerHTML,/Police Clearance Certificate/);
+ f.run("state.facts.applicationDate='2026-09-30'");assert.match(f.run('pccStatus()'),/Upcoming/);
+ f.run("state.facts.applicationDate='2026-10-01';state.facts.completeBefore='yes'");assert.match(f.run('pccStatus()'),/Transitional exception/);
+ f.run("state.facts.amlRfi='no'");assert.match(f.run('pccStatus()'),/do not activate/);
+ profile(f,'classE',{applicationDate:'2026-10-01'},'EXECUTE','approvedperson');assert.match(f.run('pccStatus()'),/Conditional/);
+});
+test('controller route respects public/private shares, disposal class and insurer reporting',()=>{
+ const f=fixture();profile(f,'classE',{shares:'private'});assert.match(f.run('controllerContext()'),/disposal: prior written notice/);
+ f.run("state.facts.shares='public'");assert.match(f.run('controllerContext()'),/disposal: written notice within 45 days after/);
+ profile(f,'class1',{shares:'private'});assert.match(f.run('controllerContext()'),/not in the section 30EA/);assert.match(f.run('controllerContext()'),/30J\(4\) annual/);
+ for(const id of ['focus-gov-3','task-controller'])assert.ok(!f.run(`KB.entries.find(e=>e.id==='${id}').citation`).includes('30CA'));
+});
+test('consultations and domestic-retail conduct scope preserve section boundaries',()=>{
+ const f=fixture();const text=f.run("KB.entries.find(e=>e.id==='rec-cp-code-group-2026').text");assert.match(text,/section 1/);assert.match(text,/section 3 paragraph 8/);assert.match(text,/180 days/);
+ profile(f,'classE',{domestic:'no'});const conduct=f.run("scoped('framework').find(e=>e.id==='fw-code-conduct').text");assert.match(conduct,/8.1/);assert.ok(!conduct.includes('Part 8 currently applies only'));
+});
+test('ALS and recovery unknown facts stay conditional, exclusions suppress scoped rows',()=>{
+ const f=fixture();profile(f);assert.match(f.run("scoped('governance').find(e=>e.id==='gov-recovery-plan').text"),/CONDITIONAL/);
+ profile(f,'classE',{domestic:'yes',recovery:'no'});assert.ok(!f.run("scoped('filing').some(e=>e.id==='filing-als-cde')"));assert.ok(!f.run("scoped('governance').some(e=>e.id==='gov-recovery-plan')"));
+});
+test('unsupported reporting years and imported dates are never computed',()=>{
+ const f=fixture();for(const year of ['1900','2024','2027'])assert.equal(f.run(`deadlineFor(KB.entries.find(e=>e.id==='filing-sfs-sfr-4m'),{fye:'${year}-12-31'}).date`),null);
+ assert.equal(f.run("deadlineFor({...KB.entries.find(e=>e.id==='filing-sfs-sfr-4m'),imported:true},{fye:'2025-12-31'}).date"),null);
+});
+test('old overrides cannot mask shipped corrections and remain byte-for-byte intact',()=>{
+ const f=fixture();const old=f.run("JSON.stringify({version:'2.1.0',entries:[{...KB.entries[0],text:'Obsolete local assertion'}]})");f.values.set('bcn_kb_overlay',old);
+ assert.ok(!f.run("activeKB().entries[0].text").includes('Obsolete'));assert.equal(f.values.get('bcn_kb_overlay'),old);assert.match(f.run('migrationNotice'),/preserved/);
+});
+test('same-version but different-baseline overlays are quarantined',()=>{
+ const f=fixture();const raw=f.run("JSON.stringify({schema_version:2,base_version:KB.version,base_fingerprint:'old',entries:[{...KB.entries[0],text:'Wrong baseline'}]})");f.values.set('bcn_kb_overlay_v2',raw);assert.ok(!f.run('activeKB().entries[0].text').includes('Wrong baseline'));assert.equal(f.values.get('bcn_kb_overlay_v2'),raw);
+});
+test('malformed and cross-tab changes after preview are never overwritten',()=>{
+ for(const mutation of ['{broken','{"entries":[null]}','{"another":"tab"}']){
+  const f=fixture();f.element('kbFragment').value=f.run("JSON.stringify([{...KB.entries[0],text:'New reviewed text'}])");f.run('previewFragment()');f.values.set('bcn_kb_overlay_v2',mutation);f.run('mergeFragment()');assert.equal(f.values.get('bcn_kb_overlay_v2'),mutation);
+ }
+});
+test('explicit merge preserves legacy data and renders imported review claims as unendorsed',()=>{
+ const f=fixture();f.values.set('bcn_kb_overlay','{legacy damaged');f.element('kbFragment').value=f.run("JSON.stringify([{...KB.entries[0],text:'Local text',legal_review:'reviewed'}])");f.run('previewFragment();mergeFragment()');assert.equal(f.values.get('bcn_kb_overlay'),'{legacy damaged');
+ assert.equal(f.run('activeKB().entries[0].legal_review'),'pending');assert.equal(f.run('activeKB().entries[0].imported'),true);
+ const stored=JSON.parse(f.values.get('bcn_kb_overlay_v2'));assert.equal(stored.schema_version,2);assert.equal(stored.base_version,'2.2.0');
+});
+test('legacy bookmarks ask for new facts without modifying saved records',()=>{
+ const f=fixture();const raw=JSON.stringify([{id:'old',prepared_by:'Test',saved_at:'2026-09-16T12:00:00Z',kb_version:'2.1.0',inputs:{entityType:'insurer',entityClass:'classE',mode:'DISTIL',fye:'2025-12-31',task:'',focus:[]}}]);f.values.set('bcn_assessments',raw);f.run("reopenAssessment('old')");assert.match(f.element('appStatus').textContent,/Confirm the new applicability/);assert.equal(f.values.get('bcn_assessments'),raw);
+});
+test('all five tasks render with unknown facts for every supported insurer class',()=>{
+ const f=fixture();for(const cls of f.data('Object.keys(KB.insurerClasses)'))for(const task of ['newlicence','extension','controller','approvedperson','modification']){profile(f,cls,{},'EXECUTE',task);f.run('renderResults(true)');assert.ok(f.element('results').innerHTML.includes('Report scope'));}
+});
+test('new metadata rejects malformed structures and unsafe added source links',()=>{
+ const f=fixture();for(const mutation of ["e.rule={kind:'invented'}","e.reporting_period={from:'x',to:'y'}","e.sources=[{type:'legislation',name:'x',url:'javascript:alert(1)'}]","e.data.rows=[null]"]){assert.equal(f.run(`(()=>{const e=JSON.parse(JSON.stringify(KB.entries.find(e=>e.id==='conseq-dividends')));${mutation};return validateFragment(JSON.stringify([e])).ok})()`),false);}
+});
+test('board-approval assertions and stale correction text do not survive release',()=>{
+ const f=fixture();assert.ok(!f.run("KB.entries.find(e=>e.id==='task-modification').data.template").includes('has considered and approved'));
+ const texts=f.data('KB.entries.map(e=>e.text)').join(' ');assert.ok(!texts.includes('effective 31 August 2022'));assert.ok(!texts.includes('other than domestic-only'));assert.ok(!texts.includes('administration transferring'));
+});
+test('app/KB mismatch prevents report generation',()=>{
+ const f=fixture();profile(f);f.run("KB.version='2.1.0';renderResults(true)");assert.match(f.element('appStatus').textContent,/versions differ/);assert.equal(f.element('results').innerHTML,'');
 });

@@ -1,5 +1,8 @@
 # SOURCES.md — Research Log
 
+> **21 September 2026 update:** Sections 1–4 below are historical research records, not a statement that every entry remains current. The targeted 2.2.0 correction register and limits are in [VERIFICATION.md](VERIFICATION.md). The 2022 Code commenced on 1 September 2022; 31 August is its upload date. Source types now also include `official-guidance` for non-BMA government guidance/announcements. Consultation timings must be read by component, not collapsed into a single date.
+
+
 > Bermuda Regulatory Compliance Navigator — knowledge base research log.
 > Research conducted: **2 July 2026** (all "retrieved" dates below are 2 July 2026 unless stated).
 > Researcher: automated research pass (Claude) against official and secondary sources; **pending legal review** — see LEGAL_REVIEW flag in kb.js.
@@ -195,3 +198,27 @@ group-rule link is no longer presented as the applicable prudential instrument
 for every class. These are discovery links; users must locate the current
 sector/class-specific instrument before relying on it. Non-insurance coverage
 remains framework-level, with no newly asserted sector-specific filing dates.
+
+
+## 5. Targeted release verification — 21 September 2026
+
+The following public documents were retrieved again for the release. HTTP success and hashes establish retrieval identity, not legal approval or completeness. See VERIFICATION.md for the exact checked provisions, pending interpretations and implementation cases. Source PDFs and private review notes are excluded from publication.
+
+| Source | Retrieval | SHA-256 |
+|---|---|---|
+| [Insurance Act 1978 (consolidated to Insurance Amendment (No. 2) Act 2025, effective 7 Jan 2026)](https://www.bermudalaws.bm/Laws/Consolidated%20Law/1978/Insurance%20Act%201978) | 200 · 2026-09-21 | `223519ad4245098128def7248b3206376998ac9a3332e6deefb2a8ea45f34b8d` |
+| [Insurance Code of Conduct (revised August 2022)](https://www.bma.bm/viewPDF/documents/2022-08-31-12-35-41-Insurance-Code-of-Conduct--Revised-August-2022.pdf) | 200 · 2026-09-21 | `98cee18ac3f69c4f5059d49f9bd5d7737b227bde13a0e420c5e11b2e2b5ccdce` |
+| [Insurance (Prudential Standards) (Recovery Plan) Rules 2024 (BR 41/2024)](https://cdn.bma.bm/documents/2024-05-03-12-00-06-Insurance-Prudential-Standards-Recovery-Plan-Rules-2024.pdf) | 200 · 2026-09-21 | `37f2242a0e4892269beb27410cefa2342b399699b0a980db88041af430ab50cc` |
+| [Insurance Sector Operational Cyber Risk Management Code of Conduct (Oct 2020, effective 1 Jan 2021)](https://www.bma.bm/viewPDF/documents/2020-10-06-09-27-29-Insurance-Sector-Cyber-Risk-Management-Code-of-Conduct.pdf) | 200 · 2026-09-21 | `6970ee7b535ec98b2d02848ebcdd8303d0372843326dc32907dc8c6dafdf9da5` |
+| [Operational Resilience and Outsourcing Code (September 2025)](https://www.bma.bm/viewPDF/documents/2025-09-15-16-10-28-Operational-Resilience-and-Outsourcing---Code.pdf) | 200 · 2026-09-21 | `e845bf4577b27c7e9fbdbfecb0f8f2e1bd5ef1d403439a6ff4779244204303f4` |
+| [CITA — Economic Substance administration and filing transition](https://www.cita.bm/news/cita-new-changes-economic-substance-automatic-exchange-of-information) | 200 · 2026-09-21 | `d9a3ea5eb11067395c56c412c77f62638b977b7e5e919af152aec19780b2f04c` |
+| [Economic Substance Act 2018 — verify current requirements and applicability](https://www.bermudalaws.bm/Laws/Consolidated%20Law/2018/Economic%20Substance%20Act%202018) | 200 · 2026-09-21 | `e8af76f6105cc8e1a2aece9994a57f73767de766ff83024243a123dd62e76b01` |
+| [BMA Notice — Insurance Groups and Commercial Insurers: Quarterly Financial Return Templates (6 July 2026)](https://cdn.bma.bm/documents/2026-07-06-13-52-39-Notice---2026-June-Quarterly-Financial-Return-PC-and-LT.pdf) | 200 · 2026-09-21 | `6185d4bdc8fe84b89aedc1cc425f318f43e2dfc3820632727fd015c810a46507` |
+| [Insurance (Prudential Standards) (Class C, D and E Solvency Requirement) Amendment Rules 2025 (operative 1 Jan 2026)](https://www.bermudalaws.bm/Laws/Annual%20Law/Statutory%20Instruments/2025/Insurance%20%28Prudential%20Standards%29%20%28Class%20C%2C%20Class%20D%20and%20Class%20E%20Solevency%20Requirement%29%20Amendment%20Rules%202025) | 200 · 2026-09-21 | `702b737956f96e3774998225a25a6dc37e7053edd0bf1059cdbd20bec8356aa4` |
+| [BMA Fees Effective 1 January 2026 (Fourth Schedule, BMA Act 1969)](https://cdn.bma.bm/documents/2026-03-17-10-11-27-2026-Bermuda-Monetary-Authority-Fees.pdf) | 200 · 2026-09-21 | `19a753d3c6737935c1b19ada54077c805ff7f68614528627c8650558dd2ec731` |
+| [BMA Notice — New Policy Implementation: Police Clearance Certificate Requirement for Key Persons (13 August 2026)](https://cdn.bma.bm/documents/2026-08-13-14-53-34-Notice---New-Policy-Implementation---Police-Clearance-Certificate-Requirement-for-Key-Persons.pdf) | 200 · 2026-09-21 | `97d7dbb888bccedaf92d7d542bd01f392523320a3c8bbfd84d71485f75327720` |
+| [BMA Consultation Paper — Proposed Amendments to Insurance Code of Conduct, Insurance (Group Supervision) Rules 2011 and Insurance (Prudential Standards) (Insurance Group Solvency Requirement) Rules 2011 (9 June 2026)](https://cdn.bma.bm/documents/2026-06-11-08-45-03-Consultation-Paper---Proposed-Amendments-to-Code-of-Conduct-Group-Supervision-and-Prudential-Standards-Insurance-Group-Solvency-Requirement-Rules-2011.pdf) | 200 · 2026-09-21 | `1925beace27cadce8fc1dd35a8e29f5b7381b3c6ea17ecf1b66e8b9f4a7c7ff9` |
+| [BMA Consultation Paper — Proposed Phased Introduction of a Resolution Regime for the Bermuda Commercial Insurance Sector (15 September 2026)](https://cdn.bma.bm/documents/2026-09-15-17-06-59-Consultation-Paper---Proposed-Phased-Introduction-of-a-Resolution-Regime-for-the-Bermuda-Commercial-Insurance-Sector.pdf) | 200 · 2026-09-21 | `6743e0daca28d9d1ba94e29e5b43fe1300546e111c1231cec4b75e6023e0b3e8` |
+| [BMA Stakeholder Letter — Consultation on New Insurer Class: Parametric Special Purpose Insurer (16 September 2026)](https://cdn.bma.bm/documents/2026-09-16-10-54-30-Stakeholder-Letter---Consultation-Paper---New-Insurer-Class---Parametric-Special-Purpose-Insurance-16-September-2026.pdf) | 200 · 2026-09-21 | `028600ffdc5cdfeedf845584183ae3e77d1e573e39e27639c80c88d31c245440` |
+
+Economic-substance consolidation now retrieved includes the 2026 Agency amendments; detailed entity applicability/penalties are not comprehensively verified. A current consultation paper is not proof of final issuance. The original broad secondary-source/library coverage remains explicitly limited. No claim is made that all 161 entries have been independently verified.

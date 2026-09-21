@@ -11,7 +11,7 @@
 <meta property="og:title" content="Bermuda Compliance Navigator — Daniel Khisa">
 <meta property="og:description" content="A free, browser-based educational demonstration of structured regulatory guidance, source transparency and practical compliance workflows.">
 <meta property="og:site_name" content="Bermuda Compliance Navigator">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:url" content="https://dankhisa.github.io/bermuda-compliance-navigator/">
 <link rel="canonical" href="https://dankhisa.github.io/bermuda-compliance-navigator/">
 <!-- An optional social preview image can be added after an approved capture. -->
@@ -221,6 +221,8 @@
     .export-notes{display:block}.export-notes summary{font-weight:bold}
   }
 </style>
+<meta property="og:image" content="https://dankhisa.github.io/bermuda-compliance-navigator/assets/social-preview.png">
+<meta property="og:image:alt" content="Bermuda Compliance Navigator — frameworks, obligations and application preparation">
 </head>
 <body>
 <a class="skip-link" href="#mainContent">Skip to main content</a>
@@ -249,10 +251,10 @@
 
   <!-- ================= LANDING ================= -->
   <section id="landing">
-    <div class="hero">
+    <div class="hero"><p class="no-print"><button class="btn btn-ghost btn-sm" onclick="sampleReport()">View a sample insurer report</button></p>
       <div class="kicker">Bermuda · Financial Services · Regulatory Guidance</div>
-      <h1>Navigate Bermuda's regulatory framework with structure and confidence</h1>
-      <p>Answer a short guided questionnaire about your entity and objective, and receive a structured summary of the applicable framework, filing obligations, governance expectations, non-compliance consequences, required documents, and next steps — with verification labels and review dates. This is an educational demonstration, not an operational compliance system.</p>
+      <h1>Explore Bermuda’s regulatory requirements</h1>
+      <p>Explore frameworks, filing guidance and application drafts with dated sources and visible conditions. Built for learning and research; verify requirements before acting.</p>
       <button class="btn btn-gold" onclick="startWizard()">Start Guided Assessment →</button>
     </div>
     <div class="features">
@@ -284,7 +286,7 @@
       <!-- Step 1 -->
       <div id="step1">
         <h2 class="qtitle">Tell us about the entity</h2>
-        <p class="qsub">Select the entity type and, where relevant, its class or licence category. Requirements differ materially between classes — the tool will not conflate them.</p>
+        <p class="qsub">Select the entity type and, where relevant, its class or licence category. Requirements differ by class and entity facts. Confirm the conditions shown in the report; this educational tool does not cover every exemption or licence profile.</p>
         <label class="fld" for="entityType">Entity type</label>
         <select id="entityType" onchange="onEntityType()">
           <option value="">— Select entity type —</option>
@@ -302,7 +304,7 @@
           <label class="fld" for="entityClass">Class of insurer / licence category</label>
           <select id="entityClass"></select>
         </div>
-        <label class="fld" for="fye">Financial year end <span style="color:var(--muted);font-weight:400">(optional — used to compute concrete due dates)</span></label>
+        <label class="fld" for="fye">Financial year end <span style="color:var(--muted);font-weight:400">(optional — estimates supported for 2025–2026 year ends)</span></label>
         <input type="date" id="fye">
         <div class="wnav"><button class="btn btn-ghost btn-sm" onclick="goHome()">← Cancel</button><button class="btn btn-primary" onclick="toStep(2)">Continue →</button></div>
       </div>
@@ -333,6 +335,7 @@
       <!-- Step 3 -->
       <div id="step3" class="hidden">
         <h2 class="qtitle">Select focus areas <span style="font-size:14px;color:var(--muted);font-weight:400">(optional)</span></h2>
+        <div class="card"><h3>Conditions that change the guidance</h3><p>Choose “Not sure” where facts are unknown. Do not enter company or personal documents.</p><div id="factsForm"></div></div>
         <p class="qsub" id="focusNote">The results will include available targeted analysis for each selected area.</p>
         <fieldset class="checks" id="focusChecks"><legend class="sr-only">Focus areas</legend></fieldset>
         <div class="wnav"><button class="btn btn-ghost btn-sm" onclick="toStep(2)">← Back</button><button class="btn btn-gold" onclick="renderResults()">Generate Guidance →</button></div>
@@ -384,16 +387,18 @@
   </div>
 </footer>
 
-<script src="kb.js?v=2.1.0"></script>
+<script src="kb.js?v=2.2.0"></script>
 <script>
 /* =========================================================================
    APP — presentation layer. All regulatory content lives in kb.js (KB).
    ========================================================================= */
-const OVERLAY_KEY = "bcn_kb_overlay";
+const LEGACY_OVERLAY_KEY = "bcn_kb_overlay";
+const OVERLAY_KEY = "bcn_kb_overlay_v2";
+let migrationNotice = "";
 const ASSESS_KEY = "bcn_assessments";
 
 
-const state = {entityType:"", entityClass:"", fye:"", mode:"", task:"", focus:[]};
+const state = {entityType:"", entityClass:"", fye:"", mode:"", task:"", focus:[], facts:{}};
 let usedEntryIds = [];      // Entries actually displayed in the last report
 let legalPendingSeen = false;
 let reopenNotice = "";      // set when re-opening a saved assessment
@@ -415,11 +420,18 @@ function removeStored(key){
   catch(e){announce("Browser storage could not be changed. Use browser site-data controls if needed.");return false;}
 }
 function getOverlay(){
+  migrationNotice='';
   const obj=readStored(OVERLAY_KEY);
-  if(obj===null)return null;
+  if(obj===null){
+    try{if(localStorage.getItem(LEGACY_OVERLAY_KEY)!==null)migrationNotice='A legacy local update is preserved but inactive. Corrected shipped content is in use. Open Knowledge Base to export it or compare and reapply selected changes.';}catch(e){}
+    return null;
+  }
   const checked=validateFragment(JSON.stringify(obj),true);
-  if(!checked.ok){storageMessage="A saved knowledge-base overlay failed validation and was ignored. The shipped knowledge base is in use; the stored overlay has not been deleted.";return null;}
-  return {entries:checked.entries,version:checked.meta.version||KB.version+"+local",modified_at:validDate(obj.modified_at)?obj.modified_at:undefined,merges:Number.isSafeInteger(obj.merges)&&obj.merges>=0?obj.merges:0};
+  if(!checked.ok){storageMessage='Stored update is invalid and preserved without alteration. Shipped content is in use; export the original for recovery.';return null;}
+  if(obj.schema_version!==2||obj.base_version!==KB.version||obj.base_fingerprint!==kbFingerprint(KB)){
+    migrationNotice='A local update from another baseline is preserved but inactive. Review its field-level differences before reapplying; shipped corrections take priority.';return null;
+  }
+  return {...obj,entries:checked.entries.map(e=>({...e,legal_review:'pending',imported:true}))};
 }
 function activeKB(){
   const overlay=getOverlay();
@@ -457,6 +469,9 @@ function sourceLink(entry){
 /* Only established month-based dates with no unresolved condition are computed.
    Import metadata can explicitly withhold dates; it cannot override verification. */
 function deadlineFor(entry,inputs=state){
+  if(!validDate(inputs.fye||''))return {date:null,reason:"Enter a valid financial year end."};
+  if(entry.imported)return {date:null,reason:"Dates from user-supplied overrides are not exported as verified deadlines."};
+  if(!entry.reporting_period||inputs.fye<entry.reporting_period.from||inputs.fye>entry.reporting_period.to)return {date:null,reason:"No estimate: this reporting period has not been verified for this rule (supported estimates: 2025–2026 only)."};
   if(!inputs.fye)return {date:null,reason:"Enter a financial year end to compute a date."};
   if(entry.data.date_note)return {date:null,reason:entry.data.date_note};
   if(!entry.data.months)return {date:null,reason:"No supported year-end calculation: fixed-date, event-driven or unresolved deadline."};
@@ -485,7 +500,7 @@ function validateFragment(raw,allowEmpty=false){
   if(!plainTree(obj))errors.push("Unsupported object keys or nesting depth.");
   if(meta.version!==undefined&&!str(meta.version,80))errors.push("version must be a non-empty string of at most 80 characters.");
   for(const key of ['as_at','modified_at'])if(meta[key]!==undefined&&!validDate(meta[key]))errors.push(key+" must be a real YYYY-MM-DD date.");
-  const scopes=new Set(['*',...Object.keys(KB.insurerClasses),...KB.scopeGroups.nonInsurers]);
+  const scopes=new Set(['*',...Object.keys(KB.insurerClasses),...Object.keys(KB.dabaClasses),...KB.scopeGroups.nonInsurers]);
   entries.forEach((e,i)=>{
     const prefix='Entry '+(i+1)+': ',bad=message=>errors.push(prefix+message);
     if(!record(e)){bad("must be an object.");return;}
@@ -504,6 +519,12 @@ function validateFragment(raw,allowEmpty=false){
       if(e.source.url!==undefined&&e.source.url!==null&&!safeSourceUrl(e.source.url))bad("source.url must be an HTTPS URL without credentials, or null.");
       if(e.source.published!==undefined&&e.source.published!==null&&!validDate(e.source.published))bad("invalid source publication date.");
     }
+    if(e.rule!==undefined&&(!record(e.rule)||!['opres','als','recovery','pcc','conduct'].includes(e.rule.kind)))bad('invalid applicability rule.');
+    if(e.reporting_period!==undefined&&(!record(e.reporting_period)||!validDate(e.reporting_period.from)||!validDate(e.reporting_period.to)||e.reporting_period.from>e.reporting_period.to))bad('invalid reporting period.');
+    for(const k of ['effective_from','compliance_by'])if(e[k]!==undefined&&!validDate(e[k]))bad('invalid '+k);
+    if(e.sources!==undefined&&(!Array.isArray(e.sources)||e.sources.some(x=>!record(x)||!str(x.name,1000)||!S.sourceTypes.includes(x.type)||!safeSourceUrl(x.url))))bad('invalid additional sources.');
+    if(e.fee_year!==undefined&&(!Number.isInteger(e.fee_year)||e.fee_year<2020||e.fee_year>2100))bad('invalid fee year.');
+    if(Array.isArray(e.data?.rows)&&e.data.rows.some(r=>r?.scope!==undefined&&(!Array.isArray(r.scope)||r.scope.some(x=>!Object.hasOwn(KB.insurerClasses,x)))))bad('invalid row scope.');
     const d=e.data;
     if(!record(d)){bad("data must be an object with the fields required for its topic.");return;}
     const need=(key,max)=>{if(!str(d[key],max))bad('data.'+key+' must be a non-empty string.');};
@@ -540,17 +561,132 @@ function validateFragment(raw,allowEmpty=false){
 
 function scopeTokens(){
   if(state.entityType==="insurer") return [state.entityClass];
-  return [state.entityType];
+  return state.entityType==="daba"?[state.entityType,state.entityClass]:[state.entityType];
 }
 function scoped(topic){
   const toks = scopeTokens();
   return activeKB().entries.filter(e => e.topic===topic &&
-    (e.entity_scope.includes("*") || e.entity_scope.some(s=>toks.includes(s))));
+    (e.entity_scope.includes("*") || e.entity_scope.some(s=>toks.includes(s))) && eligible(e)).map(presentationEntry);
 }
 function use(e){
   if(!usedEntryIds.includes(e.id)) usedEntryIds.push(e.id);
   if(e.legal_review==="pending") legalPendingSeen = true;
   return e;
+}
+
+/* Small, deterministic applicability layer. Unknown facts remain conditional. */
+const FACT_OPTIONS={
+ investmentLicence:[['unknown','Not sure'],['standard','Standard licence'],['other','Other / sandbox / test']],
+ domestic:[['unknown','Not sure / mixed business'],['yes','Carries on domestic business'],['no','No domestic business']],
+ recovery:[['unknown','Not sure'],['yes','BMA written recovery-plan requirement received'],['no','No written requirement received']],
+ amlRfi:[['unknown','Not sure'],['yes','AML/ATF regulated financial institution'],['no','Not an AML/ATF regulated financial institution']],
+ keyVetting:[['unknown','Not sure'],['yes','Application involves BMA Key Person vetting'],['no','No Key Person vetting involved']],
+ completeBefore:[['unknown','Not sure'],['yes','Complete application received before 1 October 2026'],['no','Not received in full before 1 October 2026']],
+ shares:[['unknown','Not sure'],['private','Relevant shares are privately held'],['public','Relevant shares are publicly traded']],
+ filingType:[['unknown','Not sure'],['statutory','Statutory statements / return — s.17(4)'],['bscr','BSCR only — s.6C'],['other','CISSA / GAAP / FCR — s.6C'],['combined','More than one filing']]
+};
+const FACT_LABELS={investmentLicence:'Investment business licence',domestic:'Domestic insurance business',recovery:'Recovery planning designation',amlRfi:'AML/ATF status',keyVetting:'Key Person vetting',completeBefore:'PCC transitional condition',shares:'Insurer or relevant parent share status',filingType:'Filing being extended'};
+function fact(key,inputs=state){return inputs.facts?.[key]||'unknown';}
+function appDate(inputs=state){return inputs.facts?.applicationDate||new Date().toISOString().slice(0,10);}
+function relevantFacts(){
+ if(state.entityType==='investment')return ['investmentLicence'];
+ if(state.entityType!=='insurer')return [];
+ const keys=['domestic','recovery'];
+ if(state.mode==='EXECUTE'){
+  if(state.task==='extension')keys.push('filingType');
+  if(['newlicence','controller','approvedperson'].includes(state.task))keys.push('amlRfi','keyVetting','completeBefore');
+  if(state.task==='controller')keys.push('shares');
+ }else keys.push('amlRfi','keyVetting','completeBefore');
+ return keys;
+}
+function renderFacts(){
+ const root=document.getElementById('factsForm');if(!root)return;
+ root.innerHTML=relevantFacts().map(k=>`<label class="fld" for="fact-${k}">${esc(FACT_LABELS[k])}</label><select id="fact-${k}">${FACT_OPTIONS[k].map(([v,t])=>`<option value="${v}"${fact(k)===v?' selected':''}>${esc(t)}</option>`).join('')}</select>`).join('')+
+ (state.mode==='EXECUTE'?`<label class="fld" for="fact-applicationDate">Planned submission date (optional; defaults to today)</label><input type="date" id="fact-applicationDate" value="${esc(state.facts?.applicationDate||'')}">`:'');
+}
+function readFacts(){
+ state.facts=state.facts||{};
+ relevantFacts().forEach(k=>{const el=document.getElementById('fact-'+k);if(el&&FACT_OPTIONS[k].some(([v])=>v===el.value))state.facts[k]=el.value;});
+ const date=document.getElementById('fact-applicationDate');if(date&&date.value)state.facts.applicationDate=date.value;
+ else if(date)delete state.facts.applicationDate;
+}
+function eligible(e,inputs=state){
+ const kind=e.rule?.kind;
+ if(kind==='opres'){
+  if(inputs.entityType==='daba')return inputs.entityClass==='classF';
+  if(inputs.entityType==='investment')return fact('investmentLicence',inputs)!=='other';
+ }
+ if(kind==='als'&&fact('domestic',inputs)==='yes')return false;
+ if(kind==='recovery'&&fact('recovery',inputs)==='no')return false;
+ if(kind==='pcc'&&(fact('amlRfi',inputs)==='no'||fact('keyVetting',inputs)==='no'))return false;
+ return true;
+}
+function pccStatus(inputs=state){
+ if(fact('amlRfi',inputs)==='no'||fact('keyVetting',inputs)==='no')return 'The selected facts do not activate this PCC notice. Verify the classification; other fit-and-proper requirements remain separate.';
+ if(fact('completeBefore',inputs)==='yes')return 'Transitional exception: applications received in full before 1 October 2026 are not subject to this notice. Confirm the actual receipt/completeness facts.';
+ if(appDate(inputs)<'2026-10-01')return 'Upcoming requirement from 1 October 2026. Only applications actually received in full before that date fall within the exception; a planned early submission alone is not enough.';
+ if(fact('amlRfi',inputs)==='yes'&&fact('keyVetting',inputs)==='yes'&&fact('completeBefore',inputs)==='no')return 'Applicable on the selected facts: include Police Clearance Certificate documentation under the BMA notice from 1 October 2026. Confirm certificate age, residence-country coverage and any approved substitute.';
+ return 'Conditional: confirm AML/ATF-RFI status, Key Person vetting and whether the application was received in full before 1 October 2026 before treating the PCC requirement as applicable.';
+}
+function extensionFee(inputs=state){
+ if(appDate(inputs).slice(0,4)!=='2026')return {t:'No fee determined: this release supports the 2026 fee schedule only. Confirm the schedule for the submission year.',ver:'unverified'};
+ const type=fact('filingType',inputs),cls=inputs.entityClass;
+ if(type==='statutory'){
+  const amount=['class3b','class4','classE'].includes(cls)?2500:['class3a','classC','classD','iigb'].includes(cls)?1500:750;
+  return {t:'2026 item 2(c), section 17(4): $'+amount.toLocaleString('en-US')+' per month of extension. Confirm the number of months and current prescribed request.',ver:'established'};
+ }
+ if(['bscr','other'].includes(type)&&KB.scopeGroups.commercial.includes(cls))return {t:'2026 item '+(type==='bscr'?'2(x), BSCR':'2(z), CISSA / GAAP / FCR')+': $1,500 per month under section 6C. The fee schedule does not establish the permitted extension period.',ver:'established'};
+ if(type==='combined')return {t:'Combined filing request: the schedule provides for one application fee in the specified circumstances. Confirm the applicable item and amount with the BMA; no sum or highest-fee assumption is made here.',ver:'verify'};
+ return {t:'No fee determined for this filing/class combination. Select a supported filing type or confirm the applicable 2026 fee item directly.',ver:'unverified'};
+}
+function controllerContext(inputs=state){
+ const share=fact('shares',inputs),annual=[...KB.scopeGroups.limited,'spi'].includes(inputs.entityClass);
+ const disposal=[...KB.scopeGroups.commercial,'iigb','collateralized'].includes(inputs.entityClass);
+ const acquisition=share==='private'?'Private-company acquisition: prior notice under section 30D; do not complete until the statutory no-objection conditions are satisfied.':share==='public'?'Public-company acquisition: section 30E notice within 45 days after becoming the relevant shareholder controller.':'Share status unknown: do not select a prior/subsequent route until the insurer/parent share status is confirmed.';
+ const disposalText=disposal?(share==='private'?'Section 30EA disposal: prior written notice at the specified threshold crossings.':share==='public'?'Section 30EA disposal: written notice within 45 days after the specified threshold crossing.':'Section 30EA disposal timing depends on public/private status.'):'This class is not in the section 30EA disposal list; that does not exclude other notification duties.';
+ return acquisition+' '+disposalText+' '+(annual?'Insurer reporting: check the section 30J(4) annual lists and insurance-manager qualification.':'Insurer reporting: section 30J generally requires notice within 45 days of awareness, separately from the shareholder duty.');
+}
+function presentationEntry(entry){
+ const e=JSON.parse(JSON.stringify(entry)),kind=e.rule?.kind;
+ if(kind==='opres'&&state.entityType==='investment'&&fact('investmentLicence')==='unknown'){e.text='CONDITIONAL — confirm a standard investment licence. '+e.text;e.verification='verify';}
+ if(kind==='opres'&&state.entityType==='bank')e.compliance_by='2027-01-01';
+ if(kind==='recovery'&&fact('recovery')==='unknown'){e.text='CONDITIONAL — BMA written requirement not confirmed. '+e.text;e.verification='verify';}
+ if(kind==='als'){e.text='CONDITIONAL — verify the statutory domestic-business exclusion and reporting period. '+e.text;e.verification='verify';}
+ if(kind==='pcc'){e.text=pccStatus()+' '+e.text;e.verification='verify';}
+ if(e.id==='task-extension'){
+  e.data.fee=extensionFee();
+  e.data.template+='\n\n[Filing selection: '+(FACT_OPTIONS.filingType.find(([v])=>v===fact('filingType'))?.[1]||'not confirmed')+'. Fee reference: '+e.data.fee.t+']';
+ }
+ if(['task-controller','conseq-controller'].includes(e.id))e.text+=' '+controllerContext();
+ if(e.data.rows)e.data.rows=e.data.rows.filter(r=>!r.scope||r.scope.includes(state.entityClass));
+ if(e.fee_year&&appDate().slice(0,4)!==String(e.fee_year)){
+  e.text='FEE YEAR NOT SUPPORTED — fee references below use the '+e.fee_year+' schedule, not a current quote. Statutory penalties have a separate legislative basis and also require confirmation. '+e.text;e.verification='verify';
+  if(e.data.fee)e.data.fee={t:'Current fee not established for this submission year. Verify the applicable schedule.',ver:'unverified'};
+ }
+ return e;
+}
+function contextCard(){
+ const unknown=relevantFacts().filter(k=>fact(k)==='unknown').map(k=>FACT_LABELS[k]);
+ return `<div class="card"><h3>Report scope &amp; assumptions</h3><p>${state.entityType==='insurer'?'Selected single insurer class; entity exemptions and directions must be checked. IILT, other innovative classes, groups and dual registrations are unsupported profiles.':'Framework-level sector coverage. Insurer application workflows and sector-specific fees are unavailable.'}</p><p>${unknown.length?'Unconfirmed: '+esc(unknown.join(', '))+'. Conditional entries are not confirmed obligations.':'Selected conditions are self-reported; verify them before acting.'}</p><p>Year-end estimates are limited to supported 2025–2026 reporting periods. Fee references support 2026 only. Event-driven and unresolved deadlines are omitted from calendar exports. Consultations are proposals.</p><p><a href="VERIFICATION.md" target="_blank" rel="noopener">Verification record and coverage limits</a></p></div>`;
+}
+function taskPccCard(){
+ if(state.mode!=='EXECUTE'||!['newlicence','controller','approvedperson'].includes(state.task)||state.entityType!=='insurer')return '';
+ const e=activeKB().entries.find(e=>e.id==='gov-key-person-pcc');if(!e)return '';
+ use(e);return `<div class="card"><h3>Key Person documentation</h3><p><b>${esc(pccStatus())}</b></p><p>${esc(e.text)}</p>${sourceLink(e)}</div>`;
+}
+function storageSnapshot(){
+ try{return JSON.stringify([localStorage.getItem(OVERLAY_KEY),localStorage.getItem(LEGACY_OVERLAY_KEY)]);}
+ catch(e){return null;}
+}
+function loadPreservedOverlay(){
+ try{
+  const raw=localStorage.getItem(OVERLAY_KEY)||localStorage.getItem(LEGACY_OVERLAY_KEY);
+  if(raw===null){announce('No preserved overlay found.');return;}
+  document.getElementById('kbFragment').value=raw;invalidatePreview();announce('Preserved content loaded for field-level comparison. It remains inactive until you preview and explicitly merge it.');
+ }catch(e){announce('Browser storage cannot be read.');}
+}
+function sampleReport(){
+ Object.assign(state,{entityType:'insurer',entityClass:'classE',fye:'2025-12-31',mode:'DISTIL',task:'',focus:['outsourcing','capital'],facts:{domestic:'unknown',recovery:'unknown'}});renderResults(true);
 }
 
 /* ---------- navigation ---------- */
@@ -565,7 +701,7 @@ function openDialog(id){ const el=document.getElementById(id);el.classList.remov
 function closeDialog(id){ document.getElementById(id).close(); }
 function goHome(){ showOnly("landing"); }
 function startWizard(){
-  Object.assign(state,{entityType:"",entityClass:"",fye:"",mode:"",task:"",focus:[]});
+  Object.assign(state,{entityType:"",entityClass:"",fye:"",mode:"",task:"",focus:[],facts:{}});
   document.getElementById("entityType").value="";
   document.getElementById("fye").value="";
   document.getElementById("preparedBy").value="";
@@ -581,7 +717,7 @@ function syncForm(){
   document.getElementById("fye").value=state.fye;
   document.querySelectorAll('input[name="mode"]').forEach(r=>r.checked=r.value===state.mode);
   document.querySelectorAll(".choice").forEach(c=>c.classList.toggle("sel",c.dataset.mode===state.mode));
-  updateTasks(); buildFocus();
+  updateTasks(); buildFocus();renderFacts();
 }
 function editAssessment(){syncForm();showOnly("wizard");toStep(1);}
 function buildFocus(){
@@ -604,7 +740,7 @@ function updateTasks(){
   document.getElementById("taskWrap").classList.toggle("hidden",state.mode!=="EXECUTE"||!tasks.length);
   const note=document.getElementById("scopeNote");
   note.classList.toggle("hidden",state.entityType==="insurer");
-  note.textContent="Coverage for this sector is framework-level only. Licence classes do not change this limited coverage. Application templates and sector-specific fees are not available; an application report will show the coverage limitation.";
+  note.textContent="Coverage for this sector is framework-level only. Operational Resilience applicability distinguishes DABA licences; other sector obligations remain framework-level. Application templates and sector-specific fees are not available; an application report will show the coverage limitation.";
 }
 function show(id){document.getElementById(id).classList.remove("hidden");}
 function hide(id){document.getElementById(id).classList.add("hidden");}
@@ -621,6 +757,7 @@ function onEntityType(){
 }
 
 function toStep(n){
+  readFacts();
   state.entityType=document.getElementById("entityType").value;
   state.entityClass=document.getElementById("entityClass").value;
   state.fye=document.getElementById("fye").value;
@@ -635,7 +772,7 @@ function toStep(n){
     s.classList.toggle("active",i===n);
     s.classList.toggle("done",i<n);
   }
-  if(n===3) buildFocus();
+  if(n===3){state.task=document.getElementById("taskType").value;buildFocus();renderFacts();}
   document.getElementById("focusNote").textContent="The report includes available analysis for your selections. Gaps in this knowledge base will be identified.";
   [1,2,3,4].forEach(i=>{const el=document.getElementById("st"+i);if(i===n)el.setAttribute("aria-current","step");else el.removeAttribute("aria-current");});
   if(n<=3)focusHeading(document.getElementById("step"+n));
@@ -664,7 +801,10 @@ function revMeta(e){
   const today=new Date().toISOString().slice(0,10);
   let h=`<span class="revmeta">Reviewed ${fmtD(e.last_reviewed)}</span>`;
   if(e.review_due && e.review_due < today) h+=` <span class="badge b-ver">Review overdue</span>`;
-  return h+sourceLink(e);
+  if(e.imported)h+=' <span class="badge b-ver">User-supplied local content</span>';
+  if(e.compliance_by)h+=' <span class="revmeta">Compliance by '+fmtD(e.compliance_by)+'</span>';
+  if(e.effective_from)h+=' <span class="revmeta">Effective '+fmtD(e.effective_from)+'</span>';
+  return h+sourceLink(e)+(e.sources||[]).map(source=>sourceLink({source})).join('');
 }
 const SRC_LABELS={"expert-opinion":"Expert opinion — not a BMA source","practitioner-best-practice":"Practitioner view — not a BMA source","news":"News — not a BMA source"};
 function srcPill(e){
@@ -708,9 +848,11 @@ function currentSummary(){
 function renderResults(fromSaved){
   storageMessage="";
   if(!fromSaved){
+    readFacts();
     state.focus=[...document.querySelectorAll("#focusChecks input:checked")].map(i=>i.value);
     state.task=document.getElementById("taskType").value;
   }
+  if(KB.version!=="2.2.0"||KB.app_version!=="2.2.0"){announce("Application and knowledge-base versions differ. Reload both assets before generating a report.");return;}
   if(!validInputs(state)){announce("Assessment inputs are invalid. Start a new assessment.");return;}
   usedEntryIds=[]; legalPendingSeen=false;
   const akb=activeKB();
@@ -738,6 +880,9 @@ function renderResults(fromSaved){
       </div>
     </div>
     ${reopenNotice}
+    ${migrationNotice?`<div class="callout c-warn">${esc(migrationNotice)}</div>`:""}
+    ${contextCard()}
+    ${taskPccCard()}
     <div id="legalReviewNotice"></div>
     <div class="card"><h3>${num()}Entity Class Summary</h3><p style="font-size:14.5px">${currentSummary()||"—"}</p></div>`;
 
@@ -831,9 +976,9 @@ function renderResults(fromSaved){
   const r=document.getElementById("results");
   r.innerHTML=html;
   enhanceTables(r);
-  if(legalPendingSeen){
+  if(true){
     document.getElementById("legalReviewNotice").innerHTML =
-      `<div class="callout c-warn" style="margin-top:10px"><span class="ci">⚠</span><span><b>Illustrative content — pending legal review; not for operational reliance.</b> One or more items in this report have not yet been signed off by Bermuda counsel.</span></div>`;
+      `<div class="callout c-warn" style="margin-top:10px"><span class="ci">⚠</span><span><b>Illustrative content — pending legal review; not for operational reliance.</b> No external legal sign-off is claimed. Local imported review labels are user-supplied and do not constitute endorsement.</span></div>`;
   }
   reportContext={inputs:JSON.parse(JSON.stringify(state)),kb:JSON.parse(JSON.stringify(akb)),filings:JSON.parse(JSON.stringify(filings)),entryIds:[...usedEntryIds]};
   reopenNotice="";
@@ -968,6 +1113,13 @@ function validInputs(inputs){
   if(!types.includes(inputs.entityType)||!['MAP','DISTIL','EXECUTE'].includes(inputs.mode))return false;
   if(inputs.entityType==='insurer'&&!Object.hasOwn(KB.insurerClasses,inputs.entityClass))return false;
   if(inputs.entityType==='daba'&&!Object.hasOwn(KB.dabaClasses,inputs.entityClass))return false;
+  if(inputs.facts!==undefined){
+    if(!inputs.facts||typeof inputs.facts!=='object'||Array.isArray(inputs.facts))return false;
+    for(const [key,value] of Object.entries(inputs.facts)){
+      if(key==='applicationDate'){if(value&&!validDate(value))return false;}
+      else if(!Object.hasOwn(FACT_OPTIONS,key)||!FACT_OPTIONS[key].some(([v])=>v===value))return false;
+    }
+  }
   return typeof inputs.entityClass==='string'&&(inputs.fye===''||validDate(inputs.fye))&&typeof inputs.task==='string'&&inputs.task.length<=100&&Array.isArray(inputs.focus)&&inputs.focus.every(key=>KB.focusAreas.some(a=>a[0]===key));
 }
 function getAssessments(){
@@ -1014,9 +1166,12 @@ function exportAssessments(){
 }
 function reopenAssessment(id){
   const record=getAssessments().find(r=>r.id===id);if(!record)return;
-  Object.assign(state,JSON.parse(JSON.stringify(record.inputs)));syncForm();
+  Object.assign(state,JSON.parse(JSON.stringify(record.inputs)),{facts:record.inputs.facts||{}});syncForm();
   const kb=activeKB(),changed=record.kb_version!==kb.version||record.kb_fingerprint!==kbFingerprint(kb);
   reopenNotice=`<div class="callout c-info"><span><b>Re-opened input bookmark</b>, saved ${esc(new Date(record.saved_at).toLocaleString('en-GB'))} by ${esc(record.prepared_by)} against KB ${esc(record.kb_version)}. This report is regenerated from current content.${changed?' <b>Content has changed, or the legacy record has no change fingerprint; results may differ.</b>':''}</span></div>`;
+  if(!record.inputs.facts){
+    showOnly('wizard');toStep(3);announce('Legacy bookmark preserved. Confirm the new applicability questions; unknown answers remain conditional.');return;
+  }
   renderResults(true);
 }
 
@@ -1039,10 +1194,11 @@ function showKbAdmin(){
     <label for="kbFile" class="fld">Or choose a JSON file</label><input type="file" id="kbFile" accept=".json,application/json">
     <div class="actions"><button class="btn btn-primary btn-sm" onclick="previewFragment()">Validate &amp; preview diff</button><button class="btn btn-gold btn-sm hidden" id="mergeBtn" onclick="mergeFragment()">Merge reviewed update</button><button class="btn btn-ghost btn-sm" onclick="exportExample()">Export example</button></div>
     <div id="kbDiff" role="status" aria-live="polite"></div></div>
+    <div class="card"><h3>Preserved updates &amp; recovery</h3><p>Updates from an older shipped baseline remain stored but inactive. Export the exact stored data before editing. Loading it below does not activate it: inspect every changed field and remove unwanted entries before merging.</p><div class="actions"><button class="btn btn-ghost btn-sm" onclick="recoverOverlay()">Export preserved raw data</button><button class="btn btn-ghost btn-sm" onclick="loadPreservedOverlay()">Load preserved update for comparison</button></div></div>
     <div class="actions no-print" style="margin-top:20px">${kb.overlay?'<button class="btn btn-ghost btn-sm" onclick="exportOverlay()">Export overlay (JSON)</button><button class="btn btn-ghost btn-sm" onclick="clearOverlay()">Remove overlay</button>':''}${storageMessage?'<button class="btn btn-ghost btn-sm" onclick="recoverOverlay()">Export stored overlay for recovery</button><button class="btn btn-ghost btn-sm" onclick="clearOverlay()">Remove stored overlay</button>':''}<button class="btn btn-primary btn-sm" onclick="startWizard()">New Assessment</button></div>`;
   document.getElementById('kbFragment').addEventListener('input',invalidatePreview);
   document.getElementById('kbFile').addEventListener('change',event=>loadKbFile(event.target));
-  showOnly('kbadmin');announce(storageMessage);
+  showOnly('kbadmin');announce(storageMessage||migrationNotice);
 }
 function exportExample(){downloadText(JSON.stringify({version:KB.version+'+example',entries:[KB.entries.find(e=>e.id==='filing-sfs-sfr-4m')||KB.entries.find(e=>e.topic==='filing')]},null,2),'application/json','kb-example.json');}
 function loadKbFile(input){
@@ -1067,18 +1223,21 @@ function previewFragment(){
     return `<li><b>${esc(entry.id)} — ${before?'changed':'new'}</b><details><summary>Inspect ${keys.length} changed field(s)</summary>${keys.map(key=>`<p><b>${esc(key)}</b></p><pre class="diff-value">Before: ${esc(JSON.stringify(before?.[key],null,2)||'(absent)')}\nAfter: ${esc(JSON.stringify(entry[key],null,2)||'(absent)')}</pre>`).join('')}</details></li>`;
   });
   out.innerHTML=`<div class="difflist"><b>Validation passed: ${changes} changed/new entries.</b><ul>${diff.join('')}</ul></div>`;
-  pendingFragment={raw,checked,baseline:kbFingerprint(kb)};
+  pendingFragment={raw,checked,baseline:kbFingerprint(kb),rawBaseline:storageSnapshot()};
   document.getElementById('mergeBtn').classList.toggle('hidden',!changes);
 }
 function mergeFragment(){
   const raw=document.getElementById('kbFragment').value;
   if(!pendingFragment||pendingFragment.raw!==raw){invalidatePreview();announce('Preview the current JSON before merging.');return;}
-  const checked=validateFragment(raw),kb=activeKB();
+  const snapshot=storageSnapshot();
+  if(snapshot===null||snapshot!==pendingFragment.rawBaseline){invalidatePreview();announce('Stored data changed or became unreadable after preview. Nothing was overwritten; recover or preview again.');return;}
+  storageMessage='';const checked=validateFragment(raw),kb=activeKB();
+  if(storageMessage){announce(storageMessage);return;}
   if(!checked.ok||pendingFragment.baseline!==kbFingerprint(kb)){invalidatePreview();announce('Content changed since preview. Validate and review again.');return;}
   const overlay=kb.overlay||{entries:[],merges:0},entries=new Map(overlay.entries.map(e=>[e.id,e]));
   checked.entries.forEach(e=>entries.set(e.id,e));
   if(entries.size>500){announce('The combined overlay cannot exceed 500 entries. Export and consolidate it first.');return;}
-  const next={entries:[...entries.values()],merges:overlay.merges+1,version:checked.meta.version||KB.version+'+local.'+(overlay.merges+1),modified_at:new Date().toISOString().slice(0,10)};
+  const next={schema_version:2,base_version:KB.version,base_fingerprint:kbFingerprint(KB),entries:[...entries.values()],merges:overlay.merges+1,version:checked.meta.version||KB.version+'+local.'+(overlay.merges+1),modified_at:new Date().toISOString().slice(0,10)};
   if(JSON.stringify(next).length>1000000){announce('The combined overlay exceeds 1 MB. No changes saved.');return;}
   if(!writeStored(OVERLAY_KEY,next))return;
   showKbAdmin();announce('Reviewed update saved locally. Original research date unchanged.');
@@ -1092,7 +1251,7 @@ function clearOverlay(){
   if(removeStored(OVERLAY_KEY))showKbAdmin();
 }
 function recoverOverlay(){
-  try{const raw=localStorage.getItem(OVERLAY_KEY);if(raw===null){announce('No stored overlay to recover.');return;}downloadText(raw,'text/plain','kb-overlay-recovery.txt');}
+  try{const raw=JSON.stringify({current:localStorage.getItem(OVERLAY_KEY),legacy:localStorage.getItem(LEGACY_OVERLAY_KEY)},null,2);if(raw===null){announce('No stored overlay to recover.');return;}downloadText(raw,'text/plain','kb-overlay-recovery.txt');}
   catch(e){announce('Storage cannot be read. Use browser site-data recovery tools.');}
 }
 

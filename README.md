@@ -1,116 +1,50 @@
 # Bermuda Compliance Navigator
 
-An educational portfolio project by **Daniel Khisa**, demonstrating how
-structured regulatory information can support clear, source-aware workflows.
-Built with vanilla HTML, CSS and JavaScript. No installation, build step,
-subscription, API key or backend is required.
+An independent educational project by Daniel Khisa for exploring Bermuda regulatory frameworks, conditional filing guidance and application drafts.
 
-**Live demonstration:** [Bermuda Compliance Navigator](https://dankhisa.github.io/bermuda-compliance-navigator/)
+**Live platform:** [Bermuda Compliance Navigator](https://dankhisa.github.io/bermuda-compliance-navigator/)
 
-**Source:** [Dankhisa/bermuda-compliance-navigator](https://github.com/Dankhisa/bermuda-compliance-navigator)
+**Portfolio:** [Daniel Khisa](https://dankhisa.github.io/)
 
-## Who it is for
+## What it does
 
-Risk, compliance and audit professionals exploring a practical regulatory
-information tool, and reviewers interested in its design and implementation.
-Insurance is the main area of detailed coverage. Other regulated sectors have
-framework-level information, with explicit gaps rather than insurer assumptions.
+- Offers framework, obligations and application-preparation views.
+- Uses a 161-entry static knowledge base with source links and dated review metadata.
+- Distinguishes selected insurer classes, DABA licences, investment licence conditions and unknown facts.
+- Separates current requirements, future compliance dates and consultation proposals.
+- Provides tentative calendars for supported year-end rules and five editable preparation templates.
+- Preserves local bookmarks and quarantines overlays that could mask shipped corrections.
 
-## Features
+## Coverage
 
-- A guided entity/profile questionnaire for regulatory landscape, ongoing
-  obligations and application drafting (MAP, DISTIL and EXECUTE modes).
-- A versioned, 156-entry knowledge base with sources, verification labels,
-  individual review dates and legal-review status.
-- Filing guidance, governance checklists, focus-topic analysis and draft
-  correspondence where supported by the selected profile.
-- Clearly marked calendar estimates; conditional and unsupported dates are
-  excluded, with explanations. No entity-specific extension or exemption is assumed.
-- Browser-local assessment bookmarks and reviewed KB updates with import
-  validation and change previews.
-- Keyboard-operable controls, mobile layouts, copy/export actions and print styling.
+Detailed workflows concern the selectable single insurer classes. Other sectors have framework-level coverage only. IILT, other innovative classes, group and dual-registration profiles are not supported. Entity exemptions and supervisory directions need independent confirmation.
 
-## Run locally
+Year-end calculations are limited to supported 2025–2026 periods; event-driven, conditional and imported dates are excluded. Fee references support 2026, with separate statutory/BSCR/CISSA/GAAP/FCR extension routes. Unsupported combinations are withheld.
 
-1. Download this repository with **Code → Download ZIP** and extract it.
-2. Keep `index.html` and `kb.js` in the same folder.
-3. Open `index.html` in a modern browser. Core reports use ordinary local scripts
-   and have no server dependency. File-origin storage and clipboard behavior
-   differ between browsers; direct-file browser verification is still pending.
-4. Select **Start Guided Assessment**, choose an entity and objective, and generate
-   a report. Read its coverage and verification notes before using any output.
+See [VERIFICATION.md](VERIFICATION.md) for the correction record, source-derived cases and unresolved coverage. No external legal sign-off, employer endorsement or regulatory approval is claimed.
 
-If developing with Python installed, an optional local preview is:
+## Running and testing
 
-```sh
-python -m http.server 8765 --bind 127.0.0.1
-```
+The app is static HTML/CSS/JavaScript with local `kb.js`; no package installation, build step, backend, AI API, password or API key is needed at runtime. Serve this folder with a static web server or use the published platform. Direct-file/offline behaviour remains unverified.
 
-Open `http://127.0.0.1:8765` and stop the server with Ctrl+C when finished.
-The website itself does not need Python or Node.js.
-
-## Design and technology
-
-`index.html` contains the accessible UI, styles and report-generation logic;
-`kb.js` contains the regulatory data. Keeping this existing separation makes
-content review easier without introducing a build pipeline. Reports are
-deterministic: this edition makes no live AI requests and has no analytics.
-
-Imported strings are treated as plain text, source links are limited to HTTPS,
-and updates require a matching reviewed preview. Storage failures leave the
-shipped knowledge base usable. These controls are tested, not a security certification.
-
-## Privacy
-
-Assessment inputs and local updates stay in the current browser unless you
-export them. Do not enter confidential employer, client or entity information.
-Exports include the saved information, including the prepared-by field.
-Browser storage is not encrypted by this app and is not an audit trail.
-Following an external source link visits the named third-party website.
-The hosting provider may process ordinary request logs under its own policies.
-
-## Screenshots
-
-Screenshots will be added after deployment verification; none are claimed here.
-Use only the shipped demo content and fictional inputs when capturing:
-
-| Capture | What it should show |
-|---|---|
-| Desktop home | Purpose, three modes and educational-project disclaimer |
-| Desktop report | Class E DISTIL report with sources and verification labels |
-| Mobile report | Visible navigation and table reflow at approximately 375px |
-
-## Validation
-
-With Node.js installed, run:
+With Node.js installed:
 
 ```sh
 node tests/regression.test.cjs
 ```
 
-All 16 checks passed for release 2.1.0. They cover schema validation, supported
-profiles/modes, escaping, scope boundaries, date arithmetic, calendar formatting,
-storage failures, saved-record changes and stale import previews. The tests use
-an isolated VM with DOM stubs. Separate browser checks covered report generation,
-save/reopen, keyboard/dialog behavior, invalid imports and 375px reflow.
+The 33 automated tests cover schema, source-derived scope/fee/date cases, all supported modes, all five insurer tasks, escaping, calendar structure, stored-data preservation and version mismatches. They use inert DOM fixtures. Fresh browser interaction/mobile/clipboard/download checks for 2.2.0 remain outstanding because the browser approval service blocked the preview. Print/direct-file checks are also outstanding. Historical 2.1.0 checks do not certify this release.
 
-The public GitHub Pages deployment was verified on 16 September 2026 at desktop
-and 375px mobile viewport sizes: Class E report generation and invalid-import
-rejection passed, the mobile page had no horizontal overflow, and no console
-warnings/errors were observed in those flows. This was viewport testing, not a
-physical-phone test. Direct-file operation and print-output checks remain
-unverified because the automated browser blocks local-file navigation.
+## Privacy and local updates
 
-## Sources, currency and limitations
+The runtime sends no API requests and has no analytics or remote scripts. Bookmarks and explicitly imported updates stay in browser storage. Exports may contain the prepared-by information entered by the user; keep them private. Do not enter personal certificates or confidential entity records.
 
-The app release is **2.1.0, 16 September 2026**. The original KB research date is
-**2 July 2026**; entries have their own review dates. A software release or local
-import does not verify the remaining legal content. All legal review is pending.
-See [SOURCES.md](SOURCES.md) and [CHANGELOG.md](CHANGELOG.md).
+Legacy overlays remain stored but inactive. Open Knowledge Base to export preserved data or inspect a field-level comparison before explicitly merging selected entries. New overlays are tied to the shipped baseline; older overrides cannot silently mask published corrections. Imports are user-supplied, not legally endorsed. Bookmarks regenerate current reports rather than freeze historical advice.
 
-This independent project is not affiliated with or endorsed by the Bermuda
-Monetary Authority or any employer. It is general educational information, not
-legal, regulatory, actuarial, tax or other professional advice. Verify every
-requirement, fee, form and deadline against current official materials and seek
-appropriate professional advice before acting. Draft letters contain placeholders
-and must be fact-checked. Calendar exports are tentative estimates, not a filing system.
+## Maintenance and sources
+
+Version **2.2.0**, 21 September 2026. Original research date: **2 July 2026**. Software/editorial release dates do not reverify every entry. Read [SOURCES.md](SOURCES.md), [VERIFICATION.md](VERIFICATION.md) and [CHANGELOG.md](CHANGELOG.md).
+
+Publish only the selected runtime, documentation, tests and preview assets. Private prompts, research downloads, local exports and career information do not belong in the public repository. Social preview source and PNG are in `assets/`.
+
+This is general educational information, not legal, regulatory, actuarial, tax or other professional advice. Confirm current primary materials and entity applicability before acting or filing.
