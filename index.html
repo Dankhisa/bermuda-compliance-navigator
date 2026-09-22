@@ -185,7 +185,7 @@
   .btn{min-height:44px}.btn-sm{padding:10px 14px}
   main,.card,.panel,.rhead>div,.callout>span{min-width:0;overflow-wrap:anywhere}
   .table-scroll{max-width:100%;overflow-x:auto;margin-top:12px;border-radius:8px}
-  .table-scroll table{min-width:560px}.revmeta,.pill-src,.pill-ai,.pill-kb{white-space:normal;overflow-wrap:anywhere}
+  .table-scroll table{min-width:760px}.table-scroll th,.table-scroll td{min-width:100px;overflow-wrap:break-word}.table-scroll th:first-child,.table-scroll td:first-child{min-width:180px}.revmeta,.pill-src,.pill-ai,.pill-kb{white-space:normal;overflow-wrap:anywhere}
   .card>h3{flex-wrap:wrap}.rhead h2{overflow-wrap:anywhere}.difflist{overflow-wrap:anywhere}
   dialog.modal-back{position:fixed;inset:0;margin:auto;padding:0;border:0;border-radius:12px;background:transparent;color:var(--ink);width:min(600px,calc(100% - 32px));max-height:90vh;display:none}
   dialog.modal-back[open]{display:block}dialog::backdrop{background:rgba(11,31,58,.65)}
@@ -214,7 +214,7 @@
     .card,.panel{break-inside:auto;padding:12pt;margin-top:12pt;border:1px solid #bbb}
     .card h3,h4{break-after:avoid}.table-scroll{overflow:visible;max-width:none}
     .table-scroll table{min-width:0!important;width:100%;table-layout:fixed;font-size:8pt}
-    th,td{padding:5pt;overflow-wrap:anywhere;white-space:normal}th{color:#111;background:#eee}
+    .table-scroll th,.table-scroll td{min-width:0!important}th,td{padding:5pt;overflow-wrap:anywhere;white-space:normal}th{color:#111;background:#eee}
     thead{display:table-header-group}tr{break-inside:avoid}pre.tpl{color:#111;background:white;border:1px solid #bbb;overflow:visible;overflow-wrap:anywhere;font-size:9pt}
     pre.tpl .ph{color:#333}.callout{break-inside:avoid}.source-note a{color:#111}
     footer{background:white;color:#333;margin-top:18pt}.fwrap{padding:0}.fwrap b{color:#111}
@@ -382,7 +382,7 @@
 
 <footer>
   <div class="fwrap">
-    <p><b>Created by Daniel Khisa.</b> <a href="https://dankhisa.github.io/" style="color:inherit;text-decoration:underline;text-underline-offset:3px">Daniel Khisa — portfolio</a> · Educational portfolio project · App updated <time datetime="2026-09-16">16 September 2026</time>. Original KB research: 2 July 2026; individual entries carry their own review dates.</p>
+    <p><b>Created by Daniel Khisa.</b> <a href="https://dankhisa.github.io/" style="color:inherit;text-decoration:underline;text-underline-offset:3px">Daniel Khisa — portfolio</a> · Educational portfolio project · App updated <time datetime="2026-09-21">21 September 2026</time>. Original KB research: 2 July 2026; individual entries carry their own review dates.</p>
     <b>Disclaimer.</b> This tool provides general information only, generated from a static knowledge base as at the date shown on each report. It is not legal, regulatory, actuarial, tax, or other professional advice, and it does not create an adviser–client relationship. Regulatory requirements, fees, forms, and deadlines change. Before acting or filing, verify every obligation against the current consolidated Bermuda legislation, the Bermuda Monetary Authority's Rules, Codes of Conduct, and Guidance Notes (<b>bma.bm</b>), and obtain professional advice appropriate to your circumstances. Where an item is marked "Verify" or "Unverified", confirmation against primary sources is required.
   </div>
 </footer>
@@ -471,11 +471,11 @@ function sourceLink(entry){
 function deadlineFor(entry,inputs=state){
   if(!validDate(inputs.fye||''))return {date:null,reason:"Enter a valid financial year end."};
   if(entry.imported)return {date:null,reason:"Dates from user-supplied overrides are not exported as verified deadlines."};
-  if(!entry.reporting_period||inputs.fye<entry.reporting_period.from||inputs.fye>entry.reporting_period.to)return {date:null,reason:"No estimate: this reporting period has not been verified for this rule (supported estimates: 2025–2026 only)."};
   if(!inputs.fye)return {date:null,reason:"Enter a financial year end to compute a date."};
   if(entry.data.date_note)return {date:null,reason:entry.data.date_note};
   if(!entry.data.months)return {date:null,reason:"No supported year-end calculation: fixed-date, event-driven or unresolved deadline."};
   if(entry.verification!=="established")return {date:null,reason:"Not computed: verify the requirement and its applicability first."};
+  if(!entry.reporting_period||inputs.fye<entry.reporting_period.from||inputs.fye>entry.reporting_period.to)return {date:null,reason:"No estimate: this reporting period has not been verified for this rule (supported estimates: 2025–2026 only)."};
   if(entry.last_reviewed<inputs.fye&&entry.review_due<inputs.fye)return {date:null,reason:"The selected reporting period is beyond this entry's review window."};
   if(entry.review_due<new Date().toISOString().slice(0,10))return {date:null,reason:"Review overdue: verify this entry before computing a date."};
   const date=addMonthsDate(inputs.fye,entry.data.months);
