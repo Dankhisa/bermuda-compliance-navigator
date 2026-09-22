@@ -33,7 +33,7 @@ With Node.js installed:
 node tests/regression.test.cjs
 ```
 
-The 33 automated tests cover schema, source-derived scope/fee/date cases, all supported modes, all five insurer tasks, escaping, calendar structure, stored-data preservation and version mismatches. They use inert DOM fixtures. Fresh browser interaction/mobile/clipboard/download checks for 2.2.0 remain outstanding because the browser approval service blocked the preview. Print/direct-file checks are also outstanding. Historical 2.1.0 checks do not certify this release.
+The 39 automated tests cover schema, scope/fee/date cases, all supported modes, all five insurer tasks, escaping, calendar structure, stored-data preservation and version mismatches. New cases exercise the actual wizard transition, task isolation, PCC preparation gates, saved task identity and clipboard fallback. Desktop browser checks cover all five letters, editing, PCC disclosure and save/reload/reopen. Mobile PCC/report layout and keyboard disclosure were checked at 390 × 844; native copy/paste was checked on a local test page. These targeted checks do not constitute exhaustive accessibility testing. Print/direct-file behaviour remains unverified.
 
 ## Privacy and local updates
 
@@ -43,7 +43,7 @@ Legacy overlays remain stored but inactive. Open Knowledge Base to export preser
 
 ## Maintenance and sources
 
-Version **2.2.0**, 21 September 2026. Original research date: **2 July 2026**. Software/editorial release dates do not reverify every entry. Read [SOURCES.md](SOURCES.md), [VERIFICATION.md](VERIFICATION.md) and [CHANGELOG.md](CHANGELOG.md).
+Version **2.3.0**, 22 September 2026. This release fixes request selection being reset to the previous task, strengthens all five draft letters and adds conditional PCC preparation guidance. Original research date: **2 July 2026**. Software/editorial release dates do not reverify every entry. Read [SOURCES.md](SOURCES.md), [VERIFICATION.md](VERIFICATION.md) and [CHANGELOG.md](CHANGELOG.md).
 
 Publish only the selected runtime, documentation, tests and preview assets. Private prompts, research downloads, local exports and career information do not belong in the public repository. Social preview source and PNG are in `assets/`.
 

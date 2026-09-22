@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## v2.3.0 — 22 September 2026
+
+- Fixed the wizard rebuilding the request dropdown from stale state before reading a new selection. Modification and other requests now retain their own task through navigation.
+- Reworked five distinct draft letters, including task-specific subjects, grounds and requested outcomes. Labelled document lists as preparation aids and preserved unconfirmed facts as placeholders.
+- Clarified section 56 scope, distinguished sections 6C/6D and designated-investment-contract section 57A, and avoided a generic modification fee quote.
+- Added conditional PCC preparation questions, a collapsible checklist and escalation prompts. No certificates, passport data or residence histories are collected; no issuer is claimed to be BMA-approved.
+- Rechecked the original PCC notice, the consolidated Insurance Act, 2026 fee schedule and available personal-declaration form. Form/issuer acceptance and submission-channel uncertainties remain visible.
+- 39 automated checks pass. Targeted browser checks cover all five letters, saved PCC state, desktop/mobile layout, keyboard disclosure and native copy/paste. Print/offline output remains unverified.
+
 ## v2.2.0 — 21 September 2026
 
 Targeted accuracy and saved-data release; 161 entries. Original research and per-entry review history are retained. This is not a complete regulatory or legal re-verification.

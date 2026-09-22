@@ -321,7 +321,7 @@
         <p id="scopeNote" class="callout c-info hidden"></p>
         <div id="taskWrap" class="hidden">
           <label class="fld" for="taskType">Type of application or request</label>
-          <select id="taskType">
+  <select id="taskType" onchange="state.task=this.value">
             <option value="extension">Statutory filing deadline extension request</option>
             <option value="newlicence">New registration / licence application</option>
             <option value="modification">Exemption / modification request</option>
@@ -382,12 +382,12 @@
 
 <footer>
   <div class="fwrap">
-    <p><b>Created by Daniel Khisa.</b> <a href="https://dankhisa.github.io/" style="color:inherit;text-decoration:underline;text-underline-offset:3px">Daniel Khisa — portfolio</a> · Educational portfolio project · App updated <time datetime="2026-09-21">21 September 2026</time>. Original KB research: 2 July 2026; individual entries carry their own review dates.</p>
+    <p><b>Created by Daniel Khisa.</b> <a href="https://dankhisa.github.io/" style="color:inherit;text-decoration:underline;text-underline-offset:3px">Daniel Khisa — portfolio</a> · Educational portfolio project · App updated <time datetime="2026-09-22">22 September 2026</time>. Original KB research: 2 July 2026; individual entries carry their own review dates.</p>
     <b>Disclaimer.</b> This tool provides general information only, generated from a static knowledge base as at the date shown on each report. It is not legal, regulatory, actuarial, tax, or other professional advice, and it does not create an adviser–client relationship. Regulatory requirements, fees, forms, and deadlines change. Before acting or filing, verify every obligation against the current consolidated Bermuda legislation, the Bermuda Monetary Authority's Rules, Codes of Conduct, and Guidance Notes (<b>bma.bm</b>), and obtain professional advice appropriate to your circumstances. Where an item is marked "Verify" or "Unverified", confirmation against primary sources is required.
   </div>
 </footer>
 
-<script src="kb.js?v=2.2.0"></script>
+<script src="kb.js?v=2.3.0"></script>
 <script>
 /* =========================================================================
    APP — presentation layer. All regulatory content lives in kb.js (KB).
@@ -521,6 +521,7 @@ function validateFragment(raw,allowEmpty=false){
     }
     if(e.rule!==undefined&&(!record(e.rule)||!['opres','als','recovery','pcc','conduct'].includes(e.rule.kind)))bad('invalid applicability rule.');
     if(e.reporting_period!==undefined&&(!record(e.reporting_period)||!validDate(e.reporting_period.from)||!validDate(e.reporting_period.to)||e.reporting_period.from>e.reporting_period.to))bad('invalid reporting period.');
+    if(e.data?.pcc!==undefined){const p=e.data.pcc;if(!record(p)||!['requirement','transition','formatNote'].every(k=>typeof p[k]==='string'&&p[k].length<=5000)||!Array.isArray(p.preparation)||p.preparation.length>20||!p.preparation.every(t=>typeof t==='string'&&t.length<=5000))bad('invalid PCC preparation guidance.');}
     for(const k of ['effective_from','compliance_by'])if(e[k]!==undefined&&!validDate(e[k]))bad('invalid '+k);
     if(e.sources!==undefined&&(!Array.isArray(e.sources)||e.sources.some(x=>!record(x)||!str(x.name,1000)||!S.sourceTypes.includes(x.type)||!safeSourceUrl(x.url))))bad('invalid additional sources.');
     if(e.fee_year!==undefined&&(!Number.isInteger(e.fee_year)||e.fee_year<2020||e.fee_year>2100))bad('invalid fee year.');
@@ -582,10 +583,15 @@ const FACT_OPTIONS={
  amlRfi:[['unknown','Not sure'],['yes','AML/ATF regulated financial institution'],['no','Not an AML/ATF regulated financial institution']],
  keyVetting:[['unknown','Not sure'],['yes','Application involves BMA Key Person vetting'],['no','No Key Person vetting involved']],
  completeBefore:[['unknown','Not sure'],['yes','Complete application received before 1 October 2026'],['no','Not received in full before 1 October 2026']],
+ pccSubmission:[['unknown','Not sure'],['new','New application / Key Person'],['change','Change to a Key Person'],['other','Other — confirm with BMA']],
+ pccResidence:[['unknown','Not yet reviewed'],['ready','Three-year history reviewed; relevant countries identified'],['uncertain','Ordinary residence or six-month threshold uncertain']],
+ pccAge:[['unknown','Not yet checked'],['current','Each certificate no more than 12 months old at submission'],['old','One or more certificates older than 12 months']],
+ pccDocument:[['unknown','Issuer / format not yet confirmed'],['confirmed','Issuer and any format questions confirmed for this submission'],['unavailable','Certificate cannot be obtained'],['format','Local / non-English document or authentication question']],
  shares:[['unknown','Not sure'],['private','Relevant shares are privately held'],['public','Relevant shares are publicly traded']],
  filingType:[['unknown','Not sure'],['statutory','Statutory statements / return — s.17(4)'],['bscr','BSCR only — s.6C'],['other','CISSA / GAAP / FCR — s.6C'],['combined','More than one filing']]
 };
 const FACT_LABELS={investmentLicence:'Investment business licence',domestic:'Domestic insurance business',recovery:'Recovery planning designation',amlRfi:'AML/ATF status',keyVetting:'Key Person vetting',completeBefore:'PCC transitional condition',shares:'Insurer or relevant parent share status',filingType:'Filing being extended'};
+Object.assign(FACT_LABELS,{pccSubmission:'Key Person submission',pccResidence:'Residence-history preparation',pccAge:'Certificate age at submission',pccDocument:'Document availability and format'});
 function fact(key,inputs=state){return inputs.facts?.[key]||'unknown';}
 function appDate(inputs=state){return inputs.facts?.applicationDate||new Date().toISOString().slice(0,10);}
 function relevantFacts(){
@@ -597,12 +603,14 @@ function relevantFacts(){
   if(['newlicence','controller','approvedperson'].includes(state.task))keys.push('amlRfi','keyVetting','completeBefore');
   if(state.task==='controller')keys.push('shares');
  }else keys.push('amlRfi','keyVetting','completeBefore');
+ if(keys.includes('amlRfi')&&fact('amlRfi')==='yes'&&fact('keyVetting')==='yes'&&fact('completeBefore')!=='yes')keys.push('pccSubmission','pccResidence','pccAge','pccDocument');
  return keys;
 }
 function renderFacts(){
  const root=document.getElementById('factsForm');if(!root)return;
  root.innerHTML=relevantFacts().map(k=>`<label class="fld" for="fact-${k}">${esc(FACT_LABELS[k])}</label><select id="fact-${k}">${FACT_OPTIONS[k].map(([v,t])=>`<option value="${v}"${fact(k)===v?' selected':''}>${esc(t)}</option>`).join('')}</select>`).join('')+
  (state.mode==='EXECUTE'?`<label class="fld" for="fact-applicationDate">Planned submission date (optional; defaults to today)</label><input type="date" id="fact-applicationDate" value="${esc(state.facts?.applicationDate||'')}">`:'');
+ ['amlRfi','keyVetting','completeBefore'].forEach(k=>{const el=document.getElementById('fact-'+k);if(el)el.addEventListener('change',()=>{readFacts();renderFacts();document.getElementById('fact-'+k)?.focus();});});
 }
 function readFacts(){
  state.facts=state.facts||{};
@@ -671,8 +679,19 @@ function contextCard(){
 }
 function taskPccCard(){
  if(state.mode!=='EXECUTE'||!['newlicence','controller','approvedperson'].includes(state.task)||state.entityType!=='insurer')return '';
- const e=activeKB().entries.find(e=>e.id==='gov-key-person-pcc');if(!e)return '';
- use(e);return `<div class="card"><h3>Key Person documentation</h3><p><b>${esc(pccStatus())}</b></p><p>${esc(e.text)}</p>${sourceLink(e)}</div>`;
+ const e=activeKB().entries.find(e=>e.id==='gov-key-person-pcc');if(!e||!eligible(e))return '';
+ use(e);return `<div class="card"><h3>Key Person documentation</h3><p>${BADGE.verify} <b>${esc(pccStatus())}</b></p>${pccPreparation(e)}${revMeta(e)}</div>`;
+}
+function pccPreparation(e){
+ if(fact('amlRfi')!=='yes'||fact('keyVetting')!=='yes'||fact('completeBefore')==='yes')return '';
+ const d=e.data.pcc;if(!d)return `<p>${esc(e.text)}</p>`;
+ const alerts=[];
+ if(fact('pccAge')==='old')alerts.push('One or more certificates are older than 12 months at submission: arrange current evidence.');
+ if(fact('pccResidence')==='uncertain')alerts.push('Confirm ordinary residence and how the more-than-six-month threshold applies to your history with the BMA.');
+ if(fact('pccDocument')==='unavailable')alerts.push('Contact the BMA early about a substitute. Do not treat a proposed substitute as accepted.');
+ if(fact('pccDocument')!=='confirmed')alerts.push('Confirm the competent issuer, document coverage, language and any authentication requirements before relying on the document.');
+ if(fact('pccSubmission')==='other')alerts.push('Confirm whether this submission triggers Key Person vetting under the notice.');
+ return `<h4>BMA notice requirements</h4><p>${esc(d.requirement)}</p><p><b>Effective 1 October 2026.</b> ${esc(d.transition)}</p><details><summary>Preparing documents — practical checklist</summary><p>Preparation prompts below are not additional BMA mandates. Keep your residence history and documents outside this tool.</p><ul class="list">${d.preparation.map(t=>`<li>${esc(t)}</li>`).join('')}</ul><p>${esc(d.formatNote)}</p></details>${alerts.length?`<h4>Confirm before filing</h4><ul>${alerts.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`:''}<p>Questions about this notice: <a href="mailto:aml@bma.bm">aml@bma.bm</a>. The BMA decides document acceptability.</p>`;
 }
 function storageSnapshot(){
  try{return JSON.stringify([localStorage.getItem(OVERLAY_KEY),localStorage.getItem(LEGACY_OVERLAY_KEY)]);}
@@ -757,6 +776,9 @@ function onEntityType(){
 }
 
 function toStep(n){
+  // Capture the user's selection before updateTasks rebuilds it from state.
+  const selectedTask=document.getElementById('taskType').value;
+  if(selectedTask)state.task=selectedTask;
   readFacts();
   state.entityType=document.getElementById("entityType").value;
   state.entityClass=document.getElementById("entityClass").value;
@@ -852,7 +874,7 @@ function renderResults(fromSaved){
     state.focus=[...document.querySelectorAll("#focusChecks input:checked")].map(i=>i.value);
     state.task=document.getElementById("taskType").value;
   }
-  if(KB.version!=="2.2.0"||KB.app_version!=="2.2.0"){announce("Application and knowledge-base versions differ. Reload both assets before generating a report.");return;}
+  if(KB.version!=="2.3.0"||KB.app_version!=="2.3.0"){announce("Application and knowledge-base versions differ. Reload both assets before generating a report.");return;}
   if(!validInputs(state)){announce("Assessment inputs are invalid. Start a new assessment.");return;}
   usedEntryIds=[]; legalPendingSeen=false;
   const akb=activeKB();
@@ -914,7 +936,7 @@ function renderResults(fromSaved){
 
   if(state.mode==="DISTIL"){
     html+=`<div class="card"><h3>${num()}Governance & Board Expectations — Checklist</h3><ul class="list tick">`+
-      governance.map(g=>`<li>${esc(g.text)} ${BADGE[g.verification]}${srcPill(g)}<span class="prov" style="display:block;color:var(--muted);font-size:12px">${esc(g.citation||"")}</span>${revMeta(g)}</li>`).join("")+`</ul></div>`;
+      governance.map(g=>`<li>${esc(g.text)} ${BADGE[g.verification]}${srcPill(g)}<span class="prov" style="display:block;color:var(--muted);font-size:12px">${esc(g.citation||"")}</span>${g.rule?.kind==='pcc'?pccPreparation(g):''}${revMeta(g)}</li>`).join("")+`</ul></div>`;
   }
 
   if(state.focus.length){
@@ -945,8 +967,8 @@ function renderResults(fromSaved){
           <tr><td><b>Fee</b></td><td>${esc(d.fee.t)}</td><td>${BADGE[d.fee.ver]}</td></tr>
           <tr><td><b>Submission method</b></td><td>${esc(d.method.t)}</td><td>${BADGE[d.method.ver]}</td></tr>
         </tbody></table></div>
-      <div class="card"><h3>${num()}Required Documents & Information</h3><ul class="list tick">${d.docs.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
-      <div class="card"><h3>${num()}Draft Correspondence Template</h3>
+      <div class="card"><h3>${num()}Documents &amp; Information to Prepare</h3><p>Planning checklist: confirm prescribed requirements for the selected route. Include only documents actually available; board approvals and supporting evidence are conditional on the circumstances.</p><ul class="list tick">${d.docs.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+      <div class="card"><h3>${num()}Draft Correspondence Template — ${esc(d.title)}</h3>
         <p style="font-size:13px;color:var(--muted)">Bracketed <span style="color:var(--amber);font-weight:600">[placeholders]</span> must be completed and every citation verified before use. This is a starting draft, not a filing-ready document.</p>
         <pre class="tpl">${esc(d.template).replace(/\[[^\]\n]+\]/g,m=>`<span class="ph">${m}</span>`)}</pre>
         <button class="btn btn-ghost btn-sm no-print" style="margin-top:12px" onclick="copyTemplate(this)">Copy template</button>

@@ -1,6 +1,14 @@
-# Verification and coverage — version 2.2.0
+# Verification and coverage — version 2.3.0
 
-21 September 2026. Independent educational project by Daniel Khisa. Targeted source checks and software tests are not external legal review, regulatory endorsement or a complete compliance assessment.
+22 September 2026. Independent educational project by Daniel Khisa. Targeted source checks and software tests are not external legal review, regulatory endorsement or a complete compliance assessment.
+
+## 2.3.0 targeted update
+
+The reported modification/extension error was reproduced in the browser: `toStep()` rebuilt task options from stale state before capturing the selected request. Selection now updates state immediately and is captured before rebuilding. A regression failed with the original code and passes with the fix. Five distinct letters retain their own subject, gateway prompts, facts and requested outcome.
+
+PCC guidance separates notice requirements from preparation recommendations, preserves the full-receipt transition, gates detailed questions on confirmed AML/ATF and Key Person facts, and escalates aged/unavailable or uncertain-format documents. The six-month and 12-month boundaries are explained; no automatic ordinary-residence decision or document-acceptability determination is made. Residence histories remain outside the tool. There is no BMA-approved issuer list in this release.
+
+Section 56 is no longer described as a general waiver; subsection (5) scope is explicit. Section 57A is identified as a designated-investment-contract route. Document checklists are labelled preparation aids, with actual enclosures, governance authorisation and fees to be confirmed.
 
 ## Supported use
 
@@ -44,11 +52,11 @@ Primary links and retrieval records are in [SOURCES.md](SOURCES.md). Source pres
 
 ## Software verification
 
-Run `node tests/regression.test.cjs`. The 33 tests use isolated JavaScript execution and inert DOM fixtures; the source-derived case table is [tests/accuracy-cases.json](tests/accuracy-cases.json).
+Run `node tests/regression.test.cjs`. The 39 tests use isolated JavaScript execution and inert DOM fixtures; the existing source-derived case table is [tests/accuracy-cases.json](tests/accuracy-cases.json). New wizard, PCC and task-isolation scenarios are in the test file.
 
 Cases cover all supported class/mode combinations, all five tasks for every selectable insurer class, class exclusions, fee selection, PCC boundaries, controller routes, conditional facts, date limits, escaping, calendar structure, malformed imports, saved-data preservation, baseline conflicts and app/KB version mismatch.
 
-These are not browser end-to-end tests. Browser preview for this release was blocked by the approval service's usage limit. Fresh desktop/mobile interaction, keyboard/focus, download/clipboard and live browser smoke checks remain outstanding. Earlier 2.1.0 browser checks are historical and do not verify 2.2.0. Direct-file/offline and print-output checks also remain unverified. No accessibility certification is claimed.
+These automated cases are not browser end-to-end tests. Separate local browser checks on 22 September 2026 verified all five request letters, editing and task switching, PCC progressive disclosure and warnings, and saved-assessment reload/reopen. A 390 × 844 viewport confirmed readable report/PCC layout; keyboard activation of the checklist retained visible focus. Copy success was verified by native paste into a local test textarea, and rendered/copy-field parity was checked. Clipboard failure is covered by an automated fallback case. Direct-file/offline and print-output behaviour remain unverified. No accessibility certification is claimed.
 
 ## Local update and rollback behaviour
 

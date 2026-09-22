@@ -1,9 +1,9 @@
 /* Static educational knowledge base. Original research and per-entry review dates are preserved. See VERIFICATION.md. */
 const KB = {
-  "version": "2.2.0",
+  "version": "2.3.0",
   "as_at": "2026-07-02",
   "generated": "2026-07-02",
-  "app_version": "2.2.0",
+  "app_version": "2.3.0",
   "schema": {
     "required": [
       "id",
@@ -2459,7 +2459,7 @@ const KB = {
         "published": "2026-01-07"
       },
       "verification": "established",
-      "last_reviewed": "2026-07-02",
+      "last_reviewed": "2026-09-22",
       "review_due": "2027-01-02",
       "legal_review": "pending",
       "data": {
@@ -2485,9 +2485,9 @@ const KB = {
           "Confirmed fee item, amount and current submission channel"
         ],
         "escalate": "If the delay stems from a control failure, auditor issue, or solvency concern, obtain professional advice before submitting — the explanation given to the regulator may have supervisory consequences.",
-        "template": "[Entity Letterhead]\n\n[Date]\nBermuda Monetary Authority\n\nRe: [Entity / registration number] — Extension of [identify filing] for [financial year end]\n\nWe request an extension from [verified current deadline] to [requested date] under [section 17(4) for statutory filings / section 6C for the relevant other return — confirm the precise gateway].\n\n[Explain the reason, remediation actions and evidence-based expected completion date.]\n\n[For section 17(4), confirm the applicable seven/nine-month total-period limit. For any other route, confirm the permitted period independently.]\n\n[Record approvals actually obtained and any relevant compliance exceptions. List documents actually enclosed and the confirmed fee item and amount.]\n\nYours faithfully,\n[Name / capacity]"
+        "template": "[Entity / applicant letterhead]\n[Date]\nBermuda Monetary Authority\n[Confirm current form and submission channel]\n\nSubject: Filing deadline extension — [entity / registration number] — [filing and period]\n\nDear Sir or Madam,\n\nOn behalf of [entity], a [class] insurer, we request an extension of [exact filing] from [verified current deadline] to [requested date].\n\nThe proposed gateway is [section 17(4) for the relevant statutory filing / confirmed section 6C route for the identified return]. [For a combined request, list each filing and its own gateway.]\n\nThe reason for the request is [circumstances]. Work completed comprises [verified progress]. The remaining steps, accountable owners and completion dates are [timetable]. [Explain material regulatory implications and any separate notifications required.]\n\n[For section 17(4), confirm the applicable seven/nine-month total-period limit. For another route, establish its permitted period independently.]\n\nPlease confirm the Authority's decision and any conditions attached to the requested filing extension.\n\n[Record authority to submit actually obtained. List only documents actually enclosed, any outstanding items, the confirmed fee item and actual payment status.]\n\nYours faithfully,\n[Name / capacity / contact]"
       },
-      "editorial_updated": "2026-09-21",
+      "editorial_updated": "2026-09-22",
       "sources": [
         {
           "type": "bma-primary",
@@ -2496,8 +2496,8 @@ const KB = {
           "published": "2026-03-17"
         }
       ],
-      "revision": "2.2.0",
-      "evidence_note": "Targeted correction / scope safeguard, 21 September 2026. See VERIFICATION.md for checked provisions and unresolved coverage; no external legal sign-off."
+      "revision": "2.3.0",
+      "evidence_note": "Request-specific drafting review, 22 September 2026. See SOURCES.md for primary-source gateways and limitations. Forms, fees and submission channels require confirmation. No external legal sign-off."
     },
     {
       "id": "task-newlicence",
@@ -2527,7 +2527,7 @@ const KB = {
         "published": "2026-01-07"
       },
       "verification": "established",
-      "last_reviewed": "2026-07-02",
+      "last_reviewed": "2026-09-22",
       "review_due": "2027-01-01",
       "legal_review": "pending",
       "data": {
@@ -2538,7 +2538,7 @@ const KB = {
           "ver": "verify"
         },
         "fee": {
-          "t": "2026: application fee $800 (s.4(1)); registration fee on grant is class-based (e.g. Class 1 $2,250; Class 3A $24,550–$44,500; Class 3B/4 $253,000–$446,800 by projected gross premium; SPI $10,000/$15,000), remitted 25/50/75% for registrations after 31 Mar / 30 Jun / 30 Sep; annual fee thereafter due before 31 March. Verify against the current schedule.",
+          "t": "2026 insurance fee item 1(a): $800 to apply for insurer registration under section 4(1). The registration fee on grant and later annual fees are separate and class-dependent; confirm the current items and any applicable remission before payment.",
           "ver": "verify"
         },
         "method": {
@@ -2557,9 +2557,9 @@ const KB = {
           "Check the separate Key Person Police Clearance Certificate conditions below; do not assume every appointee is in scope."
         ],
         "escalate": "Licence applications involve regulatory discretion and structuring decisions. Engage Bermuda counsel and, for insurers, an insurance manager or advisor familiar with the BMA assessment process before submission.",
-        "template": "[Applicant / adviser letterhead]\n\n[Date]\nBermuda Monetary Authority\n\nRe: [Proposed entity] — Application for [verified registration class]\n\n[Identify the applicant, legal form and enabling provision.]\n\n[Summarise the proposed business, capitalisation and group context.]\n\n[List only documents actually enclosed: the current prescribed form, business plan, projections, relevant fit-and-proper documentation and any other confirmed requirements.]\n\n[Where the PCC notice applies, list the required Key Person documentation or agreed substitute. Confirm the receipt-date transition.]\n\n[State the confirmed fee item, amount and payment/enclosure status.]\n\n[Confirm the applicant’s intentions and approvals only after obtaining evidence; identify outstanding items candidly.]\n\nYours faithfully,\n[Name / authority to act]"
+        "template": "[Entity / applicant letterhead]\n[Date]\nBermuda Monetary Authority\n[Confirm current form and submission channel]\n\nSubject: Insurer registration application — [proposed entity] — [requested class]\n\nDear Sir or Madam,\n\nWe submit this application on behalf of [applicant / legal form] for registration as a [class] insurer under section 4 of the Insurance Act 1978. The intended commencement date is [date, subject to registration and applicable conditions].\n\nThe proposed business is [business lines, customers, territories and operating model]. The ownership and group arrangements are [summary]. The facts supporting the requested class are [analysis].\n\n[Explain how section 5 and the relevant minimum criteria are addressed. Summarise capital, solvency projections, governance, management and service-provider arrangements with references to supporting evidence.]\n\n[Where the PCC notice applies to an individual, identify the accompanying documentation or the BMA's response on a proposed substitute. Do not assume acceptance. Distinguish the application fee from any registration fee payable on grant.]\n\nWe request consideration of registration in the stated class and confirmation of further information or conditions required.\n\n[Record authority to submit actually obtained. List only documents actually enclosed, any outstanding items, the confirmed fee item and actual payment status.]\n\nYours faithfully,\n[Name / capacity / contact]"
       },
-      "editorial_updated": "2026-09-21",
+      "editorial_updated": "2026-09-22",
       "sources": [
         {
           "type": "bma-primary",
@@ -2569,8 +2569,8 @@ const KB = {
         }
       ],
       "fee_year": 2026,
-      "revision": "2.2.0",
-      "evidence_note": "Targeted correction / scope safeguard, 21 September 2026. See VERIFICATION.md for checked provisions and unresolved coverage; no external legal sign-off."
+      "revision": "2.3.0",
+      "evidence_note": "Request-specific drafting review, 22 September 2026. See SOURCES.md for primary-source gateways and limitations. Forms, fees and submission channels require confirmation. No external legal sign-off."
     },
     {
       "id": "task-modification",
@@ -2591,7 +2591,7 @@ const KB = {
         "iigb"
       ],
       "topic": "task",
-      "text": "The Insurance Act 1978 contains powers for the Authority, on application, to exempt an insurer from, or modify the application of, specified provisions: s.56 (general power to grant directions modifying/exempting provisions), s.6C (exemption from or modification of prudential/technical standards), and s.6D (adjustments to the ECR and capital figures). Conditions attach; confirm the correct gateway for the relief sought against the current consolidated Act.",
+      "text": "Confirm the specific enabling power and target requirement. Section 56 applies only to provisions within subsection (5); section 6C concerns standards under section 6A Rules; section 6D concerns capital adjustments. Section 57A concerns designated investment contracts and is not a general exemption route. Verify class scope and the chosen gateway with Bermuda counsel.",
       "citation": "Insurance Act 1978, ss.6C, 6D, 56, 57A",
       "source": {
         "type": "legislation",
@@ -2600,7 +2600,7 @@ const KB = {
         "published": "2026-01-07"
       },
       "verification": "established",
-      "last_reviewed": "2026-07-02",
+      "last_reviewed": "2026-09-22",
       "review_due": "2027-01-01",
       "legal_review": "pending",
       "data": {
@@ -2611,7 +2611,7 @@ const KB = {
           "ver": "unverified"
         },
         "fee": {
-          "t": "2026: s.56 direction $1,000; s.6C/s.27FA(1) prudential-standard exemption or modification $1,000; quarterly-return exemption/modification $2,500; s.57A direction $2,500; eligible capital instrument approval $10,000–$130,000 (sliding scale); s.6D ECR adjustments $10,000–$200,000 (sliding scale). Verify against the current schedule.",
+          "t": "Confirm the exact 2026 item after selecting the gateway. General and special section 56 directions, prudential-standard relief, quarterly-return relief and capital adjustments have separate fee items. A fee entry does not establish that the requested relief is legally available.",
           "ver": "verify"
         },
         "method": {
@@ -2619,19 +2619,19 @@ const KB = {
           "ver": "unverified"
         },
         "docs": [
-          "Cover letter identifying the provision(s) and the exemption or modification sought, and the statutory gateway (s.56 / s.6C / s.6D)",
-          "Full statement of the grounds, including why compliance is unduly burdensome or inappropriate and why relief is consistent with policyholder protection",
-          "Details of any compensating controls or conditions the entity proposes",
-          "Board resolution or confirmation of board support",
-          "The fee required by the current fee schedule for the relevant gateway"
+          "Identify the target provision, insurer class and exact enabling subsection",
+          "Specify the relief, proposed wording, duration and supporting evidence",
+          "Address policyholder impact and conditions specific to the selected gateway",
+          "Propose safeguards, monitoring and review where appropriate (preparation suggestions)",
+          "Record governance authority actually obtained and confirm route-specific form, fee and channel"
         ],
         "escalate": "Exemption and modification requests turn on regulatory discretion and precedent. Obtain Bermuda legal advice on the framing of the grounds before submission.",
-        "template": "[Entity Letterhead]\n\n[Date]\n\nThe Supervisor — [relevant department]\nBermuda Monetary Authority\nBMA House, 43 Victoria Street\nHamilton, Bermuda\n\nDear Sir or Madam,\n\nRe: [Entity Name] (Registration No. [Registration Number]) — Application\nfor [exemption from / modification of] [identify provision(s)]\n\nWe write on behalf of [Entity Name], a [Class] insurer registered under the\nInsurance Act 1978, to apply, pursuant to [section 56 / section 6C / section\n6D — verify the correct gateway against the current consolidated Act], for\n[describe the exemption or modification sought].\n\nGrounds for the application: [set out (i) the entity's circumstances,\n(ii) why strict application of the provision is unduly burdensome or not\nappropriate, and (iii) why the relief sought is consistent with the\nprotection of policyholders and the objectives of the Act].\n\nThe entity proposes the following compensating measures: [describe].\n\n[State board or other approval actually obtained; insert the date and evidence.]\n[List documents actually enclosed and the confirmed current fee, if applicable.]\n\nWe respectfully request the Authority's favourable consideration and are\navailable to discuss the application at the Authority's convenience.\n\nYours faithfully,\n\n[Name]\n[Title]\nFor and on behalf of [Entity Name]"
+        "template": "[Entity / applicant letterhead]\n[Date]\nBermuda Monetary Authority\n[Confirm current form and submission channel]\n\nSubject: Exemption / modification application — [entity / registration number] — [target provision]\n\nDear Sir or Madam,\n\nOn behalf of [entity], a [class] insurer, we apply for [precisely described exemption, modification or capital adjustment] under [confirmed enabling section and subsection].\n\nThe requirement affected is [Act provision / Rule / existing direction]. We request [proposed wording and extent of relief] for [period], effective from [requested date]. [Explain why the selected power covers this provision and insurer.]\n\nOur reasons and supporting evidence are [entity-specific facts and analysis]. [For section 56, confirm the target is within subsection (5). For section 6C, address policyholder obligations. For section 6D, explain the calculation and evidence supporting the capital adjustment. Retain only the applicable route.]\n\nThe expected effect on policyholders and the insurer is [assessment]. We propose [relevant safeguards and review arrangements], subject to the Authority's determination. [Identify existing non-compliance and obtain advice on separate reporting duties.]\n\nWe request a written determination of the scope, effective date and conditions of any relief. We do not treat submission as permission to depart from the existing requirement.\n\n[Record authority to submit actually obtained. List only documents actually enclosed, any outstanding items, the confirmed fee item and actual payment status.]\n\nYours faithfully,\n[Name / capacity / contact]"
       },
-      "editorial_updated": "2026-09-21",
+      "editorial_updated": "2026-09-22",
       "fee_year": 2026,
-      "revision": "2.2.0",
-      "evidence_note": "Targeted correction / scope safeguard, 21 September 2026. See VERIFICATION.md for checked provisions and unresolved coverage; no external legal sign-off."
+      "revision": "2.3.0",
+      "evidence_note": "Request-specific drafting review, 22 September 2026. See SOURCES.md for primary-source gateways and limitations. Forms, fees and submission channels require confirmation. No external legal sign-off."
     },
     {
       "id": "task-controller",
@@ -2661,7 +2661,7 @@ const KB = {
         "published": "2026-01-07"
       },
       "verification": "established",
-      "last_reviewed": "2026-09-21",
+      "last_reviewed": "2026-09-22",
       "review_due": "2027-01-01",
       "legal_review": "pending",
       "data": {
@@ -2688,9 +2688,9 @@ const KB = {
           "Check the separate Key Person Police Clearance Certificate conditions below; do not assume every appointee is in scope."
         ],
         "escalate": "Controller changes are transaction-critical: an unapproved change is an offence (s.30G — fines up to $25,000 summary / $100,000 indictment, plus $500 per day for continuing as a controller after objection) and can jeopardise the transaction. Always obtain Bermuda counsel's advice on the applicable threshold regime and timing before signing.",
-        "template": "[Entity / notifying shareholder letterhead]\n\n[Date]\nBermuda Monetary Authority\n\nRe: [Entity] — [proposed acquisition / completed public-company acquisition / disposal / insurer notification]\n\n[Identify the notifying person, registered entity and applicable section: 30D, 30E, 30EA or 30J. Verify scope, timing and any exception first.]\n\n[State the ownership/control before and after the transaction and relevant dates. Specify whether relevant shares are publicly traded.]\n\n[For a prior-notice route, request the applicable consideration and do not assert that a transaction has already completed.]\n\n[List verified supporting documents, any applicable Key Person documentation and prescribed fee. Confirm approvals actually obtained.]\n\nYours faithfully,\n[Name / capacity]"
+        "template": "[Entity / applicant letterhead]\n[Date]\nBermuda Monetary Authority\n[Confirm current form and submission channel]\n\nSubject: Shareholder controller notification — [insurer / registration number] — [transaction]\n\nDear Sir or Madam,\n\n[Notifying person] gives this notice as [shareholder controller / insurer / authorised representative] under [section 30D, 30E, 30EA or 30J — retain the verified route].\n\nThe relevant shares are [private / publicly traded on identified exchange; confirm statutory treatment]. The transaction is [proposed acquisition or increase / completed public-company acquisition / disposal / insurer's separate notification]. The relevant parties, structure and dates are [details].\n\nHoldings and voting rights before and after the transaction are [percentages and calculation], crossing [applicable threshold]. [Explain indirect ownership and provide before-and-after structure information.]\n\n[For a private acquisition under section 30D, state the proposed completion date and address the statutory no-objection conditions before completion. For a subsequent notice, state the actual event date and applicable deadline. Do not interchange these routes.]\n\n[Describe funding, fit-and-proper evidence and any conditional Key Person/PCC documentation appropriate to the route.]\n\nPlease acknowledge receipt and [confirm the applicable no-objection position for a prior-acquisition route / identify further information required for this notification].\n\n[Record authority to submit actually obtained. List only documents actually enclosed, any outstanding items, the confirmed fee item and actual payment status.]\n\nYours faithfully,\n[Name / capacity / contact]"
       },
-      "editorial_updated": "2026-09-21",
+      "editorial_updated": "2026-09-22",
       "sources": [
         {
           "type": "bma-primary",
@@ -2706,8 +2706,8 @@ const KB = {
         }
       ],
       "fee_year": 2026,
-      "revision": "2.2.0",
-      "evidence_note": "Targeted correction / scope safeguard, 21 September 2026. See VERIFICATION.md for checked provisions and unresolved coverage; no external legal sign-off."
+      "revision": "2.3.0",
+      "evidence_note": "Request-specific drafting review, 22 September 2026. See SOURCES.md for primary-source gateways and limitations. Forms, fees and submission channels require confirmation. No external legal sign-off."
     },
     {
       "id": "task-approvedperson",
@@ -2737,7 +2737,7 @@ const KB = {
         "published": "2026-01-07"
       },
       "verification": "established",
-      "last_reviewed": "2026-09-21",
+      "last_reviewed": "2026-09-22",
       "review_due": "2027-01-01",
       "legal_review": "pending",
       "data": {
@@ -2748,7 +2748,7 @@ const KB = {
           "ver": "unverified"
         },
         "fee": {
-          "t": "No specific application fee for auditor/actuary/principal representative approval was identified in the 2026 fee schedule — confirm with the BMA whether any fee applies (a $1,000 fee applies to modifying a loss reserve specialist opinion under s.6C).",
+          "t": "No fee is quoted for this appointment draft. Confirm whether the exact role and procedure attract a current fee; modifying a specialist opinion is a separate matter.",
           "ver": "unverified"
         },
         "method": {
@@ -2756,17 +2756,17 @@ const KB = {
           "ver": "unverified"
         },
         "docs": [
-          "Application/notification letter identifying the role and the proposed appointee",
-          "Appointee's qualifications, relevant experience, and regulatory standing",
-          "Confirmation of independence (auditor) or relevant professional credentials (actuary)",
-          "Board resolution approving the appointment",
-          "Any prescribed form and fee",
-          "Check the separate Key Person Police Clearance Certificate conditions below; do not assume every appointee is in scope."
+          "Identify role, insurer class, applicable procedure and proposed date",
+          "Provide qualifications, experience and regulatory standing relevant to the role",
+          "Address independence and conflicts where relevant; confirm role-specific BMA forms",
+          "Record governance approval actually obtained and outstanding steps",
+          "For a replacement, identify incumbent, cessation date and separate notification duties",
+          "Include personal declaration and PCC evidence only where their conditions apply"
         ],
         "escalate": "Where the change follows a disagreement or resignation of the incumbent (particularly an auditor), the circumstances themselves may be notifiable — obtain professional advice before corresponding with the Authority.",
-        "template": "[Entity Letterhead]\n\n[Date]\nBermuda Monetary Authority\n\nRe: [Entity] — Proposed appointment of [Name] as [auditor / actuary / principal representative]\n\n[Identify the exact role, legal gateway, registration number and proposed date. Verify whether approval or another procedure applies.]\n\n[Describe qualifications, experience, independence and standing after verification.]\n\n[Where replacing an incumbent, state the verified circumstances, any required reports and the relevant dates.]\n\n[Record board or other approval actually obtained. List only documents actually enclosed, any relevant PCC documentation, and the confirmed fee if prescribed.]\n\nYours faithfully,\n[Name / capacity]"
+        "template": "[Entity / applicant letterhead]\n[Date]\nBermuda Monetary Authority\n[Confirm current form and submission channel]\n\nSubject: Appointment submission — [insurer / registration number] — [person / firm and role]\n\nDear Sir or Madam,\n\nOn behalf of [insurer], a [class] insurer, we submit particulars of [person / firm] for the role of [auditor / approved actuary / loss reserve specialist / principal representative].\n\nThe applicable provision is [section 16 / section 26 / section 8B / section 8, as appropriate]. [Confirm class applicability and whether approval, notification or another procedure applies.] The proposed effective date is [date, subject to any required approval].\n\nThe appointee's qualifications, experience and standing are [verified particulars]. [Address independence, conflicts, capacity and role-specific requirements where applicable.]\n\n[For a replacement, identify the incumbent, reasons, dates and separate notifications required. Do not imply that this letter satisfies an auditor's own reporting duties.]\n\n[Record the appointee's acceptance if confirmed. Include personal declaration/PCC evidence only where applicable.]\n\nWe request [approval of this specific appointment / acknowledgement of the relevant notification — retain the correct outcome] and confirmation of any further information required.\n\n[Record authority to submit actually obtained. List only documents actually enclosed, any outstanding items, the confirmed fee item and actual payment status.]\n\nYours faithfully,\n[Name / capacity / contact]"
       },
-      "editorial_updated": "2026-09-21",
+      "editorial_updated": "2026-09-22",
       "sources": [
         {
           "type": "bma-primary",
@@ -2776,8 +2776,8 @@ const KB = {
         }
       ],
       "fee_year": 2026,
-      "revision": "2.2.0",
-      "evidence_note": "Targeted correction / scope safeguard, 21 September 2026. See VERIFICATION.md for checked provisions and unresolved coverage; no external legal sign-off."
+      "revision": "2.3.0",
+      "evidence_note": "Request-specific drafting review, 22 September 2026. See SOURCES.md for primary-source gateways and limitations. Forms, fees and submission channels require confirmation. No external legal sign-off."
     },
     {
       "id": "conseq-escalation",
@@ -5649,18 +5649,32 @@ const KB = {
         "url": "https://cdn.bma.bm/documents/2026-08-13-14-53-34-Notice---New-Policy-Implementation---Police-Clearance-Certificate-Requirement-for-Key-Persons.pdf",
         "published": "2026-08-13"
       },
-      "verification": "established",
-      "data": {},
-      "last_reviewed": "2026-09-21",
+      "verification": "verify",
+      "data": {
+        "pcc": {
+          "requirement": "For a relevant Key Person, provide a Police Clearance Certificate with the personal declaration form. Each certificate must be no more than 12 months old at submission. Cover every country where the person was an ordinary resident for more than six months at any time in the preceding three years. If a certificate cannot be obtained, the BMA may consider substitute documentation case by case.",
+          "transition": "Applications received in full before that date are outside the new requirement. A planned early submission or incomplete file does not establish the exception.",
+          "preparation": [
+            "Prepare a three-year residence history privately. For each country, record periods of ordinary residence and identify those exceeding six months. Exactly six months does not exceed the threshold; ask the BMA where residence or aggregation is uncertain.",
+            "For each relevant country, identify the competent official issuer and the record available for this regulatory purpose. Confirm scope where several national or local routes exist.",
+            "Record issue date and planned submission date for each certificate. Exactly 12 months satisfies the stated age limit; anything older needs current evidence. Recheck if the submission date changes.",
+            "Check identity details against the personal declaration and identity documents. Retain issuer instructions and evidence of any unsuccessful application outside this tool.",
+            "If a document is unavailable, raise the proposed substitute with the BMA early and retain its response. Do not assume acceptance.",
+            "For local/state/provincial or non-English records, ask the BMA about coverage, translation, authentication, apostille or notarisation as relevant. Allow time for issuance and corrections."
+          ],
+          "formatNote": "The notice does not prescribe a universal national/federal issuer, fingerprint process, certified translation or apostille. No country-specific issuing route is represented here as BMA-approved. Current BMA instructions and direct confirmation control uncertain cases."
+        }
+      },
+      "last_reviewed": "2026-09-22",
       "review_due": "2027-09-21",
       "legal_review": "pending",
       "rule": {
         "kind": "pcc"
       },
       "effective_from": "2026-10-01",
-      "editorial_updated": "2026-09-21",
-      "revision": "2.2.0",
-      "evidence_note": "Targeted correction / scope safeguard, 21 September 2026. See VERIFICATION.md for checked provisions and unresolved coverage; no external legal sign-off."
+      "editorial_updated": "2026-09-22",
+      "revision": "2.3.0",
+      "evidence_note": "BMA notice pages 1–2 rechecked 22 September 2026. PCC requirements are separated from preparation prompts. Issuer, translation, authentication and substitute acceptability remain for BMA confirmation; no external legal sign-off."
     },
     {
       "id": "rec-cp-code-group-2026",

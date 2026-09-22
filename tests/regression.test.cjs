@@ -21,6 +21,17 @@ function fixture({blocked=false}={}){
   const data=expression=>JSON.parse(JSON.stringify(run(expression)));
   return {run,data,values,elements,element};
 }
+test('wizard preserves a newly selected modification request before rebuilding options',()=>{
+ const f=fixture();
+ f.run("Object.assign(state,{entityType:'insurer',entityClass:'classE',mode:'EXECUTE',task:'extension',facts:{},focus:[]})");
+ f.element('entityType').value='insurer';f.element('entityClass').value='classE';
+ f.element('taskType').value='modification';f.run('toStep(3)');
+ assert.equal(f.run('state.task'),'modification');
+ assert.ok(!f.run('relevantFacts()').includes('filingType'));
+ f.run('renderResults(true)');assert.match(f.element('results').innerHTML,/Task: Exemption \/ modification request/);
+ assert.ok(!f.element('results').innerHTML.includes('Filing selection:'));
+});
+
 test('all 161 shipped entries pass the import schema',()=>{
   const f=fixture();assert.equal(f.run('KB.entries.length'),161);assert.deepEqual(f.data('validateFragment(JSON.stringify(KB.entries)).errors'),[]);
 });
@@ -182,7 +193,7 @@ test('malformed and cross-tab changes after preview are never overwritten',()=>{
 test('explicit merge preserves legacy data and renders imported review claims as unendorsed',()=>{
  const f=fixture();f.values.set('bcn_kb_overlay','{legacy damaged');f.element('kbFragment').value=f.run("JSON.stringify([{...KB.entries[0],text:'Local text',legal_review:'reviewed'}])");f.run('previewFragment();mergeFragment()');assert.equal(f.values.get('bcn_kb_overlay'),'{legacy damaged');
  assert.equal(f.run('activeKB().entries[0].legal_review'),'pending');assert.equal(f.run('activeKB().entries[0].imported'),true);
- const stored=JSON.parse(f.values.get('bcn_kb_overlay_v2'));assert.equal(stored.schema_version,2);assert.equal(stored.base_version,'2.2.0');
+ const stored=JSON.parse(f.values.get('bcn_kb_overlay_v2'));assert.equal(stored.schema_version,2);assert.equal(stored.base_version,f.run('KB.version'));
 });
 test('legacy bookmarks ask for new facts without modifying saved records',()=>{
  const f=fixture();const raw=JSON.stringify([{id:'old',prepared_by:'Test',saved_at:'2026-09-16T12:00:00Z',kb_version:'2.1.0',inputs:{entityType:'insurer',entityClass:'classE',mode:'DISTIL',fye:'2025-12-31',task:'',focus:[]}}]);f.values.set('bcn_assessments',raw);f.run("reopenAssessment('old')");assert.match(f.element('appStatus').textContent,/Confirm the new applicability/);assert.equal(f.values.get('bcn_assessments'),raw);
@@ -199,4 +210,61 @@ test('board-approval assertions and stale correction text do not survive release
 });
 test('app/KB mismatch prevents report generation',()=>{
  const f=fixture();profile(f);f.run("KB.version='2.1.0';renderResults(true)");assert.match(f.element('appStatus').textContent,/versions differ/);assert.equal(f.element('results').innerHTML,'');
+});
+
+test('every task retains its own letter and fee through wizard transitions for every insurer class',()=>{
+ const f=fixture(),subjects={extension:'Filing deadline extension',newlicence:'Insurer registration application',modification:'Exemption / modification application',controller:'Shareholder controller notification',approvedperson:'Appointment submission'};
+ for(const cls of f.data('Object.keys(KB.insurerClasses)'))for(const [task,subject] of Object.entries(subjects)){
+  profile(f,cls,{filingType:'statutory'},'EXECUTE','extension');
+  f.element('entityType').value='insurer';f.element('entityClass').value=cls;f.element('taskType').value=task;
+  f.run('toStep(3);renderResults(true)');
+  assert.equal(f.run('state.task'),task);
+  const out=f.element('results').innerHTML;
+  assert.ok(out.includes('Subject: '+subject),cls+' '+task);
+  for(const other of Object.values(subjects).filter(s=>s!==subject))assert.ok(!out.includes('Subject: '+other));
+  assert.equal(out.includes('Filing selection:'),task==='extension');
+  f.run('syncForm();toStep(2);toStep(3);renderResults(true)');assert.equal(f.run('state.task'),task);
+ }
+});
+
+test('saved application records preserve task identity and PCC facts without rewriting originals',()=>{
+ const f=fixture();
+ for(const task of ['newlicence','extension','modification','controller','approvedperson']){
+  profile(f,'classE',{amlRfi:'yes',keyVetting:'yes',pccDocument:'unavailable'},'EXECUTE',task);
+  const raw=JSON.stringify([{id:'saved-test',prepared_by:'Test',saved_at:'2026-09-22T12:00:00Z',kb_version:'2.2.0',inputs:f.data('state')}]);
+  f.values.set('bcn_assessments',raw);f.run("state.task='extension';reopenAssessment('saved-test')");
+  assert.equal(f.run('state.task'),task);assert.equal(f.element('taskType').value,task);assert.equal(f.values.get('bcn_assessments'),raw);
+  assert.equal(f.run("fact('pccDocument')"),'unavailable');
+ }
+});
+
+test('PCC preparation is gated, unknowns stay conditional and adverse answers escalate',()=>{
+ const f=fixture();profile(f,'classE',{},'EXECUTE','approvedperson');
+ assert.ok(!f.run('relevantFacts()').includes('pccAge'));assert.ok(!f.run('taskPccCard()').includes('Preparing documents'));
+ f.run("state.facts={amlRfi:'no',keyVetting:'yes'}");assert.equal(f.run('taskPccCard()'),'');
+ f.run("state.facts={amlRfi:'yes',keyVetting:'yes',completeBefore:'no',applicationDate:'2026-10-01',pccAge:'old',pccResidence:'uncertain',pccDocument:'unavailable'}");
+ assert.ok(f.run('relevantFacts()').includes('pccAge'));const out=f.run('taskPccCard()');
+ for(const term of ['older than 12 months','Contact the BMA early','Exactly six months','Exactly 12 months','not additional BMA mandates','case by case'])assert.ok(out.includes(term),term);
+ f.run("state.facts.completeBefore='yes'");assert.ok(!f.run('taskPccCard()').includes('Preparing documents'));assert.match(f.run('taskPccCard()'),/Transitional exception/);
+ f.run("state.facts.completeBefore='unknown';state.facts.amlRfi='unknown'");assert.match(f.run('taskPccCard()'),/Conditional/);
+});
+
+test('PCC import structure and saved answers reject invalid types and escape text',()=>{
+ const f=fixture();
+ for(const value of [null,[],{preparation:'wrong'},{requirement:'x',transition:'x',formatNote:'x',preparation:[null]}]){
+  assert.equal(f.run(`(()=>{const e=JSON.parse(JSON.stringify(KB.entries.find(e=>e.id==='gov-key-person-pcc')));e.data.pcc=${JSON.stringify(value)};return validateFragment(JSON.stringify([e])).ok})()`),false);
+ }
+ profile(f,'classE',{amlRfi:'yes',keyVetting:'yes'},'EXECUTE','newlicence');
+ assert.equal(f.run("validInputs({...state,facts:{pccAge:'invented'}})"),false);
+ assert.ok(f.run("pccPreparation({data:{pcc:{requirement:'<script>',transition:'',formatNote:'',preparation:['<img onerror=x>']}}})").includes('&lt;script&gt;'));
+});
+
+test('clipboard and fallback operate on the currently rendered draft only',async()=>{
+ const f=fixture();let copied='';f.run('navigator.clipboard={}');f.run('navigator').clipboard.writeText=async text=>{copied=text;};
+ for(const task of ['extension','modification','newlicence','controller','approvedperson']){
+  profile(f,'classE',{},'EXECUTE',task);f.run('renderResults(true)');
+  const raw=f.element('results').innerHTML.match(/<textarea id="tplraw"[^>]*>([\s\S]*?)<\/textarea>/)[1];
+  f.element('tplraw').value=raw;await f.run('copyTemplate()');assert.equal(copied,raw);
+ }
+ f.run('navigator.clipboard=undefined');let selected=false;f.element('tplraw').select=()=>{selected=true;};await f.run('copyTemplate()');assert.equal(selected,true);assert.match(f.element('copyStatus').textContent,/Automatic copy is unavailable/);
 });

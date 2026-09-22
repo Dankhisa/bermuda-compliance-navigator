@@ -1,5 +1,24 @@
 # SOURCES.md — Research Log
 
+## 22 September 2026 — PCC and request-letter review (2.3.0)
+
+Primary materials accessed for this targeted update:
+
+- [BMA PCC notice, 13 August 2026](https://cdn.bma.bm/documents/2026-08-13-14-53-34-Notice---New-Policy-Implementation---Police-Clearance-Certificate-Requirement-for-Key-Persons.pdf), pages 1–2: scope, timing, residence/age criteria, discretion for substitutes, transition and contact. Download SHA-256: `97d7dbb888bccedaf92d7d542bd01f392523320a3c8bbfd84d71485f75327720`.
+- [Consolidated Insurance Act 1978](https://www.bermudalaws.bm/Laws/Consolidated%20Law/1978/Insurance%20Act%201978): statutory gateways below. Each remains subject to class, facts, directions and current instruments.
+- [BMA 2026 fees](https://www.bma.bm/viewPDF/documents/2026-03-17-10-11-27-2026-Bermuda-Monetary-Authority-Fees.pdf), printed pages 8–13, insurance application items. This schedule supports fee references, not substantive eligibility for relief.
+- [BMA forms index](https://www.bma.bm/documents-centre/documents-reporting-forms-and-guidelines) and [Personal Declaration Form, January 2026](https://www.bma.bm/viewPDF/documents/2026-01-16-12-00-10-Personal-Declaration-Form-for-Director-Officers13-Jan-26.pdf): the available form reviewed did not expressly mention police certificates. This does not override the later notice or prove no other updated form exists. Confirm the form for the specific submission.
+
+| Request | Primary route | Template treatment / unresolved matters |
+|---|---|---|
+| New insurer registration | Act ss.4–5; minimum criteria; fees item 1(a) | Applicant, class and business case; $800 application reference, separate registration fee; confirm class-specific form, evidence and channel |
+| Filing extension | Act s.17(4); s.6C for the relevant standards; fees 2(c), 2(x), 2(z) | Identify filing and current/requested dates; retain period limits only for their proper route; combined fee not guessed |
+| Exemption/modification | Act s.56(5) scope, s.6C standards, s.6D capital; s.57A designated investment contracts | Exact target/gateway and reasons; discretionary outcome; no universal undue-burden test, board-resolution requirement or flat fee asserted |
+| Controller | Act ss.30D, 30E, 30EA, 30J; fee 2(f) where applicable | Identify actor, public/private status, transaction and threshold; distinguish prior notice from subsequent reporting |
+| Appointment | Act ss.8, 8B, 16, 16A, 26–27 | Identify role and class; distinguish appointment approval from separate incumbent reporting; role-specific forms/fees remain to confirm |
+
+PCC issuer hierarchy, fingerprints, universal translation/authentication and named foreign-document acceptance were not established by the reviewed notice. The app presents preparation prompts and BMA confirmation routes, not additional legal mandates. Country examples were deliberately omitted. Letter prose and suggested supporting analyses are editorial preparation aids, not BMA-prescribed forms. Source review is targeted and has no external legal sign-off.
+
 > **21 September 2026 update:** Sections 1–4 below are historical research records, not a statement that every entry remains current. The targeted 2.2.0 correction register and limits are in [VERIFICATION.md](VERIFICATION.md). The 2022 Code commenced on 1 September 2022; 31 August is its upload date. Source types now also include `official-guidance` for non-BMA government guidance/announcements. Consultation timings must be read by component, not collapsed into a single date.
 
 
