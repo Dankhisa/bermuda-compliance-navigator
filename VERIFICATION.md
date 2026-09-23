@@ -1,6 +1,12 @@
-# Verification and coverage — version 2.3.0
+# Verification and coverage — version 2.4.0
 
-22 September 2026. Independent educational project by Daniel Khisa. Targeted source checks and software tests are not external legal review, regulatory endorsement or a complete compliance assessment.
+23 September 2026. Independent educational project by Daniel Khisa. Targeted source checks and software tests are not external legal review, regulatory endorsement or a complete compliance assessment.
+
+## 2.4.0 information-architecture update
+
+This presentation-only release separates the three report journeys without changing any of the 161 knowledge-base entries, sources, verification labels, calculations or applicability logic. The regulatory landscape overview is now the sole detailed regime map (framework, selected changes and optional focus analysis). Ongoing obligations & filings is the sole detailed filing calendar, calendar-export and governance/checklist view, with a clear reference back to the regime map rather than duplicated framework text. Application preparation remains task-specific.
+
+New assessments outside the overview do not offer optional focus-topic selection. Existing saved inputs remain readable input bookmarks; because reports regenerate against the current release, an earlier non-overview focus selection no longer produces duplicate focus content. Users can select the overview to inspect that analysis. No legal or source-retrieval claim is added by this change.
 
 ## 2.3.0 targeted update
 
@@ -52,7 +58,9 @@ Primary links and retrieval records are in [SOURCES.md](SOURCES.md). Source pres
 
 ## Software verification
 
-Run `node tests/regression.test.cjs`. The 39 tests use isolated JavaScript execution and inert DOM fixtures; the existing source-derived case table is [tests/accuracy-cases.json](tests/accuracy-cases.json). New wizard, PCC and task-isolation scenarios are in the test file.
+For 2.4.0, 40/40 regression cases passed. Local browser checks on 23 September 2026 confirmed the related-guidance buttons preserve the entity profile and focus selections, the overview contains the framework/changes/focus sections, and the obligations view contains the calendar/governance/consequences sections. A 390 × 844 viewport check confirmed the overview header and navigation wrap without document-level horizontal overflow. These are targeted checks; print/offline behaviour remains unverified.
+
+Run `node tests/regression.test.cjs`. The 40 tests use isolated JavaScript execution and inert DOM fixtures; the existing source-derived case table is [tests/accuracy-cases.json](tests/accuracy-cases.json). New wizard, PCC, task-isolation and information-architecture separation scenarios are in the test file.
 
 Cases cover all supported class/mode combinations, all five tasks for every selectable insurer class, class exclusions, fee selection, PCC boundaries, controller routes, conditional facts, date limits, escaping, calendar structure, malformed imports, saved-data preservation, baseline conflicts and app/KB version mismatch.
 

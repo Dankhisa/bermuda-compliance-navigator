@@ -1,9 +1,9 @@
 /* Static educational knowledge base. Original research and per-entry review dates are preserved. See VERIFICATION.md. */
 const KB = {
-  "version": "2.3.0",
+  "version": "2.4.0",
   "as_at": "2026-07-02",
   "generated": "2026-07-02",
-  "app_version": "2.3.0",
+  "app_version": "2.4.0",
   "schema": {
     "required": [
       "id",

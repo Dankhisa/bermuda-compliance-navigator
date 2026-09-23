@@ -258,9 +258,9 @@
       <button class="btn btn-gold" onclick="startWizard()">Start Guided Assessment →</button>
     </div>
     <div class="features">
-      <div class="feature"><div class="ico">I</div><h3>Regulatory Landscape</h3><p>Map the Acts, Rules, Codes of Conduct, and Guidance Notes that apply to your entity class, including recent and pending changes.</p></div>
-      <div class="feature"><div class="ico">II</div><h3>Obligations &amp; Deadlines</h3><p>Distil the framework into a filing calendar, board-level governance expectations, non-compliance consequences, and an exportable deadline calendar.</p></div>
-      <div class="feature"><div class="ico">III</div><h3>Applications &amp; Drafting</h3><p>Prepare regulatory applications and requests — enabling provision, timing, fee reference, document checklist, and a draft letter template.</p></div>
+      <div class="feature"><div class="ico">I</div><h3>Regulatory Landscape</h3><p>Understand the applicable Acts, Rules, Codes and Guidance Notes, selected changes and optional risk topics in one detailed regime map.</p></div>
+      <div class="feature"><div class="ico">II</div><h3>Obligations &amp; Filings</h3><p>Run the compliance cycle with a filing calendar, governance checklist, consequence guidance and an exportable estimated-date calendar.</p></div>
+      <div class="feature"><div class="ico">III</div><h3>Applications &amp; Drafting</h3><p>Prepare one selected regulatory route: enabling provision, conditions, timing, fee status, document checklist and draft letter.</p></div>
     </div>
     <div class="callout c-info"><span class="ci">ⓘ</span><span><b>How verification works.</b> Every requirement shown is labelled <span class="badge b-est">Established</span> (long-standing, confirm current text), <span class="badge b-ver">Verify</span> (subject to amendment or annual update), or <span class="badge b-unv">Unverified</span> (must be confirmed against primary sources). Content not drawn from BMA or legislation carries a visible source label. These labels describe the knowledge base, not a guarantee of accuracy. Confirm source text and applicability before use.</span></div>
     <section class="card about-project" aria-labelledby="aboutTitle">
@@ -279,7 +279,7 @@
       <div class="steps" aria-label="Assessment progress">
         <div class="step" data-n="1" id="st1">Entity Profile</div>
         <div class="step" data-n="2" id="st2">Objective</div>
-        <div class="step" data-n="3" id="st3">Focus Areas</div>
+        <div class="step" data-n="3" id="st3">Relevant Facts</div>
         <div class="step" data-n="4" id="st4">Results</div>
       </div>
 
@@ -314,9 +314,9 @@
         <h2 class="qtitle">What do you need today?</h2>
         <p class="qsub">Choose the mode. Each produces a different structured output.</p>
         <fieldset class="choices"><legend class="sr-only">Assessment objective</legend>
-          <label class="choice" data-mode="MAP"><input type="radio" name="mode" value="MAP" onchange="pickMode(this.closest('.choice'))"><span class="choice-title">Regulatory landscape overview</span><span class="choice-description">The Acts, Rules, Codes, and Guidance Notes applying to this entity, plus recent changes.</span></label>
-          <label class="choice" data-mode="DISTIL"><input type="radio" name="mode" value="DISTIL" onchange="pickMode(this.closest('.choice'))"><span class="choice-title">Ongoing obligations &amp; filings</span><span class="choice-description">Filing calendar, statutory deadlines, governance expectations, and a compliance checklist.</span></label>
-          <label class="choice" data-mode="EXECUTE"><input type="radio" name="mode" value="EXECUTE" onchange="pickMode(this.closest('.choice'))"><span class="choice-title">Prepare an application or request</span><span class="choice-description">Enabling provision, timing, fee reference, document checklist, and a draft letter.</span></label>
+          <label class="choice" data-mode="MAP"><input type="radio" name="mode" value="MAP" onchange="pickMode(this.closest('.choice'))"><span class="choice-title">Regulatory landscape overview</span><span class="choice-description">Understand the applicable Acts, Rules, Codes and Guidance Notes, selected changes and optional risk topics. This is the detailed regime map.</span></label>
+          <label class="choice" data-mode="DISTIL"><input type="radio" name="mode" value="DISTIL" onchange="pickMode(this.closest('.choice'))"><span class="choice-title">Ongoing obligations &amp; filings</span><span class="choice-description">Run the compliance cycle: filing calendar, ownership-oriented next actions, governance checklist and consequences. It links to, rather than repeats, the regime map.</span></label>
+          <label class="choice" data-mode="EXECUTE"><input type="radio" name="mode" value="EXECUTE" onchange="pickMode(this.closest('.choice'))"><span class="choice-title">Prepare an application or request</span><span class="choice-description">Prepare one selected route: enabling provision, conditions, timing, fee status, document checklist and draft letter.</span></label>
         </fieldset>
         <p id="scopeNote" class="callout c-info hidden"></p>
         <div id="taskWrap" class="hidden">
@@ -334,10 +334,10 @@
 
       <!-- Step 3 -->
       <div id="step3" class="hidden">
-        <h2 class="qtitle">Select focus areas <span style="font-size:14px;color:var(--muted);font-weight:400">(optional)</span></h2>
+        <h2 class="qtitle">Confirm relevant facts</h2>
         <div class="card"><h3>Conditions that change the guidance</h3><p>Choose “Not sure” where facts are unknown. Do not enter company or personal documents.</p><div id="factsForm"></div></div>
-        <p class="qsub" id="focusNote">The results will include available targeted analysis for each selected area.</p>
-        <fieldset class="checks" id="focusChecks"><legend class="sr-only">Focus areas</legend></fieldset>
+        <div id="focusBlock"><p class="qsub" id="focusNote">For the regulatory landscape overview, add optional focus areas to the regime map.</p>
+          <fieldset class="checks" id="focusChecks"><legend class="sr-only">Focus areas</legend></fieldset></div>
         <div class="wnav"><button class="btn btn-ghost btn-sm" onclick="toStep(2)">← Back</button><button class="btn btn-gold" onclick="renderResults()">Generate Guidance →</button></div>
       </div>
     </div>
@@ -382,12 +382,12 @@
 
 <footer>
   <div class="fwrap">
-    <p><b>Created by Daniel Khisa.</b> <a href="https://dankhisa.github.io/" style="color:inherit;text-decoration:underline;text-underline-offset:3px">Daniel Khisa — portfolio</a> · Educational portfolio project · App updated <time datetime="2026-09-22">22 September 2026</time>. Original KB research: 2 July 2026; individual entries carry their own review dates.</p>
+    <p><b>Created by Daniel Khisa.</b> <a href="https://dankhisa.github.io/" style="color:inherit;text-decoration:underline;text-underline-offset:3px">Daniel Khisa — portfolio</a> · Educational portfolio project · App updated <time datetime="2026-09-23">23 September 2026</time>. Original KB research: 2 July 2026; individual entries carry their own review dates.</p>
     <b>Disclaimer.</b> This tool provides general information only, generated from a static knowledge base as at the date shown on each report. It is not legal, regulatory, actuarial, tax, or other professional advice, and it does not create an adviser–client relationship. Regulatory requirements, fees, forms, and deadlines change. Before acting or filing, verify every obligation against the current consolidated Bermuda legislation, the Bermuda Monetary Authority's Rules, Codes of Conduct, and Guidance Notes (<b>bma.bm</b>), and obtain professional advice appropriate to your circumstances. Where an item is marked "Verify" or "Unverified", confirmation against primary sources is required.
   </div>
 </footer>
 
-<script src="kb.js?v=2.3.0"></script>
+<script src="kb.js?v=2.4.0"></script>
 <script>
 /* =========================================================================
    APP — presentation layer. All regulatory content lives in kb.js (KB).
@@ -739,9 +739,17 @@ function syncForm(){
   updateTasks(); buildFocus();renderFacts();
 }
 function editAssessment(){syncForm();showOnly("wizard");toStep(1);}
+function openJourney(mode){
+  if(!['MAP','DISTIL','EXECUTE'].includes(mode))return;
+  state.mode=mode;
+  syncForm();showOnly('wizard');toStep(mode==='EXECUTE'?2:3);
+}
 function buildFocus(){
   const fc=document.getElementById("focusChecks");
   fc.innerHTML='<legend class="sr-only">Focus areas</legend>';
+  const available=state.mode==='MAP';
+  document.getElementById('focusBlock').classList.toggle('hidden',!available);
+  if(!available)return;
   KB.focusAreas.forEach(([key,label])=>{
     const l=document.createElement("label"), input=document.createElement("input");
     l.className="chk";input.type="checkbox";input.value=key;input.checked=state.focus.includes(key);
@@ -795,7 +803,7 @@ function toStep(n){
     s.classList.toggle("done",i<n);
   }
   if(n===3){state.task=document.getElementById("taskType").value;buildFocus();renderFacts();}
-  document.getElementById("focusNote").textContent="The report includes available analysis for your selections. Gaps in this knowledge base will be identified.";
+  document.getElementById("focusNote").textContent="For the regulatory landscape overview, add optional focus areas to the regime map. Gaps in this knowledge base will be identified.";
   [1,2,3,4].forEach(i=>{const el=document.getElementById("st"+i);if(i===n)el.setAttribute("aria-current","step");else el.removeAttribute("aria-current");});
   if(n<=3)focusHeading(document.getElementById("step"+n));
   window.scrollTo(0,0);
@@ -871,10 +879,10 @@ function renderResults(fromSaved){
   storageMessage="";
   if(!fromSaved){
     readFacts();
-    state.focus=[...document.querySelectorAll("#focusChecks input:checked")].map(i=>i.value);
+    if(state.mode==='MAP')state.focus=[...document.querySelectorAll("#focusChecks input:checked")].map(i=>i.value);
     state.task=document.getElementById("taskType").value;
   }
-  if(KB.version!=="2.3.0"||KB.app_version!=="2.3.0"){announce("Application and knowledge-base versions differ. Reload both assets before generating a report.");return;}
+  if(KB.version!=="2.4.0"||KB.app_version!=="2.4.0"){announce("Application and knowledge-base versions differ. Reload both assets before generating a report.");return;}
   if(!validInputs(state)){announce("Assessment inputs are invalid. Start a new assessment.");return;}
   usedEntryIds=[]; legalPendingSeen=false;
   const akb=activeKB();
@@ -882,8 +890,8 @@ function renderResults(fromSaved){
   const modeName={MAP:"Regulatory Landscape Overview",DISTIL:"Obligations & Filing Guidance",EXECUTE:"Application Preparation"}[state.mode];
   let n=0; const num=()=>{n++;return `<span class="n">${n}</span>`;};
 
-  const filings=(state.mode==="MAP"||state.mode==="DISTIL")?scoped("filing").map(use):[];
-  const framework=(state.mode==="MAP"||state.mode==="DISTIL")?scoped("framework").filter(e=>!e.data||!e.data.role).map(use):[];
+  const filings=state.mode==="DISTIL"?scoped("filing").map(use):[];
+  const framework=state.mode==="MAP"?scoped("framework").filter(e=>!e.data||!e.data.role).map(use):[];
   const recents=scoped("framework").filter(e=>e.data&&e.data.role==="recent");
   const governance=state.mode==="DISTIL"?scoped("governance").map(use):[];
 
@@ -903,12 +911,21 @@ function renderResults(fromSaved){
     </div>
     ${reopenNotice}
     ${migrationNotice?`<div class="callout c-warn">${esc(migrationNotice)}</div>`:""}
+    <nav class="card no-print" aria-label="Related guidance">
+      <p>Explore another view for this entity. Review the relevant facts before generating guidance.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        ${state.mode!=='MAP'?'<button class="btn btn-ghost btn-sm" onclick="openJourney(\'MAP\')">Regulatory landscape overview</button>':''}
+        ${state.mode!=='DISTIL'?'<button class="btn btn-ghost btn-sm" onclick="openJourney(\'DISTIL\')">Ongoing obligations &amp; filings</button>':''}
+        ${state.mode!=='EXECUTE'?'<button class="btn btn-ghost btn-sm" onclick="openJourney(\'EXECUTE\')">Prepare an application or request</button>':''}
+      </div>
+    </nav>
+    ${state.mode!=='MAP'&&state.focus.length?'<p>Saved focus selections are retained. Open Regulatory landscape overview to review their analysis.</p>':''}
     ${contextCard()}
     ${taskPccCard()}
     <div id="legalReviewNotice"></div>
     <div class="card"><h3>${num()}Entity Class Summary</h3><p style="font-size:14.5px">${currentSummary()||"—"}</p></div>`;
 
-  if(state.mode==="MAP"||state.mode==="DISTIL"){
+  if(state.mode==="MAP"){
     html+=`<div class="card"><h3>${num()}Legislative & Regulatory Framework</h3><ul class="list">`+
       framework.map(f=>`<li><b>${esc((f.data&&f.data.name)||f.citation||f.id)}</b> ${BADGE[f.verification]}${srcPill(f)}<br><span style="color:var(--muted);font-size:13px">${esc(f.text)}</span>${f.citation?`<span class="prov" style="display:block;color:var(--muted);font-size:12px">${esc(f.citation)}</span>`:""}${revMeta(f)}</li>`).join("")+
       `</ul><div class="callout c-warn"><span class="ci">⚠</span><span><b>Coverage statement:</b> this mapping lists the principal instruments held in this tool's knowledge base (original research ${fmtD(akb.as_at)}; individual entries and imported updates have separate review dates) and is <b>not exhaustive</b>. Instruments issued or amended after that date may exist. Confirm the current framework on <b>bma.bm</b> and against consolidated legislation before relying on it.</span></div></div>`;
@@ -922,7 +939,7 @@ function renderResults(fromSaved){
       `</tbody></table></div>`;
   }
 
-  if(state.mode==="DISTIL"||state.mode==="MAP"){
+  if(state.mode==="DISTIL"){
     html+=`<div class="card"><h3>${num()}Filing & Reporting Calendar</h3>
       <table><thead><tr><th>Filing / Return</th><th>Frequency</th><th>Statutory Deadline</th>${state.fye?"<th>Computed Due Date</th>":""}<th>Status</th></tr></thead><tbody>`+
       filings.map(f=>{
@@ -939,7 +956,7 @@ function renderResults(fromSaved){
       governance.map(g=>`<li>${esc(g.text)} ${BADGE[g.verification]}${srcPill(g)}<span class="prov" style="display:block;color:var(--muted);font-size:12px">${esc(g.citation||"")}</span>${g.rule?.kind==='pcc'?pccPreparation(g):''}${revMeta(g)}</li>`).join("")+`</ul></div>`;
   }
 
-  if(state.focus.length){
+  if(state.mode==="MAP"&&state.focus.length){
     const focusEntries=scoped("focus");
     let inner="";
     state.focus.forEach(k=>{
@@ -988,7 +1005,9 @@ function renderResults(fromSaved){
   // Next steps
   const steps = state.mode==="EXECUTE"
     ? ["Verify the enabling provision and any prescribed form against the current consolidated legislation and BMA guidance (owner: compliance / counsel).","Confirm the current fee and submission channel with the BMA or the latest fee schedule (owner: compliance).","Complete all bracketed placeholders and obtain board or senior management sign-off (owner: CCO / board).","Obtain professional advice where the escalation note above applies (owner: board).","Submit via the confirmed channel and diarise the follow-up (owner: compliance)."]
-    : ["Verify each item marked “Verify” or “Unverified” against current legislation, Rules, Codes, and Guidance Notes on bma.bm (owner: compliance).","Map each filing to an owner and diarise deadlines with adequate lead time for board and auditor/actuary sign-off (owner: CCO).","Review the applicable governance expectations with the board and document responses (owner: company secretary / board).","Confirm AML/ATF and economic substance scoping for this specific entity — both are fact-dependent (owner: compliance / counsel).","Obtain professional advice on any item involving interpretation, discretion, or material exposure (owner: board)."];
+    : state.mode==="MAP"
+      ? ["Confirm each instrument marked “Verify” or “Unverified” against current legislation, Rules, Codes and Guidance Notes on bma.bm (owner: compliance / counsel).","Check that the selected entity class, licence conditions, exemptions and directions match the organisation’s actual circumstances (owner: compliance).","Review the selected changes and pending items against current primary material; this is not a live update feed (owner: compliance).","Use Ongoing obligations & filings to turn applicable duties into a calendar and governance workplan (owner: CCO).","Obtain professional advice on any item involving interpretation, discretion or material exposure (owner: board)."]
+      : ["Verify each item marked “Verify” or “Unverified” against current legislation, Rules, Codes, and Guidance Notes on bma.bm (owner: compliance).","Map each filing to an owner and diarise deadlines with adequate lead time for board and auditor/actuary sign-off (owner: CCO).","Review the applicable governance expectations with the board and document responses (owner: company secretary / board).","Use Regulatory landscape overview to inspect the detailed governing instruments and selected changes for this entity (owner: compliance).","Obtain professional advice on any item involving interpretation, discretion, or material exposure (owner: board)."];
   html+=`<div class="card"><h3>${num()}Recommended Next Steps</h3><ol style="padding-left:22px;font-size:14px">${steps.map(s=>`<li style="padding:5px 0">${s}</li>`).join("")}</ol></div>`;
 
   html+=`<div class="callout c-info" style="margin-top:20px"><span class="ci">§</span><span><b>Disclaimer.</b> This output is general information generated ${today} from knowledge base v${esc(akb.version)} (as at ${fmtD(akb.as_at)}), not legal, regulatory, actuarial, or professional advice. Requirements change; verify all obligations, deadlines, fees, and forms against current Bermuda legislation and BMA Rules, Codes, and Guidance Notes (bma.bm), and obtain professional advice before acting or filing.</span></div>`;

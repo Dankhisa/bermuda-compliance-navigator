@@ -63,6 +63,23 @@ test('all supported entity classes render all three modes without exceptions',()
   const result=f.run(`(()=>{let count=0;for(const type of ['insurer',...KB.scopeGroups.nonInsurers]){for(const cls of type==='insurer'?Object.keys(KB.insurerClasses):type==='daba'?Object.keys(KB.dabaClasses):['']){for(const mode of ['MAP','DISTIL','EXECUTE']){Object.assign(state,{entityType:type,entityClass:cls,fye:'2025-12-31',mode,task:'newlicence',focus:KB.focusAreas.map(a=>a[0])});renderResults(true);count++;}}}return count;})()`);
   assert.ok(result>=60);
 });
+test('each guidance mode has a distinct information architecture',()=>{
+ const f=fixture();
+ f.run("Object.assign(state,{entityType:'insurer',entityClass:'classE',fye:'2025-12-31',mode:'MAP',task:'',focus:['capital'],facts:{}});renderResults(true)");
+ let result=f.element('results').innerHTML;
+ assert.match(result,/Legislative & Regulatory Framework/);assert.match(result,/Selected Changes &amp; Pending Items/);assert.match(result,/Focus-Area Analysis/);
+ assert.ok(!result.includes('Filing & Reporting Calendar'));assert.ok(!result.includes('Governance & Board Expectations'));
+ f.run("Object.assign(state,{entityType:'insurer',entityClass:'classE',fye:'2025-12-31',mode:'DISTIL',task:'',focus:['capital'],facts:{}});renderResults(true)");
+ result=f.element('results').innerHTML;
+ assert.match(result,/Filing & Reporting Calendar/);assert.match(result,/Governance & Board Expectations/);assert.match(result,/Use Regulatory landscape overview to inspect the detailed governing instruments/);
+ assert.ok(!result.includes('Legislative & Regulatory Framework'));assert.ok(!result.includes('Selected Changes &amp; Pending Items'));assert.ok(!result.includes('Focus-Area Analysis'));
+ f.run("renderResults();openJourney('MAP')");
+ assert.equal(f.run('state.mode'),'MAP');assert.deepEqual(f.data('state.focus'),['capital']);
+ assert.equal(f.run('state.entityClass'),'classE');assert.equal(f.run('state.fye'),'2025-12-31');
+ f.run("openJourney('EXECUTE');state.task='modification';renderResults(true)");
+ result=f.element('results').innerHTML;
+ assert.match(result,/Draft Correspondence Template/);assert.ok(!result.includes('Focus-Area Analysis'));assert.ok(!result.includes('Filing & Reporting Calendar'));
+});
 test('non-insurers have no insurer application tasks or fees',()=>{
   const f=fixture();
   for(const type of f.data('KB.scopeGroups.nonInsurers')){

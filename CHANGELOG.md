@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v2.4.0 — 23 September 2026
+
+- Added related-guidance buttons that preserve entity context and take users to the relevant facts or application selection. Focus selections survive switching journeys. Retained the existing report-section anchors; separate URLs/subpages were unnecessary for these shared-profile workflows.
+
+- Separated the three assessment journeys so the regulatory landscape overview is the detailed regime map, ongoing obligations & filings is the operational calendar/checklist view, and application preparation is task-specific.
+- Removed duplicated framework, selected-change, filing-calendar and optional-focus sections from inappropriate report paths. All source-backed content remains available through its relevant journey; the obligations view points users back to the detailed regime map.
+- Made the choice-card descriptions and recommended next steps explicit about the boundary between understanding the regime and running the compliance cycle.
+- No knowledge-base entries, source links, verification labels, calculations, fees, deadlines or applicability rules changed. Saved assessments remain input bookmarks and regenerate against the new presentation.
+- 40 automated checks pass, including a regression that asserts the paths do not reintroduce the duplicated sections.
+
 ## v2.3.0 — 22 September 2026
 
 - Fixed the wizard rebuilding the request dropdown from stale state before reading a new selection. Modification and other requests now retain their own task through navigation.
