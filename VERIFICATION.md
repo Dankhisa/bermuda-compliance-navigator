@@ -2,6 +2,8 @@
 
 ## Owner-authorised release checks — 25 September 2026
 
+Publication completed from commit `167d97946f9199e2bb2396c75e6ff64bc74d8294` with a successful GitHub Pages deployment. All ten checked public files matched the release manifest. Live Chrome checks showed KB 2.7.4, the expanded Class E overview and proposal horizon, and the IIGB count disclosure with its citation; no application errors were captured. These observations supersede the earlier local-only status statements.
+
 The owner authorised publication of 2.7.4. The local Chrome Class E sample rendered its filing estimates and withheld conditional dates; a synthetic assessment saved, survived reload and reopened against 2.7.4. The modification-request selection produced its own report and draft, and the copied clipboard text matched that draft. Invalid JSON was rejected. The calendar export button was exercised, but delivery could not be independently inspected because browser download-history access was blocked; this is retained as a verification limitation. Desktop/mobile and generated-PDF observations from the same runtime are below. GUI print preview, direct-file offline operation, complete successful browser import/merge, and exhaustive accessibility/legal review remain unverified.
 
 The current Insurance Act and the Bermuda Laws annual-law index were checked on 25 September 2026. No section 17AA or enacted Insurance Amendment Act 2026 was found there. This supports retaining the horizon item as an as-tabled proposal; it does not prove the absence of a later parliamentary step or Gazette notice. No operative duty or deadline is inferred. Earlier “not published” records below describe development stages and are superseded by this owner-authorised release.

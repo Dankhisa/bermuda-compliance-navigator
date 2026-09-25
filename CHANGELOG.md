@@ -2,6 +2,8 @@
 
 ## v2.7.4 — owner-authorised publication, 25 September 2026
 
+Published from commit `167d97946f9199e2bb2396c75e6ff64bc74d8294`; [GitHub Pages deployment succeeded](https://github.com/Dankhisa/bermuda-compliance-navigator/actions/runs/36146707766). All ten checked public files matched the release manifest. Live Chrome checks rendered the Class E background and proposal horizon, then the IIGB footprint with both attributed counts and the editorial parenthesis; no captured application errors. Portfolio unchanged.
+
 - Releases the reviewed class backgrounds and sector context developed through versions 2.5.0–2.7.4, with the qualified IIGB count note, proposal-only C/D/E horizon item and print refinements.
 - Owner approval is editorial release approval. Existing source and applicability limitations remain visible; the historical development records below preserve checks and decisions at each stage.
 - Release browser checks confirmed the Class E sample and conditional output, save/reload/reopen, modification-request selection and copied template, and invalid JSON rejection. Calendar export was triggered; delivery was not independently confirmed. Printed PDF evidence is recorded in VERIFICATION.md.
