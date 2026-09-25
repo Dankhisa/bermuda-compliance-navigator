@@ -1,5 +1,9 @@
 # Verification and coverage — release 2.8.0
 
+## Owner-authorised release checks — 25 September 2026
+
+Publication completed from commit `069739f8e520e9012451fa3e1a07d9963227da44` with a [successful GitHub Pages deployment](https://github.com/Dankhisa/bermuda-compliance-navigator/actions/runs/36165665516). All ten checked public files matched the release manifest. In the live checks the site reported KB and app version 2.8.0 with release date 25 September 2026. Backgrounds for Class 3B, Class 4, trust and DABA Class T rendered with the new sections. The Special Purpose Insurer profile rendered unchanged, and no console errors were captured. These observations supersede the prepublication status below.
+
 ## 2.8.0 prepublication pass — 25 September 2026
 
 The owner authorised publication of 2.8.0. The owner approved each background batch as editorial copy; no counsel sign-off or legal opinion is claimed.

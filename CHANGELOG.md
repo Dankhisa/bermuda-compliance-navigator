@@ -2,6 +2,8 @@
 
 ## v2.8.0 — owner-authorised publication, 25 September 2026
 
+Published from commit `069739f8e520e9012451fa3e1a07d9963227da44`; [GitHub Pages deployment succeeded](https://github.com/Dankhisa/bermuda-compliance-navigator/actions/runs/36165665516). All ten checked public files matched the release manifest, and a live smoke test showed KB 2.8.0 with no captured errors.
+
 The owner authorised publication of 2.8.0. It releases the background depth programme developed in stages on 25 September 2026, each stage reviewed and approved by the owner as editorial copy. No counsel sign-off or legal opinion is claimed.
 
 - **Shared background template.** Class and entity backgrounds use one template with optional sections for how a class or sector is used in practice, sub-categories and routes, and key terms. A section appears only when sourced content exists. Key terms are labelled as statutory, regulatory (BMA returns, groupings and processes) or market usage.
