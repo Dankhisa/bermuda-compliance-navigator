@@ -5,6 +5,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const vm=require('node:vm');
 const path=require('node:path');
+const crypto=require('node:crypto');
 const root=path.join(__dirname,'..');
 const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
 const source=fs.readFileSync(path.join(root,'kb.js'),'utf8')+'\n'+[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m=>m[1]).join('\n');
@@ -32,8 +33,223 @@ test('wizard preserves a newly selected modification request before rebuilding o
  assert.ok(!f.element('results').innerHTML.includes('Filing selection:'));
 });
 
-test('all 161 shipped entries pass the import schema',()=>{
-  const f=fixture();assert.equal(f.run('KB.entries.length'),161);assert.deepEqual(f.data('validateFragment(JSON.stringify(KB.entries)).errors'),[]);
+test('all 162 shipped entries pass the import schema',()=>{
+  const f=fixture();assert.equal(f.run('KB.entries.length'),162);assert.deepEqual(f.data('validateFragment(JSON.stringify(KB.entries)).errors'),[]);
+});
+test('the 161 existing entries retain the 2.4.0 fingerprint',()=>{
+  const f=fixture();
+  const hash=crypto.createHash('sha256').update(JSON.stringify(f.data("KB.entries.filter(e=>e.id!=='rec-bill-insurance-als-2026')"))).digest('hex');
+  assert.equal(hash,'2694e7586ca47be93b620c045e1f6774355ab915bcfade97ee00a15cbab3dab9');
+});
+test('pilot profiles have source-backed claims and primary support for legal cells',()=>{
+  const f=fixture();
+  assert.equal(f.run('KB.version'),'2.7.4');assert.equal(f.run('KB.app_version'),'2.7.4');
+  const errors=f.data(`(()=>{const errors=[],sources=KB.class_profile_sources,claim=(c,legal=false)=>{
+    if(!c||typeof c.text!=='string'||!c.text||!Array.isArray(c.sources)||!c.sources.length||!c.pin)errors.push('incomplete claim');
+    else for(const id of c.sources){const s=sources[id];if(!s||!s.url||!s.retrieved||![1,2,3,4].includes(s.tier))errors.push('source '+id);}
+    if(legal&&!c.sources.some(id=>['law','rule'].includes(sources[id]?.kind)))errors.push('legal claim without primary source');
+  };
+  for(const [id,p] of Object.entries(KB.class_profiles)){
+    if(!Object.hasOwn(KB.insurerClasses,id)||p.legal_review!=='pending')errors.push('invalid profile '+id);
+    for(const key of ['at_a_glance','official_rationale','industry_view','qualification','footprint','misconceptions'])for(const c of p[key])claim(c,key==='qualification');
+    for(const c of p.timeline)claim(c);
+  }
+  for(const row of KB.class_profile_comparison.rows)for(const id of KB.class_profile_comparison.classes)claim(row.cells[id],row.legal);
+  for(const c of KB.class_profile_comparison.class3a_context)claim(c);
+  return errors;})()`);
+  assert.deepEqual(errors,[]);
+});
+test('pilot profiles stay in overview, show the approved SPI audit wording without a pending-review sign, and escape data',()=>{
+  const f=fixture();
+  f.run("Object.assign(state,{entityType:'insurer',entityClass:'spi',mode:'MAP',task:'',focus:[],facts:{}});renderResults(true)");
+  let result=f.element('results').innerHTML;
+  assert.match(result,/Class background \(context, not requirements\)/);
+  assert.match(result,/Restricted SPI: GAAP financial statements included in the Statutory Financial Return are unaudited under SPI Rules 2020, r\.7\(3\)\(b\)/);
+  assert.match(result,/Confirm the interaction and any case-specific modification with Bermuda counsel or the BMA/);
+  assert.ok(!result.includes('pending legal review'));
+  assert.match(result,/Confirm applicability with the BMA and your advisers/);
+  assert.match(result,/Conflicting sources/);
+  assert.match(result,/Class 3A context, not an alternative route/);assert.match(result,/retrieved 2026-09-24/);
+  assert.match(result,/rel="noopener noreferrer"/);
+  f.run("state.mode='DISTIL';renderResults(true)");result=f.element('results').innerHTML;
+  assert.ok(!result.includes('Restricted SPI: GAAP financial statements'));assert.match(result,/Class background is available in the regulatory landscape overview/);
+  f.run("state.mode='EXECUTE';renderResults(true)");result=f.element('results').innerHTML;
+  assert.ok(!result.includes('Restricted SPI: GAAP financial statements'));assert.match(result,/Class background is available in the regulatory landscape overview/);
+  f.run("KB.class_profiles.spi.at_a_glance[0].text='<img src=x onerror=alert(1)>';KB.class_profiles.spi.at_a_glance[0].pin='<svg onload=alert(1)>';state.mode='MAP';renderResults(true)");
+  result=f.element('results').innerHTML;assert.match(result,/&lt;img/);assert.match(result,/&lt;svg/);assert.ok(!result.includes('<img'));assert.ok(!result.includes('<svg'));
+});
+test('Class E background separates the Act and BMA descriptions without deciding a registration class',()=>{
+  const f=fixture();
+  f.run("Object.assign(state,{entityType:'insurer',entityClass:'classE',mode:'MAP',task:'',focus:[],facts:{}});renderResults(true)");
+  let result=f.element('results').innerHTML;
+  assert.match(result,/Class background \(context, not requirements\)/);
+  assert.match(result,/section 4EF/);
+  assert.match(result,/registrable as Class C, D or E/);
+  assert.match(result,/The BMA&#39;s licensing summary and 2025 Annual Report describe E more simply/);
+  assert.match(result,/The BMA determines an insurer&#39;s registration class/);
+  assert.ok(!result.includes('exactly $500 million'));
+  assert.match(result,/Conflicting sources/);
+  f.run("state.mode='DISTIL';renderResults(true)");result=f.element('results').innerHTML;
+  assert.ok(!result.includes('The BMA&#39;s licensing summary and 2025 Annual Report describe E more simply'));
+});
+test('non-insurer selections show sector coverage limits without cross-sector inference',()=>{
+  const f=fixture();
+  f.run("Object.assign(state,{entityType:'msb',entityClass:'',mode:'MAP',task:'',focus:[],facts:{}});renderResults(true)");
+  let result=f.element('results').innerHTML;
+  assert.match(result,/Money service business context/);
+  assert.match(result,/general public/);
+  assert.match(result,/owner\/legal-resolved/);
+  assert.match(result,/Core framework/);
+  assert.match(result,/Boundaries and review points/);
+  f.run("Object.assign(state,{entityType:'bank',entityClass:'',mode:'MAP',task:'',focus:[],facts:{}});renderResults(true)");
+  result=f.element('results').innerHTML;
+  assert.match(result,/Banking and deposit-taking context/);
+  assert.match(result,/restricted-banking licences/);
+  assert.match(result,/Core framework/);
+  assert.ok(!result.includes('Illustrative content — pending legal review'));
+});
+test('every selectable class and entity type has an overview background section',()=>{
+  const f=fixture();
+  const insurerIds=f.data('Object.keys(KB.insurerClasses)');
+  for(const id of insurerIds){
+    f.run(`Object.assign(state,{entityType:'insurer',entityClass:${JSON.stringify(id)},mode:'MAP',task:'',focus:[],facts:{}});renderResults(true)`);
+    assert.match(f.element('results').innerHTML,/id="classBackground"/,id);
+  }
+  const nonInsurerIds=f.data('KB.scopeGroups.nonInsurers');
+  for(const id of nonInsurerIds){
+    if(id==='daba'){
+      for(const licence of f.data('Object.keys(KB.dabaClasses)')){
+        f.run(`Object.assign(state,{entityType:'daba',entityClass:${JSON.stringify(licence)},mode:'MAP',task:'',focus:[],facts:{}});renderResults(true)`);
+        assert.match(f.element('results').innerHTML,/id="entityBackground"/,`daba/${licence}`);
+      }
+    } else {
+      f.run(`Object.assign(state,{entityType:${JSON.stringify(id)},entityClass:'',mode:'MAP',task:'',focus:[],facts:{}});renderResults(true)`);
+      assert.match(f.element('results').innerHTML,/id="entityBackground"/,id);
+    }
+  }
+});
+test('all shipped context claims retain source metadata and citation pins',()=>{
+  const f=fixture();
+  const errors=f.data(`(()=>{const errors=[],sources=KB.class_profile_sources;const check=(label,c)=>{if(!c||typeof c.text!=='string'||!c.text||!c.pin||!Array.isArray(c.sources)||!c.sources.length)errors.push(label+' incomplete');else for(const id of c.sources){const s=sources[id];if(!s||!s.url||!s.retrieved||![1,2,3,4].includes(s.tier))errors.push(label+' source '+id);}};for(const [id,p] of Object.entries(KB.class_profile_context||{})){if(Array.isArray(p.claims))p.claims.forEach((c,i)=>check(id+'.'+i,c));}for(const [id,p] of Object.entries(KB.entity_profile_context||{})){if(Array.isArray(p.claims))p.claims.forEach((c,i)=>check(id+'.'+i,c));else for(const [sub,q] of Object.entries(p||{}))if(Array.isArray(q.claims))q.claims.forEach((c,i)=>check(id+'.'+sub+'.'+i,c));}return errors;})()`);
+  assert.deepEqual(errors,[]);
+});
+test('expanded insurer backgrounds cover every non-pilot class with primary-law qualification and source-backed context',()=>{
+  const f=fixture();
+  const errors=f.data(`(()=>{const errors=[],sources=KB.class_profile_sources,ids=Object.keys(KB.insurerClasses).filter(id=>!KB.class_profiles[id]);const claim=(c,label,legal)=>{if(!c?.text||!c.pin||!Array.isArray(c.sources)||!c.sources.length){errors.push(label+' incomplete');return;}for(const sid of c.sources){const s=sources[sid];if(!s||!s.url||!s.retrieved||![1,2,3,4].includes(s.tier))errors.push(label+' source '+sid);}if(legal&&!c.sources.some(sid=>sources[sid]?.kind==='law'))errors.push(label+' without law');};for(const c of KB.class_profile_shared_history||[])claim(c,'shared history',false);for(const id of ids){const p=KB.class_profile_details[id];if(!p){errors.push(id+' missing');continue;}for(const key of ['glance','history','purpose','qualification','distinctions','footprint'])if(!Array.isArray(p[key])||!p[key].length)errors.push(id+' '+key+' missing');for(const [key,claims] of Object.entries(p)){if(key==='developments'){if(!Array.isArray(claims)||!claims.length||claims.some(x=>!KB.entries.some(e=>e.id===x)))errors.push(id+' developments invalid');continue;}for(const c of claims)claim(c,id+' '+key,key==='qualification');}}return errors;})()`);
+  assert.deepEqual(errors,[]);
+  for(const id of ['class1','class2','class3','class3a','class3b','class4','classA','classB','classC','classD','classE','iigb']){
+    f.run(`Object.assign(state,{entityType:'insurer',entityClass:${JSON.stringify(id)},mode:'MAP',task:'',focus:[],facts:{}});renderResults(true)`);
+    const result=f.element('results').innerHTML;
+    for(const heading of ['Origin and history','Shared class-system timeline','Why the class exists','What qualifies an entity','How it differs from neighbouring classes','Market footprint','Sources for this profile'])assert.ok(result.includes(heading),id+' '+heading);
+    f.run("state.mode='DISTIL';renderResults(true)");assert.ok(!f.element('results').innerHTML.includes('Origin and history'),id+' obligations leakage');
+    assert.match(f.element('results').innerHTML,/Class background is available in the regulatory landscape overview/);
+  }
+  f.run("KB.class_profile_details.class1.history[0].text='<img src=x onerror=alert(1)>';state.entityClass='class1';state.mode='MAP';renderResults(true)");
+  assert.match(f.element('results').innerHTML,/&lt;img/);assert.ok(!f.element('results').innerHTML.includes('<img'));
+  assert.equal(f.run("(()=>{const a=JSON.parse(JSON.stringify(activeKB())),b=JSON.parse(JSON.stringify(a));b.class_profile_details.class1.history[0].text+=' changed';return kbFingerprint(a)===kbFingerprint(b)})()"),false);
+});
+test('IIGB footprint discloses both BMA 2025 figures without claiming a live count',()=>{
+  const f=fixture();
+  const claims=f.data('KB.class_profile_details.iigb.footprint');
+  assert.equal(claims.length,1);
+  assert.deepEqual(claims[0].sources,['bma_2025']);
+  assert.match(claims[0].pin,/pp\.38, 66/);
+  assert.match(claims[0].text,/eight IIGB licences/);
+  assert.match(claims[0].text,/seven fully licensed IIGB entities/);
+  assert.match(claims[0].text,/report does not reconcile the figures/);
+  assert.match(claims[0].text,/Possible mechanisms in general, not BMA findings/);
+  assert.match(claims[0].text,/run-off treatment, different data-compilation cutoffs, or active-business versus registered-entity counts/);
+  assert.doesNotMatch(claims[0].text,/publication lag/);
+  assert.match(claims[0].text,/Neither figure is a live register count/);
+  f.run("Object.assign(state,{entityType:'insurer',entityClass:'iigb',mode:'MAP',task:'',focus:[],facts:{}});renderResults(true)");
+  const overview=f.element('results').innerHTML;
+  assert.match(overview,/Market footprint/);
+  assert.match(overview,/seven fully licensed IIGB entities/);
+  assert.match(overview,/pp\.38, 66/);
+  assert.match(overview,/BMA Annual Report 2025/);
+  f.run("state.mode='DISTIL';renderResults(true)");
+  assert.ok(!f.element('results').innerHTML.includes('seven fully licensed IIGB entities'));
+  f.run("state.mode='EXECUTE';state.task='newlicence';renderResults(true)");
+  assert.ok(!f.element('results').innerHTML.includes('seven fully licensed IIGB entities'));
+});
+test('the shared timeline is shown once per overview and is protected by fingerprint and import boundaries',()=>{
+  const f=fixture();
+  f.run("Object.assign(state,{entityType:'insurer',entityClass:'class3b',mode:'MAP',task:'',focus:[],facts:{}});renderResults(true)");
+  const html=f.element('results').innerHTML;
+  assert.equal((html.match(/Shared class-system timeline/g)||[]).length,1);
+  assert.match(html,/29 April 1995/);assert.match(html,/5 August 2019/);
+  assert.equal(f.run("(()=>{const a=JSON.parse(JSON.stringify(activeKB())),b=JSON.parse(JSON.stringify(a));b.class_profile_shared_history[0].text+=' changed';return kbFingerprint(a)===kbFingerprint(b)})()"),false);
+  assert.equal(f.run("validateFragment(JSON.stringify({entries:[],class_profile_shared_history:KB.class_profile_shared_history})).ok"),false);
+  f.run("state.mode='EXECUTE';state.task='newlicence';renderResults(true)");
+  assert.ok(!f.element('results').innerHTML.includes('Shared class-system timeline'));
+});
+test('the 2026 ALS Bill stays a sourced proposal in the C/D/E overview horizon only',()=>{
+  const f=fixture();
+  const proposal=f.data("KB.entries.find(e=>e.id==='rec-bill-insurance-als-2026')");
+  assert.deepEqual(proposal.entity_scope,['classC','classD','classE']);
+  assert.equal(proposal.topic,'framework');
+  assert.equal(proposal.data.role,'recent');
+  assert.match(proposal.text,/proposes a new Insurance Act section 17AA/);
+  assert.match(proposal.text,/not treated here as an operative requirement/);
+  assert.equal(proposal.source.type,'legislation');
+  assert.match(proposal.source.url,/^https:\/\/parliament\.bm\/admin\/uploads\/bill\//);
+  assert.equal(proposal.rule,undefined);
+  for(const id of ['classC','classD','classE']){
+    assert.ok(f.data(`KB.class_profile_details.${id}.developments`).includes(proposal.id));
+    f.run(`Object.assign(state,{entityType:'insurer',entityClass:'${id}',mode:'MAP',task:'',focus:[],facts:{}});renderResults(true)`);
+    const overview=f.element('results').innerHTML;
+    assert.match(overview,/Proposed Insurance Act asset-and-liability-statement amendment/);
+    assert.match(overview,/Proposal only/);
+    assert.match(overview,/not treated here as an operative requirement/);
+    f.run("state.mode='DISTIL';renderResults(true)");
+    assert.ok(!f.element('results').innerHTML.includes('rec-bill-insurance-als-2026'));
+    assert.ok(!f.element('results').innerHTML.includes('proposes a new Insurance Act section 17AA'));
+    f.run("state.mode='EXECUTE';state.task='newlicence';renderResults(true)");
+    assert.ok(!f.element('results').innerHTML.includes('proposes a new Insurance Act section 17AA'));
+  }
+  f.run("Object.assign(state,{entityType:'insurer',entityClass:'class3b',mode:'MAP',task:'',focus:[],facts:{}});renderResults(true)");
+  assert.ok(!f.element('results').innerHTML.includes('proposes a new Insurance Act section 17AA'));
+});
+test('dated market observations and combined studies are not presented as single-class legal requirements',()=>{
+  const f=fixture();
+  for(const [id,phrase] of [['class1','51% of Class 1 short-tail gross written premium'],['class2','39% of Class 2 short-tail gross written premium'],['class3','89% of SAC/ISAC premium'],['classA','73% of Class A assets'],['classB','65% of Class B assets'],['class3b','Classes 3B and 4 together'],['class4','Classes 3B and 4 together'],['classC','Classes C, D and E together'],['classD','Classes C, D and E together'],['classE','Classes C, D and E together']]){
+    f.run(`Object.assign(state,{entityType:'insurer',entityClass:${JSON.stringify(id)},mode:'MAP',task:'',focus:[],facts:{}});renderResults(true)`);
+    assert.ok(f.element('results').innerHTML.includes(phrase),id);
+  }
+  f.run("Object.assign(state,{entityType:'insurer',entityClass:'classC',mode:'DISTIL',task:'',focus:[],facts:{}});renderResults(true)");
+  assert.ok(!f.element('results').innerHTML.includes('Classes C, D and E together'));
+});
+test('expanded profiles escape claims and cite the Class E conflict as attributed descriptions',()=>{
+  const f=fixture();
+  f.run("KB.class_profile_details.classE.distinctions[0].text='<svg onload=alert(1)>';KB.class_profile_details.classE.distinctions[0].pin='<img src=x>';Object.assign(state,{entityType:'insurer',entityClass:'classE',mode:'MAP',task:'',focus:[],facts:{}});renderResults(true)");
+  const html=f.element('results').innerHTML;
+  assert.match(html,/&lt;svg/);assert.match(html,/&lt;img/);
+  assert.ok(!html.includes('<svg'));assert.ok(!html.includes('<img'));
+  assert.match(html,/Official commentary/);assert.match(html,/BMA guidance/);assert.match(html,/Conflicting sources/);
+});
+test('profile review date and local profile imports remain visibly pending',()=>{
+  const f=fixture();
+  f.run("KB.class_profiles.spi.researched_on='2025-01-01';KB.class_profiles.spi.review_due='2026-01-01';Object.assign(state,{entityType:'insurer',entityClass:'spi',mode:'MAP',task:'',focus:[],facts:{}});renderResults(true)");
+  assert.match(f.element('results').innerHTML,/Review overdue/);
+  const raw=f.run("JSON.stringify({entries:[],class_profiles:{spi:{...KB.class_profiles.spi,legal_review:'reviewed',at_a_glance:[{text:'Local statement',sources:['act'],pin:'s.1'}]}}})");
+  assert.equal(f.run(`validateFragment(${JSON.stringify(raw)}).ok`),true);
+  f.values.set('bcn_kb_overlay_v2',f.run(`JSON.stringify({...${raw},schema_version:2,base_version:KB.version,base_fingerprint:kbFingerprint(KB),merges:1,version:'2.5.0+local.1',modified_at:'2026-09-24'})`));
+  assert.equal(f.run('activeKB().class_profiles.spi.legal_review'),'pending');
+  f.run('renderResults(true)');assert.match(f.element('results').innerHTML,/Local imported profile — user-supplied and unendorsed/);
+});
+test('profile-only import previews and merges, while malformed or unsupported profiles are rejected',()=>{
+  const f=fixture();
+  const raw=f.run("JSON.stringify({entries:[],class_profiles:{spi:{...KB.class_profiles.spi,legal_review:'reviewed',at_a_glance:[{text:'Imported context',sources:['act'],pin:'s.1'}]}}})");
+  f.element('kbFragment').value=raw;f.run('previewFragment()');
+  assert.match(f.element('kbDiff').innerHTML,/spi profile — changed/);
+  f.run('mergeFragment()');
+  assert.equal(f.run('activeKB().class_profiles.spi.legal_review'),'pending');
+  assert.equal(f.run('activeKB().class_profiles.spi.imported'),true);
+  for(const change of ["p.at_a_glance[0].sources=['unknown']","p.qualification[0].sources=['conyers']","p.timeline=[{date:'2026',text:'x',sources:[]}]","p.review_due='2020-01-01'"]){
+    const ok=f.run(`(()=>{const p=JSON.parse(JSON.stringify(KB.class_profiles.spi));${change};return validateFragment(JSON.stringify({entries:[],class_profiles:{spi:p}})).ok})()`);
+    assert.equal(ok,false,change);
+  }
+  assert.equal(f.run("validateFragment(JSON.stringify({entries:[],class_profiles:{classE:KB.class_profiles.spi}})).ok"),false);
 });
 test('malformed root, fields, impossible dates, unsafe URLs and duplicate IDs are rejected',()=>{
   const f=fixture();
@@ -113,13 +329,14 @@ test('calendar uses CRLF, unique class UIDs, two alarms and UTF-8 byte folding',
 test('storage failure and corrupted overlays do not break static reports',()=>{
   const f=fixture({blocked:true});f.run("Object.assign(state,{entityType:'insurer',entityClass:'class1',fye:'2025-12-31',mode:'DISTIL',task:'',focus:[]});renderResults(true)");
   assert.ok(f.element('results').innerHTML.includes('Class 1'));assert.ok(f.run('storageMessage').includes('unavailable'));
-  const g=fixture();g.values.set('bcn_kb_overlay_v2','{"entries":[null]}');assert.equal(g.run('activeKB().entries.length'),161);assert.ok(g.run('storageMessage').includes('invalid'));
+  const g=fixture();g.values.set('bcn_kb_overlay_v2','{"entries":[null]}');assert.equal(g.run('activeKB().entries.length'),162);assert.ok(g.run('storageMessage').includes('invalid'));
 });
 test('malformed saved data is ignored and not overwritten by save',()=>{
   const f=fixture();f.values.set('bcn_assessments','{}');f.run("Object.assign(state,{entityType:'insurer',entityClass:'class1',fye:'',mode:'MAP',task:'',focus:[]});renderResults(true);confirmSaveAssessment()");assert.equal(f.values.get('bcn_assessments'),'{}');
 });
 test('bookmark fingerprint catches content change with an unchanged version',()=>{
   const f=fixture();assert.equal(f.run("(()=>{const a=JSON.parse(JSON.stringify(activeKB())),b=JSON.parse(JSON.stringify(a));b.entries[0].text+=' Updated.';return kbFingerprint(a)===kbFingerprint(b)})()"),false);
+  assert.equal(f.run("(()=>{const a=JSON.parse(JSON.stringify(activeKB())),b=JSON.parse(JSON.stringify(a));b.entity_profile_context.msb.claims[0].text+=' Updated.';return kbFingerprint(a)===kbFingerprint(b)})()"),false);
 });
 test('new resets inputs; reopen synchronizes focus checkboxes through syncForm',()=>{
   const f=fixture();f.run("Object.assign(state,{entityType:'insurer',entityClass:'classE',fye:'2025-12-31',mode:'MAP',task:'extension',focus:['capital']});startWizard()");assert.deepEqual(f.data('state'),{entityType:'',entityClass:'',fye:'',mode:'',task:'',focus:[],facts:{}});

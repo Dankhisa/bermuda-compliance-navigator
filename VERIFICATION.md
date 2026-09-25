@@ -1,4 +1,98 @@
-# Verification and coverage — version 2.4.0
+# Verification and coverage — release 2.7.4
+
+## Owner-authorised release checks — 25 September 2026
+
+The owner authorised publication of 2.7.4. The local Chrome Class E sample rendered its filing estimates and withheld conditional dates; a synthetic assessment saved, survived reload and reopened against 2.7.4. The modification-request selection produced its own report and draft, and the copied clipboard text matched that draft. Invalid JSON was rejected. The calendar export button was exercised, but delivery could not be independently inspected because browser download-history access was blocked; this is retained as a verification limitation. Desktop/mobile and generated-PDF observations from the same runtime are below. GUI print preview, direct-file offline operation, complete successful browser import/merge, and exhaustive accessibility/legal review remain unverified.
+
+The current Insurance Act and the Bermuda Laws annual-law index were checked on 25 September 2026. No section 17AA or enacted Insurance Amendment Act 2026 was found there. This supports retaining the horizon item as an as-tabled proposal; it does not prove the absence of a later parliamentary step or Gazette notice. No operative duty or deadline is inferred. Earlier “not published” records below describe development stages and are superseded by this owner-authorised release.
+
+## 2.7.4 prepublication pass — 25 September 2026
+
+The IIGB parenthesis now uses “different data-compilation cutoffs” instead of the potentially misleading “publication lag.” It remains an explicitly editorial list of possible mechanisms, not a BMA explanation of the eight/seven discrepancy. The note retains both report contexts, citations to pp.38 and 66, and the warning that neither number is a live register count. The BMA Annual Report and the as-tabled 2026 Insurance Amendment Bill URLs both opened in Chrome's PDF viewer on 25 September 2026; the Bill's enactment status was not established by that check and its horizon entry remains a proposal. This is not a full source-currency or legal sign-off.
+
+In a locally served Chrome session, the IIGB overview displayed the note and source label on desktop and at 390 × 844. At 390 pixels the observed document scroll width was 375 pixels, with no document-level horizontal overflow. Chrome's print engine generated local PDF evidence for Class E (12 nonblank pages), CI (10) and IIGB (9), with no page-script errors. The IIGB Market footprint and its citation were visibly together in the rendered print page, and the sampled final pages kept next steps with the disclaimer. The browser GUI print-preview dialog and direct-file offline mode were not independently inspected. `node --check kb.js` passed; `node tests/regression.test.cjs` passed **55/55**, 0 failed and 0 skipped, including the original 161-entry fingerprint. The full manual workflow checklist and legislative-stage review remain outstanding; no push or deployment occurred.
+
+## 2.7.3 qualified IIGB parenthesis — 25 September 2026
+
+The IIGB Market footprint now identifies the Digital Finance Supervision context of the seven-entity narrative and gives run-off treatment, publication lag and active-business versus registered-entity measures only as expressly labelled **editorial possibilities**. The BMA report does not establish any as the cause of its eight/seven figures. Official December 2024 registration statistics contradict the proposed January 2025 Soter example, and the annual table is a fixed report statistic rather than a live registry. `node tests/regression.test.cjs` on 25 September 2026: **55 tests, 55 pass, 0 fail, 0 skipped**; the original 161-entry fingerprint remains unchanged. Calculations and workflows were not changed. No publication or new print-preview claim was made.
+
+## 2.7.2 IIGB count disclosure — 25 September 2026
+
+The IIGB overview's Market footprint now attributes both BMA Annual Report 2025 figures with pp.38 and 66 citations: eight IIGB licences in the all-insurers table and seven fully licensed IIGB entities in the innovation narrative. The report does not establish whether population or cut-off explains the difference. The copy does not give a live register total or change eligibility, obligations or application guidance. A retained copy of the official BMA PDF matched the private SHA-256 manifest, and both pages were inspected and cross-checked in a third-party text rendering. The live BMA URL was not readable through the web reader; reconfirm link health and source currency at the release gate. `node tests/regression.test.cjs` on 25 September 2026: **55 tests, 55 pass, 0 fail, 0 skipped**. The original 161-entry fingerprint remains unchanged. The 2.7.1 print PDFs were not regenerated after this copy-only 2.7.2 change; no new print claim is made. No publication was performed.
+
+## 2.7.1 bounded Bill horizon and print check — 25 September 2026
+
+One 2026 Insurance Amendment Bill entry was added to the overview's Selected Changes & Pending Items for Classes C, D and E and linked from those class backgrounds. The source is the House of Assembly's as-tabled Bill, not enacted law. Proposed s.17AA, s.18A consequences and the proposed deemed commencement are labelled conditional on enactment; the item creates no new calculated date, operative filing rule, obligations-journey text or application step. The existing 2025 prudential-rules ALS entry is unchanged. The horizon heading now describes per-item review dates rather than implying all items were recorded in July 2026. The new entry is due for review on 2 October 2026. The 161 original entries retain their 2.4.0 SHA-256 JSON fingerprint `2694e7586ca47be93b620c045e1f6774355ab915bcfade97ee00a15cbab3dab9`; total entries are now 162.
+
+`node tests/regression.test.cjs` on 25 September 2026: **54 tests, 54 pass, 0 fail, 0 skipped**. A local Class E overview was also observed in Chrome with the Bill as a proposal-labelled row linked from the class background. The Bill did not appear in obligations or application output in regression tests. This is not a legal review of enactment status; confirm the official parliamentary/Gazette stage before release.
+
+Actual browser-engine print PDFs were generated from the local Class E and Collateralized Insurer overviews and rendered for visual inspection. The closed profile disclosures expanded in output, the CI comparison and overview tables fit within letter-page width, source labels and the Bill proposal label were readable, and no clipped content was observed. The final PDFs contain 13 and 10 nonblank pages respectively. Print-only CSS now hides the redundant site footer, which had produced a footer-only CI page; the report-specific disclaimer remains. This verifies the **generated PDF output**, not the Chrome GUI print-preview dialog, which the browser-control session did not expose. Private QA PDFs and rendered images are outside the public allowlist.
+
+The BMA 2025 Annual Report's IIGB count differs between its all-insurers table (eight) and innovative-entities narrative (seven). At the 2.7.1 stage, the profile attributed eight to the table and the disclosure had not yet been added. Version 2.7.2 adds it; the difference remains unreconciled. No push or deployment was performed.
+
+## 2.7.0 owner-approved class-background implementation — 25 September 2026
+
+The owner approved editorial copy for the 12 non-pilot insurer classes. The overview now presents a common dated reform timeline once, plus each class's origin, official policy context, statutory qualification, nearest-class distinction, dated registration count and supported market context. Class 1, 2, 3, A and B market percentages retain their 2023 study denominators; the P&C 3B/4 and long-term C/D/E studies are explicitly combined cohorts. Class E separates the Act's s.4EF wording from the BMA's summaries and does not give an asset-only classification or exact-boundary answer. The owner's editorial sign-off for Class E is sufficient under the owner's governance decision; Bermuda-qualified counsel did not sign off, and no legal opinion is claimed.
+
+Source URLs, retrieval dates, force/tier labels and pin cites accompany claims. The new shared history and profile details are fingerprinted and cannot be replaced by a local import. The 161 original KB entries retain their 2.4.0 SHA-256 JSON fingerprint `2694e7586ca47be93b620c045e1f6774355ab915bcfade97ee00a15cbab3dab9`. Existing applicability logic, obligations, calculations, fees, calendars, templates and non-insurer context were not changed. Detailed capital and filing formulas remain outside the background pending a separate amendment-currency audit.
+
+The implementation is local only. `node tests/regression.test.cjs` passed **53/53** on 25 September 2026, including the unchanged 161-entry fingerprint and all supported entity classes rendering in all three journeys. A live local-HTTP browser check of Class E observed the overview profile, source labels and citations, its statutory qualification confirmation note, and only a background link in the obligations journey. Space collapsed a focused disclosure. At 390 × 844 and 1280 × 800, the observed Class E overview had no document-level horizontal overflow. Print was attempted through Ctrl+P and the report's Print / Export PDF button; the browser did not expose an inspectable preview or PDF, so print output is **not verified**. The full observations and per-class evidence counts are in the separately retained private implementation record. Owner copy approval did not authorise push or deployment. Recheck current legislation, BMA report edition, source URLs and consultation status before release.
+
+## 2.6.0 expanded insurer backgrounds — 25 September 2026
+
+The 12 selectable non-pilot insurer classes now have source-labelled sections for origin/history, statutory qualification, neighbouring-class distinctions and the BMA Annual Report 2025 registration count. Where official policy context is supported, it is displayed separately from the law; Class 1, 2 and 4 original class-specific intent is not inferred. The source register and fingerprint cover the new material. No existing obligation, filing, calculation, fee, calendar, application template or one of the 161 baseline entries was changed.
+
+The expansion is deliberately less deep than the CI/SPI pilot: it has no verified full prudential matrix or independent market-use survey for each class. Class E's current s.4EF wording versus the BMA summary, the exactly-$500-million boundary, Class 3B/Class 4 factual overlap and current IIGB quantitative capital rules remain limited or expressly withheld. Retained copies of the Act, BMA 2008 and 2025 reports, 2010 Hansard and 2019 consultation were checked against the private SHA-256 manifest in this pass; reconfirm currency against the final URLs before release. Editorial/legal review is still needed; absence of a generic pending-review banner is not sign-off.
+
+Regression: `node tests/regression.test.cjs` — 50 tests passed, 0 failed on 25 September 2026. Browser desktop/mobile/print checks were not completed in this pass; the available local-file browser route was blocked by a security policy. No push or deployment was performed.
+
+## 2.5.9 context source-integrity guard — 24 September 2026
+
+Regression validation now checks every insurer/entity context claim for a source URL, retrieval date, tier and citation pin.
+
+## 2.5.8 context fingerprint coverage — 24 September 2026
+
+The knowledge-base fingerprint now covers `class_profile_context` and `entity_profile_context` in addition to entries, profiles, comparisons and sources.
+
+## 2.5.7 context-card section refinement — 24 September 2026
+
+Context cards now separate settled framework claims from conflicts, limitations and interpretation holds.
+
+## 2.5.6 context-card warning refinement — 24 September 2026
+
+The generic pending-review banner is suppressed when a source-labelled background/context card is rendered; the relevant card retains its own confirmation and limitations language.
+
+## 2.5.5 selectable-type coverage guard — 24 September 2026
+
+Regression coverage now iterates every selectable insurer class, DABA licence and non-insurer type and confirms that the overview renders a background/context section.
+
+## 2.5.4 role and activity-boundary refinement — 24 September 2026
+
+Intermediary context now distinguishes broker, agent and manager functions and preserves the manager intragroup interpretation hold. DABA context now explains activity-specific licensing, custody/exemption scope and the M/T appeal caveat without inferring outcomes.
+
+## 2.5.3 sector context expansion — 24 September 2026
+
+The overview now provides source-labelled context cards for the reviewed non-insurer selections: intermediary roles, DABA F/M/T, investment, fund administration, trust, banking, CSP and MSB. These cards provide framework and scope context only; they do not determine a licence, exemption or registration outcome. Material interpretation holds remain visibly qualified.
+
+## 2.5.2 insurer-class context expansion — 24 September 2026
+
+The overview now provides source-labelled statutory identity cards for every selectable insurer class. These cards are deliberately concise and do not determine eligibility. The Class E card retains the separate law/BMA description conflict and exactly-$500m limitation. High-risk interpretation points remain caveated or withheld. The 161-entry baseline remains unchanged.
+
+## 2.5.1 bounded Class E context update — 24 September 2026
+
+The overview now includes a limited-information Class E boundary note. It quotes the current section 4EF formulation, separately labels the BMA licensing summary, flags the exactly-$500m and C/D/E choice as not established, and directs users to confirm with the BMA and Bermuda counsel. It does not determine eligibility or change any obligations, calculations, fees, calendars or templates. The 161-entry baseline remains unchanged.
+
+## 2.5.0 CI/SPI class-background pilot — 24 September 2026
+
+**Local only; not published.** The regulatory landscape overview now has source-labelled Collateralized Insurer and Special Purpose Insurer research profiles, a bounded Class E context note, and a transparent coverage-limits card for other insurer and non-insurer selections. The obligations and application journeys show at most a one-line pointer back to detailed overview material. Class 3A remains a collapsed context note, not a third profile or a suggested registration route. Existing applicability logic, calculations, fees, calendars, templates and all 161 entries are unchanged; the baseline entries' SHA-256 JSON fingerprint remains `2694e7586ca47be93b620c045e1f6774355ab915bcfade97ee00a15cbab3dab9`.
+
+The comparison covers statutory identity, collateral definition, capital, returns, Bermuda presence and selected roles. It does **not** determine an entity's class. At the owner's request, the restricted-SPI audit cell now states the separate GAAP-return and statutory-statement provisions, with a direction to confirm their interaction and any case-specific modification with Bermuda counsel or the BMA. The profile view no longer displays a generic pending-legal-review sign; this is an editorial presentation decision, **not external legal sign-off**. The internal review status and private O5 question remain open. A CI/SPI conversion route, specific CI contingent-collateral permission, and complete Code-of-Conduct governance comparison are not asserted. The 2008 Act-effective-date versus 2009 BMA-consultation description is displayed as a source conflict, with the Act preferred for the effective date. Dates described as effective are not represented as assent dates. The BMA's 2025 class counts are labelled by report column year, not an unconfirmed 31 December point-in-time date. Class E now has a limited-information boundary note; it does not determine eligibility or resolve the exactly-$500m or C/D/E selection question.
+
+Profile source links, provision-level citations, retrieval dates and legal-review status are visible at the point of claim. Imported local profiles are restricted to the two pilot IDs and existing source catalogue, forced to pending review and marked user-supplied/unendorsed. This is source-backed research, **not external legal sign-off**; counsel item O5 and the other open research items in the private pre-publication review remain unresolved.
+
+`node tests/regression.test.cjs`: **49/49 passed** on the local candidate. New checks cover schema/source support, T1 support for qualifications and legal comparison cells, overview-only placement, the approved audit wording and absence of a profile-view pending-review sign, the bounded Class E note, sector coverage limits, all-selectable-type background coverage, context source integrity, source labels and escaping, review-overdue status, imported-profile status, profile-only merge, and the 161-entry baseline fingerprint. Browser, print and offline checks are recorded separately only when actually observed; the historical checks below apply to earlier releases.
+
+Phase 3 browser attempt: the browser automation policy blocked opening the local `file:///` candidate and explicitly disallowed alternate browser routes to the same page. No 2.5.1 desktop, 390 × 844, keyboard, source-link, or print result was observed. These checks remain open for an owner-controlled local review or a future permitted environment; no pass is claimed.
 
 23 September 2026. Independent educational project by Daniel Khisa. Targeted source checks and software tests are not external legal review, regulatory endorsement or a complete compliance assessment.
 

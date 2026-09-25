@@ -9,7 +9,8 @@ An independent educational project by Daniel Khisa for exploring Bermuda regulat
 ## What it does
 
 - Separates three user journeys: a detailed regulatory regime map, an operational obligations-and-filings workplan, and task-specific application preparation.
-- Uses a 161-entry static knowledge base with source links and dated review metadata.
+- Uses a 162-entry static knowledge base with source links and dated review metadata; the original 161 entries retain their 2.4.0 fingerprint.
+- Adds source-labelled CI and SPI class-background research, owner-approved editorial backgrounds for the other selectable insurer classes, and sector context cards for reviewed non-insurer types in version 2.7.4.
 - Distinguishes selected insurer classes, DABA licences, investment licence conditions and unknown facts.
 - Separates current requirements, future compliance dates and consultation proposals.
 - Provides tentative calendars for supported year-end rules and five editable preparation templates.
@@ -18,6 +19,12 @@ An independent educational project by Daniel Khisa for exploring Bermuda regulat
 ## Coverage
 
 Detailed workflows concern the selectable single insurer classes. Other sectors have framework-level coverage only. IILT, other innovative classes, group and dual-registration profiles are not supported. Entity exemptions and supervisory directions need independent confirmation.
+
+The Class background pilot covers full profiles for Collateralized Insurer and Special Purpose Insurer. The other 12 selectable insurer classes have an evidence-led shared timeline plus class-specific origin, official context, statutory tests, neighbouring-class distinctions and BMA 2025 registration counts. Five have dated captive-return observations; the 3B/4 and C/D/E studies are linked as combined cohorts, not misattributed to one class. They remain shorter than the CI/SPI pilot and do not duplicate a full prudential or filing matrix. Class E presents section 4EF and the BMA's differing descriptions separately, without deciding a registration class or discussing an exact-boundary case. The SPI audit comparison distinguishes unaudited GAAP statements in a restricted SPI's return from the Act's audited Statutory Financial Statements and directs users to confirm the interaction with Bermuda counsel or the BMA. Profiles do not determine registration eligibility or change the existing obligations, fees, calendars or templates.
+
+The overview's dated horizon includes an as-tabled 2026 Insurance Amendment Bill for Classes C, D and E. It is labelled a proposal, not an operative filing duty, and links from those class backgrounds to one shared horizon entry. The existing asset-and-liability-statement rule treatment remains separate.
+
+The IIGB Market footprint attributes both figures in the BMA 2025 Annual Report: eight licences in its all-insurers table and seven fully licensed IIGB entities in its Digital Finance Supervision narrative. Possible causes mentioned parenthetically are expressly editorial hypotheses, not BMA findings; the difference remains unexplained and neither figure is presented as a live register total.
 
 Year-end calculations are limited to supported 2025–2026 periods; event-driven, conditional and imported dates are excluded. Fee references support 2026, with separate statutory/BSCR/CISSA/GAAP/FCR extension routes. Unsupported combinations are withheld.
 
@@ -33,7 +40,7 @@ With Node.js installed:
 node tests/regression.test.cjs
 ```
 
-The 40 automated tests cover schema, scope/fee/date cases, all supported modes, information-architecture separation, all five insurer tasks, escaping, calendar structure, stored-data preservation and version mismatches. New cases exercise the actual wizard transition, task isolation, PCC preparation gates, saved task identity and clipboard fallback. Desktop browser checks cover all five letters, editing, PCC disclosure and save/reload/reopen. Mobile PCC/report layout and keyboard disclosure were checked at 390 × 844; native copy/paste was checked on a local test page. These targeted checks do not constitute exhaustive accessibility testing. Print/direct-file behaviour remains unverified.
+The regression tests cover schema, scope/fee/date cases, all supported modes, information-architecture separation, all five insurer tasks, escaping, calendar structure, stored-data preservation and version mismatches. Class-background cases cover claim sources, primary-law qualification, shared-history fingerprinting, overview-only rendering, dated market denominators, the SPI audit wording, attributed Class E descriptions, import labelling and preservation of the 161-entry baseline. See VERIFICATION.md for the latest exact test count and browser checks actually observed. These tests do not constitute accessibility or legal sign-off.
 
 ## Privacy and local updates
 
@@ -41,9 +48,11 @@ The runtime sends no API requests and has no analytics or remote scripts. Bookma
 
 Legacy overlays remain stored but inactive. Open Knowledge Base to export preserved data or inspect a field-level comparison before explicitly merging selected entries. New overlays are tied to the shipped baseline; older overrides cannot silently mask published corrections. Imports are user-supplied, not legally endorsed. Bookmarks regenerate current reports rather than freeze historical advice.
 
+Pilot profile imports are limited to the existing CI/SPI IDs and shipped source register. They are validated, internally flagged for review, and visibly marked user-supplied/unendorsed. Imports cannot replace the shipped comparison or source catalogue.
+
 ## Maintenance and sources
 
-Version **2.4.0**, 23 September 2026. This information-architecture release removes repeated regime-map and calendar material between the three journeys without changing the 161 knowledge-base entries or their source status. Original research date: **2 July 2026**. Software/editorial release dates do not reverify every entry. Read [SOURCES.md](SOURCES.md), [VERIFICATION.md](VERIFICATION.md) and [CHANGELOG.md](CHANGELOG.md).
+Release version **2.7.4**, 25 September 2026, authorised for publication by the owner. The owner approved the 12 class-background texts as editorial copy, including Class E without a requirement for independent counsel review; no counsel sign-off or legal opinion is claimed. This release adds one sourced proposal to the horizon and an attributed IIGB count disclosure while preserving the original 161 entries and their source status. Original entry research date: **2 July 2026**. Software/editorial release dates do not reverify every entry. Read [SOURCES.md](SOURCES.md), [VERIFICATION.md](VERIFICATION.md) and [CHANGELOG.md](CHANGELOG.md).
 
 Publish only the selected runtime, documentation, tests and preview assets. Private prompts, research downloads, local exports and career information do not belong in the public repository. Social preview source and PNG are in `assets/`.
 

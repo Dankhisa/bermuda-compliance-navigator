@@ -1,5 +1,101 @@
 # CHANGELOG
 
+## v2.7.4 — owner-authorised publication, 25 September 2026
+
+- Releases the reviewed class backgrounds and sector context developed through versions 2.5.0–2.7.4, with the qualified IIGB count note, proposal-only C/D/E horizon item and print refinements.
+- Owner approval is editorial release approval. Existing source and applicability limitations remain visible; the historical development records below preserve checks and decisions at each stage.
+- Release browser checks confirmed the Class E sample and conditional output, save/reload/reopen, modification-request selection and copied template, and invalid JSON rejection. Calendar export was triggered; delivery was not independently confirmed. Printed PDF evidence is recorded in VERIFICATION.md.
+
+## v2.7.4 — IIGB copy and print-readability refinement, 25 September 2026 (local candidate; not published)
+
+- Replaced “publication lag” with the narrower editorial possibility of different data-compilation cutoffs; shortened the IIGB note while preserving both attributed figures, the unreconciled status and the non-live-register caveat.
+- Refined print spacing and kept the Market footprint claim with its citation and the Recommended Next Steps card together where possible. Reprinted Class E, CI and IIGB locally; no browser GUI print-preview claim or deployment is made.
+- Preserved the original 161-entry fingerprint and existing eligibility, calculation, fee, calendar and application logic.
+
+## v2.7.3 — qualified IIGB explanatory parenthesis, 25 September 2026 (local candidate; not published)
+
+- Clarified that the seven-entity narrative belongs to the report's Digital Finance Supervision discussion, separate from the all-insurers table's eight-licence figure.
+- Added the owner's requested possible mechanisms only as explicitly labelled editorial hypotheses, not as BMA findings or a reconciliation. The original 161 entries and application/obligations logic are unchanged. No push or deployment.
+
+## v2.7.2 — IIGB report-count disclosure, 25 September 2026 (local candidate; not published)
+
+- Added the owner-approved IIGB Market footprint note attributing the BMA Annual Report 2025's eight-licence table figure and seven-entity innovation narrative separately. The report does not establish whether the measures share a scope or cut-off; the profile claims no live register total.
+- Left the original 161 entries, the 2026 Bill proposal, obligations and application logic unchanged. Added an overview-only regression check; no push or deployment.
+
+## v2.7.1 — bounded Bill horizon and print QA, 25 September 2026 (local candidate; not published)
+
+- Added one source-linked, proposal-labelled 2026 Insurance Amendment Bill item to the Class C/D/E overview horizon. It does not amend the existing asset-and-liability-statement obligation, calculate a new date, or appear as an application requirement. Class backgrounds link to the single horizon entry.
+- Corrected the horizon heading to point to each item's own review date rather than the original July knowledge-base research date.
+- Printed Class E and Collateralized Insurer overview reports to local PDFs with Chrome's print engine. Removed the redundant global footer from print after it created a footer-only page; the report-specific disclaimer remains. The browser's GUI print-preview dialog was not independently observed.
+- Preserved the original 161-entry fingerprint and updated version, source and regression checks. No push or deployment.
+
+## v2.7.0 — evidence-led class-background depth, 25 September 2026 (local candidate; not published)
+
+- Implemented the owner-approved editorial copy for the 12 non-pilot insurer classes in the overview journey. Each has a class-specific origin, attributed official context, statutory qualification, nearest-class distinction and dated footprint; where supported, it also has a scoped market observation or combined-study link.
+- Added a shared, source-labelled insurer-class history timeline instead of repeating reform narratives across profiles. Class E displays the Act wording and BMA descriptions separately without an eligibility ladder or exact-boundary outcome.
+- Kept filing, capital and application guidance in their existing journeys. No original KB entry, calculation, fee, calendar or template was changed. Fingerprints and import restrictions cover the shared timeline and expanded source register.
+- Owner approval is an editorial decision, not a legal opinion or publication authorisation.
+
+## v2.6.0 — expanded insurer class backgrounds, 25 September 2026 (local candidate; not published)
+
+- Expanded all 12 non-pilot selectable insurer classes with source-labelled history, primary-law qualification, neighbouring-class distinctions and 2025 BMA registration counts; official policy context is shown only where supported.
+- Preserved the Class E statutory/BMA-summary conflict, the Class 3B/Class 4 overlap and the IIGB capital-rule verification hold. Profiles remain educational and overview-only.
+- Added source and rendering checks for the new data, included it in the KB fingerprint, and preserved the 161-entry baseline.
+
+## v2.5.9 — context source-integrity guard, 24 September 2026 (not published)
+
+- Added regression validation for every insurer/entity context claim's source, retrieval date, tier and citation pin.
+
+## v2.5.8 — context fingerprint coverage, 24 September 2026 (not published)
+
+- Extended the KB fingerprint to include insurer and entity context structures.
+- Added a regression assertion that context-content changes are detected.
+
+## v2.5.7 — context-card section refinement, 24 September 2026 (not published)
+
+- Split context-card content into “Core framework” and “Boundaries and review points” disclosures where applicable.
+
+## v2.5.6 — context-card warning refinement, 24 September 2026 (not published)
+
+- Removed the duplicate generic pending-review banner when a source-labelled context card is already present.
+- Kept the card-level confirmation and limitation wording beside the relevant content.
+
+## v2.5.5 — overview coverage regression guard, 24 September 2026 (not published)
+
+- Added a regression check that every selectable insurer class, DABA licence and non-insurer type renders an overview background/context section.
+
+## v2.5.4 — local role and activity-boundary refinement, 24 September 2026 (not published)
+
+- Added broker/agent/manager distinctions and the s.29 premium-receipt caveat to the intermediary context.
+- Added DABA activity-specific exemption, custody and M/T appeal caveats.
+
+## v2.5.3 — local sector-context expansion, 24 September 2026 (not published)
+
+- Added source-labelled context cards for intermediary roles, DABA F/M/T, investment, fund administration, trust, banking, CSP and MSB selections.
+- Kept role boundaries, exemptions, licence conditions and unresolved interpretation points explicitly qualified.
+- Preserved existing workflows, obligations, calculations, fees and the 161-entry baseline.
+
+## v2.5.2 — local insurer-class context expansion, 24 September 2026 (not published)
+
+- Added source-labelled statutory context cards for all selectable insurer classes.
+- Kept Class E, Class 3B/Class 4, group terminology and IIGB capital interpretation points visibly qualified.
+- Preserved the full CI/SPI profiles, non-insurer coverage-limits card and 161-entry baseline.
+
+## v2.5.1 — local Class E boundary update, 24 September 2026 (not published)
+
+- Added a source-labelled, overview-only Class E boundary note.
+- Displayed the Insurance Act s.4EF wording and the BMA summary as separate evidence, with the exactly-$500m outcome explicitly marked not established.
+- Added a safe fallback note for insurer classes without a published profile.
+- Added a sector coverage-limits card for non-insurer selections; it provides no cross-sector legal inference.
+- Kept the 161 shipped entries, applicability logic, calculations, fees, calendars and templates unchanged.
+
+## v2.5.0 — local Phase 3 candidate, 24 September 2026 (not published)
+
+- Added CI and SPI class-background research only to the Regulatory landscape overview, with source labels, provision citations, retrieval dates, timeline, statutory qualification, market context and a shared comparison. Class 3A is collapsed context; Class E and unsupported classes have no new profile.
+- Added the owner-approved restricted-SPI audit wording, distinguishing GAAP statements in the return from audited Statutory Financial Statements and directing readers to counsel or the BMA for the interaction. Removed the generic pending-review sign from the CI/SPI profile view without representing that external legal sign-off occurred.
+- Added source/claim schema checks, visible overdue and imported-profile status, overview-only tests and a 2.4.0 fingerprint assertion for all 161 unchanged entries. Profile-bearing imports are limited to the two pilot IDs, use the shipped source catalogue, and are forced to pending review.
+- Updated the candidate version and documentation. This log records local implementation only: no push, deployment, portfolio update or legal sign-off.
+
 ## v2.4.0 — 23 September 2026
 
 - Added related-guidance buttons that preserve entity context and take users to the relevant facts or application selection. Focus selections survive switching journeys. Retained the existing report-section anchors; separate URLs/subpages were unnecessary for these shared-profile workflows.
