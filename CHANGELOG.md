@@ -1,5 +1,35 @@
 # CHANGELOG
 
+## v2.8.0 — owner-authorised publication, 25 September 2026
+
+The owner authorised publication of 2.8.0. It releases the background depth programme developed in stages on 25 September 2026, each stage reviewed and approved by the owner as editorial copy. No counsel sign-off or legal opinion is claimed.
+
+- **Shared background template.** Class and entity backgrounds use one template with optional sections for how a class or sector is used in practice, sub-categories and routes, and key terms. A section appears only when sourced content exists. Key terms are labelled as statutory, regulatory (BMA returns, groupings and processes) or market usage.
+- **Insurer classes.** The 12 expanded insurer profiles gain business context from BMA reports, BMA 2024 class statistics, 2025 application and registration flows, key terms and limits. Figures that cover several classes together are labelled as combined and are not attributed to one class. Where a balance-sheet figure could be confused with a statutory classification test, the page says so. Class E adds no size threshold, cedant profile or classification ladder. The approved IIGB licence-count note remains its only footprint claim. The Collateralized Insurer and Special Purpose Insurer profiles are unchanged.
+- **Non-insurer sectors.** The intermediary, investment business, trust, corporate service provider, bank and deposit company, fund administration, money service business and DABA Class F, M and T selections now have full background profiles. Each gives licence or registration routes from primary law, history and purpose from official documents, and 2024–2025 counts. Every previously shown context claim is carried over. One CSP citation was corrected from s.2(4) to s.2(5). The owner-resolved MSB note is unchanged.
+- **Flagged points.** The BMA's intragroup insurance-manager comment remains an interpretation point, not an exemption. A BMA fund-administration licensing page that still cites the repealed Investment Funds Act route is shown as a conflicting-sources limit. The DABA Class T appeal point remains flagged for confirmation.
+- **Metadata.** Profile research and review dates are stored as data. The knowledge-base release date now matches this publication.
+- **Print.** Section headings stay with their content. Report length grows by about one to three pages per profile.
+- **Tests.** The regression suite grows from 55 to 74 tests. New tests cover claim-text parity, evidence and wording rules for business context, short-quote limits, route sub-sections, carried-over claims, the Class E and IIGB constraints, the MSB note and a pinned fingerprint for the unchanged CI/SPI profiles. The original 161-entry fingerprint and all eligibility, calculation, fee, calendar and application logic are unchanged.
+
+### 2.8.0 development record (local stages, 25 September 2026)
+
+1. **Structure only.** Shared template, profile dates stored as data, empty entity-details structure, non-insurer heading "Entity background (context, not requirements)". There were no claim changes across 72 checked renders. Tests: 60/60.
+2. **Pilot.** Class 1 and insurance intermediaries. Seven source-register entries were added and the Conyers captive overview date corrected. The print keep-with-next rule was added. Tests: 63/63.
+3. **Insurer batches:**
+   - Classes 2, 3, A and B.
+   - Classes 3A, 3B and 4, with the "Regulatory term" label.
+   - Classes C and D, plus 2024 statistics on Classes 1, 2, 3, A and B.
+   - IIGB and Class E.
+
+   Tests: 65/65 to 69/69.
+4. **Sector batches:**
+   - Investment business, trust and CSP, with the CI/SPI fingerprint test added.
+   - Bank and deposit company, fund administration and MSB.
+   - DABA Classes F, M and T.
+
+   Tests: 71/71 to 74/74.
+
 ## v2.7.4 — owner-authorised publication, 25 September 2026
 
 Published from commit `167d97946f9199e2bb2396c75e6ff64bc74d8294`; [GitHub Pages deployment succeeded](https://github.com/Dankhisa/bermuda-compliance-navigator/actions/runs/36146707766). All ten checked public files matched the release manifest. Live Chrome checks rendered the Class E background and proposal horizon, then the IIGB footprint with both attributed counts and the editorial parenthesis; no captured application errors. Portfolio unchanged.

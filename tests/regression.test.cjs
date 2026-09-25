@@ -43,7 +43,7 @@ test('the 161 existing entries retain the 2.4.0 fingerprint',()=>{
 });
 test('pilot profiles have source-backed claims and primary support for legal cells',()=>{
   const f=fixture();
-  assert.equal(f.run('KB.version'),'2.7.4');assert.equal(f.run('KB.app_version'),'2.7.4');
+  assert.equal(f.run('KB.version'),'2.8.0');assert.equal(f.run('KB.app_version'),'2.8.0');
   const errors=f.data(`(()=>{const errors=[],sources=KB.class_profile_sources,claim=(c,legal=false)=>{
     if(!c||typeof c.text!=='string'||!c.text||!Array.isArray(c.sources)||!c.sources.length||!c.pin)errors.push('incomplete claim');
     else for(const id of c.sources){const s=sources[id];if(!s||!s.url||!s.retrieved||![1,2,3,4].includes(s.tier))errors.push('source '+id);}
@@ -96,16 +96,16 @@ test('non-insurer selections show sector coverage limits without cross-sector in
   const f=fixture();
   f.run("Object.assign(state,{entityType:'msb',entityClass:'',mode:'MAP',task:'',focus:[],facts:{}});renderResults(true)");
   let result=f.element('results').innerHTML;
-  assert.match(result,/Money service business context/);
+  assert.match(result,/Money service business background/);
   assert.match(result,/general public/);
   assert.match(result,/owner\/legal-resolved/);
-  assert.match(result,/Core framework/);
-  assert.match(result,/Boundaries and review points/);
+  assert.match(result,/At a glance/);
+  assert.match(result,/Limits of current information/);
   f.run("Object.assign(state,{entityType:'bank',entityClass:'',mode:'MAP',task:'',focus:[],facts:{}});renderResults(true)");
   result=f.element('results').innerHTML;
-  assert.match(result,/Banking and deposit-taking context/);
+  assert.match(result,/Banking and deposit-taking background/);
   assert.match(result,/restricted-banking licences/);
-  assert.match(result,/Core framework/);
+  assert.match(result,/At a glance/);
   assert.ok(!result.includes('Illustrative content — pending legal review'));
 });
 test('every selectable class and entity type has an overview background section',()=>{
@@ -135,7 +135,7 @@ test('all shipped context claims retain source metadata and citation pins',()=>{
 });
 test('expanded insurer backgrounds cover every non-pilot class with primary-law qualification and source-backed context',()=>{
   const f=fixture();
-  const errors=f.data(`(()=>{const errors=[],sources=KB.class_profile_sources,ids=Object.keys(KB.insurerClasses).filter(id=>!KB.class_profiles[id]);const claim=(c,label,legal)=>{if(!c?.text||!c.pin||!Array.isArray(c.sources)||!c.sources.length){errors.push(label+' incomplete');return;}for(const sid of c.sources){const s=sources[sid];if(!s||!s.url||!s.retrieved||![1,2,3,4].includes(s.tier))errors.push(label+' source '+sid);}if(legal&&!c.sources.some(sid=>sources[sid]?.kind==='law'))errors.push(label+' without law');};for(const c of KB.class_profile_shared_history||[])claim(c,'shared history',false);for(const id of ids){const p=KB.class_profile_details[id];if(!p){errors.push(id+' missing');continue;}for(const key of ['glance','history','purpose','qualification','distinctions','footprint'])if(!Array.isArray(p[key])||!p[key].length)errors.push(id+' '+key+' missing');for(const [key,claims] of Object.entries(p)){if(key==='developments'){if(!Array.isArray(claims)||!claims.length||claims.some(x=>!KB.entries.some(e=>e.id===x)))errors.push(id+' developments invalid');continue;}for(const c of claims)claim(c,id+' '+key,key==='qualification');}}return errors;})()`);
+  const errors=f.data(`(()=>{const errors=[],sources=KB.class_profile_sources,ids=Object.keys(KB.insurerClasses).filter(id=>!KB.class_profiles[id]);const claim=(c,label,legal)=>{if(!c?.text||!c.pin||!Array.isArray(c.sources)||!c.sources.length){errors.push(label+' incomplete');return;}for(const sid of c.sources){const s=sources[sid];if(!s||!s.url||!s.retrieved||![1,2,3,4].includes(s.tier))errors.push(label+' source '+sid);}if(legal&&!c.sources.some(sid=>sources[sid]?.kind==='law'))errors.push(label+' without law');};for(const c of KB.class_profile_shared_history||[])claim(c,'shared history',false);for(const id of ids){const p=KB.class_profile_details[id];if(!p){errors.push(id+' missing');continue;}for(const key of ['glance','history','purpose','qualification','distinctions','footprint'])if(!Array.isArray(p[key])||!p[key].length)errors.push(id+' '+key+' missing');for(const [key,claims] of Object.entries(p)){if(key==='meta'||key==='subcategories')continue;if(key==='developments'){if(!Array.isArray(claims)||!claims.length||claims.some(x=>!KB.entries.some(e=>e.id===x)))errors.push(id+' developments invalid');continue;}for(const c of claims)claim(c,id+' '+key,key==='qualification');}}return errors;})()`);
   assert.deepEqual(errors,[]);
   for(const id of ['class1','class2','class3','class3a','class3b','class4','classA','classB','classC','classD','classE','iigb']){
     f.run(`Object.assign(state,{entityType:'insurer',entityClass:${JSON.stringify(id)},mode:'MAP',task:'',focus:[],facts:{}});renderResults(true)`);
@@ -501,4 +501,288 @@ test('clipboard and fallback operate on the currently rendered draft only',async
   f.element('tplraw').value=raw;await f.run('copyTemplate()');assert.equal(copied,raw);
  }
  f.run('navigator.clipboard=undefined');let selected=false;f.element('tplraw').select=()=>{selected=true;};await f.run('copyTemplate()');assert.equal(selected,true);assert.match(f.element('copyStatus').textContent,/Automatic copy is unavailable/);
+});
+
+// Depth programme Phase 1: shared background template, data-driven profile metadata and entity details structure.
+const escHtml=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+function selections(f){
+  const out=f.data('Object.keys(KB.insurerClasses)').map(id=>['insurer',id]);
+  for(const t of f.data('KB.scopeGroups.nonInsurers')){if(t==='daba')for(const c of f.data('Object.keys(KB.dabaClasses)'))out.push(['daba',c]);else out.push([t,''])}
+  return out;
+}
+function statusPattern(f,record){return f.run(record+".meta.approval")==="pending"?/Editorial review pending/:/Owner-approved editorial copy/;}
+function render(f,type,cls,mode='MAP'){f.run(`Object.assign(state,{entityType:${JSON.stringify(type)},entityClass:${JSON.stringify(cls)},mode:${JSON.stringify(mode)},task:'',focus:[],facts:{}});renderResults(true)`);return f.element('results').innerHTML;}
+test('profile metadata and depth fields are data-driven and schema-valid',()=>{
+  const f=fixture();
+  const errors=f.data(`(()=>{const errors=[],sources=KB.class_profile_sources,iso=/^\\d{4}-\\d{2}-\\d{2}$/;
+    const claim=(c,label,legal)=>{if(!c?.text||!c.pin||!Array.isArray(c.sources)||!c.sources.length){errors.push(label+' incomplete');return;}for(const s of c.sources)if(!sources[s])errors.push(label+' source '+s);if(legal&&!c.sources.some(s=>['law','rule'].includes(sources[s]?.kind)))errors.push(label+' without primary law');if(c.status!==undefined&&!['confirmed','single-source','single-news-example','review-pending','conflicting','not-established'].includes(c.status))errors.push(label+' status');};
+    const meta=(m,label)=>{if(m===undefined)return;if(!iso.test(m.researched_on||'')||!iso.test(m.review_due||'')||m.review_due<=m.researched_on||!['owner-editorial','pending'].includes(m.approval))errors.push(label+' meta');};
+    const depth=(d,label)=>{for(const k of ['business','limits'])for(const c of d[k]||[])claim(c,label+'.'+k);
+      for(const t of d.terms||[]){claim(t,label+'.terms');if(!t.term||!['statutory','regulatory','market'].includes(t.usage))errors.push(label+' term usage');if(t.usage==='regulatory'&&!t.sources.every(s=>sources[s]&&sources[s].tier<=2&&!['industry','news'].includes(sources[s].kind)))errors.push(label+' regulatory term needs official sources');if(t.usage==='statutory'&&!t.sources.some(s=>sources[s]?.kind==='law'))errors.push(label+' statutory term without law');}
+      const ids=new Set();for(const s of d.subcategories||[]){if(!s.id||!s.label||ids.has(s.id)||!Array.isArray(s.claims)||!s.claims.length)errors.push(label+' subcategory '+s.id);ids.add(s.id);(s.claims||[]).forEach(c=>claim(c,label+'.'+s.id));}};
+    for(const [id,d] of Object.entries(KB.class_profile_details)){if(!d.meta)errors.push(id+' meta missing');meta(d.meta,id);depth(d,id);}
+    const records=[];for(const [t,v] of Object.entries(KB.entity_profile_details||{}))if(v?.title)records.push([t,v]);else for(const [c,w] of Object.entries(v||{}))records.push([t+'.'+c,w]);
+    for(const [label,r] of records){if(!r?.title)errors.push(label+' title');meta(r.meta,label);
+      for(const k of ['glance','history','purpose','industry','distinctions','footprint','market','misconceptions'])for(const c of r[k]||[])claim(c,label+'.'+k);
+      for(const c of r.qualification||[])claim(c,label+'.qualification',true);depth(r,label);
+      for(const e of r.developments||[])if(!KB.entries.some(x=>x.id===e))errors.push(label+' development '+e);}
+    return errors;})()`);
+  assert.deepEqual(errors,[]);
+  for(const id of f.data('Object.keys(KB.class_profile_details)')){const approval=f.run('KB.class_profile_details['+JSON.stringify(id)+'].meta.approval');assert.match(render(f,'insurer',id),approval==='pending'?/Researched 25 September 2026 · Review due 25 March 2027 · Editorial review pending/:/Researched 25 September 2026 · Review due 25 March 2027 · Owner-approved editorial copy/,id);}
+  f.run("KB.class_profile_details.class1.meta.review_due='2026-01-01'");assert.match(render(f,'insurer','class1'),/Review overdue/);
+});
+test('every shipped background claim renders in the overview and nowhere else',()=>{
+  const f=fixture();
+  for(const [type,cls] of selections(f)){
+    f.run(`Object.assign(state,{entityType:${JSON.stringify(type)},entityClass:${JSON.stringify(cls)}})`);
+    const claims=f.data(`(()=>{const out=[];const walk=v=>{if(Array.isArray(v))v.forEach(walk);else if(v&&typeof v==='object'){if(typeof v.text==='string'&&Array.isArray(v.sources))out.push(v.text);Object.values(v).forEach(walk);}};
+      const id=state.entityClass;
+      if(state.entityType==='insurer'){if(KB.class_profiles[id]){walk(KB.class_profiles[id]);for(const r of KB.class_profile_comparison.rows)walk(r.cells[id]);}else{walk(KB.class_profile_details[id]);walk(KB.class_profile_shared_history);}}
+      else walk(entityProfileRecord(KB.entity_profile_details)||entityProfileRecord(KB.entity_profile_context));
+      return out;})()`);
+    assert.ok(claims.length>0,`${type}/${cls} has claims`);
+    const map=render(f,type,cls,'MAP');
+    for(const text of claims)assert.ok(map.includes(escHtml(text)),`${type}/${cls} missing: ${text.slice(0,60)}`);
+    for(const mode of ['DISTIL','EXECUTE']){
+      const other=render(f,type,cls,mode);
+      assert.ok(!/id="(classBackground|entityBackground)"/.test(other),`${type}/${cls} ${mode} leakage`);
+      assert.ok(!other.includes(escHtml(claims[claims.length-1])),`${type}/${cls} ${mode} claim leakage`);
+    }
+  }
+});
+test('new template sections render only when data exists, escape content and label market usage',()=>{
+  const f=fixture();
+  f.run('for(const k of ["business","subcategories","terms"])delete KB.class_profile_details.class2[k]');
+  let result=render(f,'insurer','class2');
+  for(const h of ['How it is used in practice','Sub-categories and routes','Key terms'])assert.ok(!result.includes(h),'empty '+h);
+  f.run(`KB.class_profile_details.class2.business=[{text:'<b>Captive</b> use context',sources:['act'],pin:'s.4B'}];
+    KB.class_profile_details.class2.terms=[{term:'<i>Captive</i>',usage:'market',text:'Industry label.',sources:['act'],pin:'s.4B'}]`);
+  result=render(f,'insurer','class2');
+  assert.match(result,/How it is used in practice/);assert.match(result,/not an eligibility test/);assert.match(result,/Key terms/);assert.match(result,/Market usage/);
+  assert.ok(result.includes('&lt;b&gt;Captive&lt;/b&gt;')&&result.includes('&lt;i&gt;Captive&lt;/i&gt;'));
+  assert.ok(!result.includes('<b>Captive')&&!result.includes('<i>Captive'));
+  assert.ok(result.indexOf('Why the class exists')<result.indexOf('How it is used in practice')&&result.indexOf('How it is used in practice')<result.indexOf('How it differs from neighbouring classes'));
+  assert.ok(!render(f,'insurer','class2','DISTIL').includes('How it is used in practice'));
+});
+test('entity details take precedence over context per selection, with sub-categories and sources',()=>{
+  const f=fixture();
+  f.run(`KB.entity_profile_details.intermediary={title:'Intermediary profile',glance:[{text:'Glance claim.',sources:['act'],pin:'s.1(1)'}],
+    subcategories:[{id:'manager',label:'Insurance <manager>',claims:[{text:'Manager claim.',sources:['act'],pin:'s.1(1)'}]}],
+    limits:[{text:'Limit claim.',sources:['act'],pin:'s.9',status:'review-pending'}],meta:{researched_on:'2026-09-25',review_due:'2027-03-25',approval:'pending'}};
+    KB.entity_profile_details.daba={classM:{title:'DABA M profile',glance:[{text:'M glance.',sources:['act'],pin:'x'}]}}`);
+  let result=render(f,'intermediary','');
+  assert.match(result,/Entity background \(context, not requirements\)/);assert.match(result,/Intermediary profile/);
+  assert.match(result,/Sub-categories and routes/);assert.ok(result.includes('Insurance &lt;manager&gt;'));assert.match(result,/Manager claim\./);
+  assert.match(result,/Limits of current information/);assert.match(result,/Insurance Act 1978/);assert.match(result,/Editorial review pending/);
+  assert.ok(!result.includes('Intermediary role context'),'context replaced');assert.ok(!result.includes('Illustrative content — pending legal review'));
+  assert.match(render(f,'daba','classM'),/DABA M profile/);
+  result=render(f,'daba','classF');assert.match(result,/DABA Class F context/);assert.match(result,/Core framework/);
+  assert.match(render(f,'msb',''),/Sources for this profile/);
+  assert.ok(!render(f,'intermediary','','EXECUTE').includes('Manager claim.'));
+});
+test('entity details are fingerprinted and cannot be imported',()=>{
+  const f=fixture();
+  assert.equal(f.run("(()=>{const a=JSON.parse(JSON.stringify(activeKB())),b=JSON.parse(JSON.stringify(a));b.entity_profile_details={msb:{title:'x',glance:[]}};return kbFingerprint(a)===kbFingerprint(b)})()"),false);
+  const v=f.data("validateFragment(JSON.stringify({entries:[KB.entries[0]],entity_profile_details:{msb:{title:'x'}}}))");
+  assert.equal(v.ok,false);assert.ok(v.errors.some(e=>/entity details/.test(e)));
+});
+
+// Depth programme Phase 2: pilot business-context content (class1, intermediary) and editorial rules BC-1/BC-2.
+test('business-context claims follow the evidence bar and avoid eligibility language',()=>{
+  const f=fixture();
+  const errors=f.data(`(()=>{const errors=[],src=KB.class_profile_sources;
+    const records=[...Object.entries(KB.class_profile_details).map(([id,d])=>[id,d])];
+    for(const [t,v] of Object.entries(KB.entity_profile_details))if(v?.title)records.push([t,v]);else for(const [c,w] of Object.entries(v||{}))records.push([t+'.'+c,w]);
+    for(const [id,d] of records){
+      const practice=[...(d.business||[]),...(d.terms||[]).filter(t=>t.usage==='market')];
+      for(const c of practice){
+        if(/\\b(must|may only|is required to|are required to|mandatory)\\b/i.test(c.text))errors.push(id+' eligibility wording: '+c.text.slice(0,50));
+        if(/\\b(typically|commonly|generally|frequently|usually|often)\\b/i.test(c.text)){
+          const kinds=c.sources.map(s=>src[s]);const official=kinds.some(s=>s&&s.tier<=2);const industry=new Set(kinds.filter(s=>s?.kind==='industry').map(s=>s.publisher));
+          if(!official&&industry.size<2&&!['single-source','single-news-example'].includes(c.status))errors.push(id+' BC-1: '+c.text.slice(0,50));
+        }
+      }
+    }
+    return errors;})()`);
+  assert.deepEqual(errors,[]);
+});
+test('Class 1 pilot shows business context, terms and limits while keeping approved copy',()=>{
+  const f=fixture();
+  const result=render(f,'insurer','class1');
+  for(const h of ['How it is used in practice','Key terms','Limits of current information'])assert.ok(result.includes(h),h);
+  assert.match(result,/general liability made up 49% of Class 1 long-tail premium/);
+  assert.match(result,/Pure captive/);assert.match(result,/Statutory term/);assert.match(result,/Market usage/);
+  assert.match(result,/three Class 1 applications approved and two new Class 1 registrations/);
+  assert.match(result,statusPattern(f,'KB.class_profile_details.class1'));
+  assert.match(result,/The BMA calls it a single-parent captive category/);
+  assert.ok(result.indexOf('How it is used in practice')<result.indexOf('What qualifies an entity'));
+  assert.ok(!render(f,'insurer','class1','DISTIL').includes('How it is used in practice'));
+});
+test('intermediary pilot covers manager, broker and agent without resolving the intragroup question',()=>{
+  const f=fixture();
+  const result=render(f,'intermediary','');
+  assert.match(result,/Insurance intermediary background/);
+  for(const role of ['Insurance manager','Insurance broker','Insurance agent'])assert.ok(result.includes('<h4>'+role+'</h4>'),role);
+  const carried=f.data("KB.entity_profile_context.intermediary.claims.filter(c=>c.status!=='review-pending').map(c=>c.text)");
+  for(const text of carried)assert.ok(result.includes(escHtml(text)),'carried: '+text.slice(0,40));
+  const limit=f.data("KB.entity_profile_details.intermediary.limits.find(c=>/corporate group/.test(c.text))");
+  assert.equal(limit.status,'review-pending');assert.ok(limit.sources.includes('bma_ialc_2026'));
+  assert.match(result,/not presented here as a blanket exemption/);assert.match(result,/Source scope to confirm/);
+  assert.ok(!/licen[cs]e is not required|does not need to register|exempt from registration/i.test(result));
+  assert.match(result,statusPattern(f,'KB.entity_profile_details.intermediary'));
+  for(const mode of ['DISTIL','EXECUTE'])assert.ok(!render(f,'intermediary','',mode).includes('Sub-categories and routes'),mode);
+  const bad=f.data("['bma_manager_code','bma_ba_code','bma_ialc_2026','bma_update_2016q2','bma_update_2019q1','bma_setup','appleby_captives'].filter(id=>{const s=KB.class_profile_sources[id];return !s||!/^https:\\/\\//.test(s.url)||!/^\\d{4}-\\d{2}-\\d{2}$/.test(s.retrieved)})");
+  assert.deepEqual(bad,[]);
+});
+
+// Depth programme Phase 3, batch 1: Classes 2, 3, A and B business context.
+test('captive-class batch shows class-specific context and labels combined A/B figures',()=>{
+  const f=fixture();
+  const expect={class2:[/33% of Class 2 long-tail premium/,/three Class 2 applications approved and five new Class 2 registrations/,/Group captive/,/Association captive/],
+    class3:[/single-parent, group or association agency, or joint venture captives/,/61% of Class 3 short-tail premium/,/Rent-a-captive/,/Agency captive/],
+    classA:[/single-parent long-term captive/,/two-class observation, not a Class A-only figure/,/Long-term business/,/one Class A application approved/],
+    classB:[/multi-owner long-term captive/,/two-class observation, not a Class B-only figure/,/no Class B row/]};
+  for(const [id,patterns] of Object.entries(expect)){
+    const result=render(f,'insurer',id);
+    for(const p of patterns)assert.match(result,p,id+' '+p);
+    for(const h of ['How it is used in practice','Key terms','Limits of current information'])assert.ok(result.includes(h),id+' '+h);
+    assert.ok(result.indexOf('How it is used in practice')<result.indexOf('What qualifies an entity'),id+' order');
+    assert.ok(!render(f,'insurer',id,'DISTIL').includes('How it is used in practice'),id+' leakage');
+  }
+});
+test('direct quotes in business context and terms stay under 15 words',()=>{
+  const f=fixture();
+  const long=f.data(`(()=>{const out=[];const recs=[...Object.values(KB.class_profile_details)];for(const v of Object.values(KB.entity_profile_details))if(v?.title)recs.push(v);else recs.push(...Object.values(v||{}));
+    for(const d of recs)for(const c of [...(d.business||[]),...(d.terms||[]),...(d.subcategories||[]).flatMap(s=>s.claims)])for(const m of c.text.matchAll(/"([^"]+)"/g))if(m[1].trim().split(/\\s+/).length>=15)out.push(m[1]);return out;})()`);
+  assert.deepEqual(long,[]);
+});
+
+// Depth programme Phase 3, batch 2: commercial general-business Classes 3A, 3B and 4.
+test('commercial-class batch shows class statistics, labels combined 3B/4 findings and regulatory terms',()=>{
+  const f=fixture();
+  const expect={class3a:[/small commercial insurers/,/115 Class 3A licences with US\$20\.5 billion gross premiums/,/two Class 3A applications approved and one new Class 3A registration/,/covers Classes 3B and 4 only/],
+    class3b:[/largest property and casualty commercial insurers/,/US\$7\.6 billion of the net premiums for Class 3B and US\$64\.9 billion for Class 4/,/not Class 3B-only figures/,/should not be read as a Class 3B profile/],
+    class4:[/direct excess liability insurance and\/or property catastrophe reinsurance/,/US\$82\.3 billion gross premiums, the largest of the general-business classes/,/not Class 4-only figures/,/no new Class 4 registration/,/Realistic Disaster Scenarios/]};
+  for(const [id,patterns] of Object.entries(expect)){
+    const result=render(f,'insurer',id);
+    for(const p of patterns)assert.match(result,p,id+' '+p);
+    assert.match(result,/Regulatory term/,id+' regulatory label');
+    assert.match(result,statusPattern(f,'KB.class_profile_details.'+id),id+' status');
+    assert.ok(!render(f,'insurer',id,'DISTIL').includes('How it is used in practice'),id+' leakage');
+  }
+  // The combined 3B + 4 figures quoted from the catastrophe study must agree with the class table they are split against.
+  assert.equal(Math.round((7642+64949)/100)/10,72.6);assert.equal(Math.round((53954+284044)/100)/10,338.0);
+});
+
+// Depth programme Phase 3, batch 3: Classes C and D, and 2024 class statistics for the captive classes.
+test('long-term commercial batch labels the C/D/E cohort and qualifies balance-sheet assets',()=>{
+  const f=fixture();
+  const expect={classC:[/two-thirds of 2024 reserves were allocated to longevity and financial business/,/not Class C-only figures/,/92 Class C licences with US\$57\.1 billion gross premiums/,/excludes amounts held in segregated accounts/,/four Class C applications approved and four new Class C registrations/,/Enhanced Capital Requirement/,/not reconciled here/],
+    classD:[/Class D is a small part of that cohort/,/US\$119 million gross premiums/,/not the section 4EE classification measure/,/no Class D row/,/Total assets \(Classes C, D and E\)/]};
+  for(const [id,patterns] of Object.entries(expect)){
+    const result=render(f,'insurer',id);
+    for(const p of patterns)assert.match(result,p,id+' '+p);
+    assert.match(result,statusPattern(f,'KB.class_profile_details.'+id),id+' status');
+    assert.ok(!render(f,'insurer',id,'EXECUTE').includes('How it is used in practice'),id+' leakage');
+  }
+  const stats={class1:/170 Class 1 licences with US\$2\.5 billion/,class2:/253 Class 2 licences with US\$10\.3 billion/,class3:/185 Class 3 licences with US\$19\.1 billion/,classA:/11 Class A licences with US\$1\.9 billion/,classB:/13 Class B licences with US\$291 million/};
+  for(const [id,p] of Object.entries(stats))assert.match(render(f,'insurer',id),p,id+' 2024 statistics');
+});
+
+// Depth programme Phase 3, batch 4: IIGB and Class E, under the approved IIGB disclosure and the Class E BC-7 constraints.
+test('Class E depth content avoids thresholds, cedant profiles and classification ladders (BC-7)',()=>{
+  const f=fixture();
+  const d=f.data('KB.class_profile_details.classE');
+  const added=[...(d.business||[]),...(d.terms||[]),...(d.limits||[]),...d.footprint.slice(1)];
+  assert.ok(added.length>=6);
+  for(const c of added)assert.ok(!/\$\s?500|500 million|cedant|typical|ladder|registrable as Class E|qualif/i.test(c.text),'BC-7: '+c.text.slice(0,60));
+  const result=render(f,'insurer','classE');
+  for(const p of [/US\$145\.5 billion gross premiums, the largest of any insurer class/,/not a Class E-only result/,/not the statutory classification measure/,/ten Class E applications approved and six new Class E registrations/])assert.match(result,p);
+  assert.match(result,/Conflicting sources/);
+  assert.match(result,statusPattern(f,'KB.class_profile_details.classE'));
+});
+test('IIGB depth content adds context without competing licence counts',()=>{
+  const f=fixture();
+  const d=f.data('KB.class_profile_details.iigb');
+  assert.equal(d.footprint.length,1,'approved 2025 disclosure stays the only footprint claim');
+  for(const c of [...d.business,...d.terms,...d.limits.slice(1)])assert.ok(!/\b(seven|eight|7|8)\b/.test(c.text),'count in: '+c.text.slice(0,60));
+  const result=render(f,'insurer','iigb');
+  for(const p of [/digital assets or cryptocurrency/,/an illustration, not the statutory test/,/Digital Finance Supervision/,/Innovative insurance business/,/no Class IIGB row/])assert.match(result,p);
+  assert.match(result,/report does not reconcile the figures/);
+  assert.match(result,statusPattern(f,'KB.class_profile_details.iigb'));
+});
+
+// Owner instruction (25 Sep 2026): the CI and SPI profiles and their comparison change only with explicit owner approval,
+// and never become less deep. Update this fingerprint only as part of an owner-approved CI/SPI change.
+test('CI and SPI pilot profiles and comparison are unchanged without owner approval',()=>{
+  const f=fixture();
+  const pilot=f.data('({profiles:{collateralized:KB.class_profiles.collateralized,spi:KB.class_profiles.spi},comparison:KB.class_profile_comparison})');
+  assert.equal(crypto.createHash('sha256').update(JSON.stringify(pilot)).digest('hex'),'a4633f67a60d692b7f04c93ad36f79be5c9406d939563380486aa86b5bdc63d7');
+});
+
+// Depth programme sector batch 5: investment business, trust business and corporate service providers.
+test('investment, trust and CSP profiles show routes, carried-over claims and dated counts',()=>{
+  const f=fixture();
+  const expect={
+    investment:{roles:['Standard licence','Test licence','Class A registered person','Class B registered person','Non-registrable persons'],patterns:[/54 licensed investment business licensees/,/should not be added together/,/not more than twenty persons at any time/,/section 13\(1\)\(b\)/]},
+    trust:{roles:['Unlimited trust licence','Limited trust licence','Exemption routes'],patterns:[/does not authorise acting as sole trustee/,/six new private trust companies in 2025/,/31 March each year/,/Private trust company/]},
+    csp:{roles:['Unlimited licence','Limited licence','Exemption routes'],patterns:[/86 CSP licensees/,/exemptions are not counted as licences/,/prudential oversight of corporate service providers/,/Formation agent/,/s\.2\(2\), \(5\)/]}};
+  for(const [type,{roles,patterns}] of Object.entries(expect)){
+    const result=render(f,type,'');
+    for(const r of roles)assert.ok(result.includes('<h4>'+r+'</h4>'),type+' '+r);
+    for(const p of patterns)assert.match(result,p,type+' '+p);
+    const carried=f.data(`KB.entity_profile_context[${JSON.stringify(type)}].claims.map(c=>c.text)`);
+    for(const text of carried)assert.ok(result.includes(escHtml(text)),type+' carried: '+text.slice(0,40));
+    assert.match(result,statusPattern(f,`KB.entity_profile_details[${JSON.stringify(type)}]`),type+' status');
+    assert.ok(!render(f,type,'','DISTIL').includes('Sub-categories and routes'),type+' leakage');
+  }
+});
+
+// Depth programme sector batch 6: bank / deposit company, fund administration and MSB.
+test('bank, fund administration and MSB profiles keep resolved and conflicting notes intact',()=>{
+  const f=fixture();
+  const expect={
+    bank:{roles:['Banking licence','Deposit company licence','Restricted banking licence'],patterns:[/17 August 2018/,/licensed casinos/,/not by being a smaller bank/,/five banking-sector licensees/,/economic and financial policy/]},
+    fundadmin:{roles:[],patterns:[/31 December 2019/,/repealed Part III of the Investment Funds Act 2006/,/21 fund administration licensees/,/Conflicting sources/,/CSP Exemption Order/]},
+    msb:{roles:['Licensed activities'],patterns:[/bureau de change/,/31 January 2017/,/one money service business licensee/,/does not apply to an institution licensed under the Banks/]}};
+  for(const [type,{roles,patterns}] of Object.entries(expect)){
+    const result=render(f,type,'');
+    for(const r of roles)assert.ok(result.includes('<h4>'+r+'</h4>'),type+' '+r);
+    for(const p of patterns)assert.match(result,p,type+' '+p);
+    for(const text of f.data(`KB.entity_profile_context[${JSON.stringify(type)}].claims.map(c=>c.text)`))assert.ok(result.includes(escHtml(text)),type+' carried: '+text.slice(0,40));
+    assert.match(result,statusPattern(f,`KB.entity_profile_details[${JSON.stringify(type)}]`),type+' status');
+    assert.ok(!render(f,type,'','EXECUTE').includes('Limits of current information'),type+' leakage');
+  }
+  // The owner-resolved MSB exemption note is carried over exactly (text, citation and status) and no exemption-order detail is added.
+  const ctx=f.data("KB.entity_profile_context.msb.claims.find(c=>c.text.includes('owner/legal-resolved'))");
+  const det=f.data("KB.entity_profile_details.msb.limits.find(c=>c.text.includes('owner/legal-resolved'))");
+  assert.deepEqual(det,ctx);
+  assert.ok(!f.data("JSON.stringify(KB.entity_profile_details.msb)").includes('Exemption Order'));
+});
+
+// Depth programme sector batch 7: DABA Classes F, M and T (nested records).
+test('DABA class profiles distinguish F, M and T and label combined and during-year figures',()=>{
+  const f=fixture();
+  const expect={classF:[/18 active Class F licences among 36/,/including 22 Class F licences/,/any or all of the listed activities/],
+    classM:[/13 active Class M licences/,/including 21 Class M licences/,/expand operations for a limited period/,/not automatic/],
+    classT:[/5 active Class T licences/,/including 7 Class T licences/,/test a proof of concept/,/state on its website/,/11 December 2020/]};
+  for(const [cls,patterns] of Object.entries(expect)){
+    const result=render(f,'daba',cls);
+    for(const p of patterns)assert.match(result,p,cls+' '+p);
+    for(const p of [/not a year-end register total/,/cover Classes F, M and T together/,/Licensable activities/])assert.match(result,p,cls+' '+p);
+    for(const text of f.data(`KB.entity_profile_context.daba.${cls}.claims.map(c=>c.text)`))assert.ok(result.includes(escHtml(text)),cls+' carried: '+text.slice(0,40));
+    assert.match(result,statusPattern(f,`KB.entity_profile_details.daba.${cls}`),cls+' status');
+  }
+  const appeal=f.data("KB.entity_profile_details.daba.classT.limits.find(c=>c.pin==='s.48(1)')");
+  assert.deepEqual(appeal,f.data("KB.entity_profile_context.daba.classT.claims.find(c=>c.pin==='s.48(1)')"));
+});
+test('every selectable non-insurer has a full entity background profile',()=>{
+  const f=fixture();
+  for(const t of f.data('KB.scopeGroups.nonInsurers')){
+    const classes=t==='daba'?f.data('Object.keys(KB.dabaClasses)'):[''];
+    for(const c of classes){
+      const rec=f.data(`(Object.assign(state,{entityType:${JSON.stringify(t)},entityClass:${JSON.stringify(c)}}),entityProfileRecord(KB.entity_profile_details))`);
+      assert.ok(rec&&rec.title&&rec.meta,t+'/'+c+' has a details record');
+    }
+  }
 });

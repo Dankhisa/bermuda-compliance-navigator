@@ -1,3 +1,23 @@
+# Verification and coverage — release 2.8.0
+
+## 2.8.0 prepublication pass — 25 September 2026
+
+The owner authorised publication of 2.8.0. The owner approved each background batch as editorial copy; no counsel sign-off or legal opinion is claimed.
+
+- **Tests.** `node --check kb.js` passed. `node tests/regression.test.cjs` passed **74/74**, 0 failed and 0 skipped. The original 161-entry SHA-256 fingerprint `2694e7586ca47be93b620c045e1f6774355ab915bcfade97ee00a15cbab3dab9` is unchanged. A pinned fingerprint confirms the CI and SPI profile data and comparison are identical to 2.7.4.
+- **Render comparison.** A scripted comparison rendered all 24 selections in all three journeys (72 renders) at each stage. Only the intended overview sections changed. No previously rendered claim text was lost, and no background content appeared in the obligations or application journeys.
+- **Browser (locally served Chrome-engine preview).**
+  - The sample insurer report opened in the obligations journey, then switched to the overview through the UI. It showed KB v2.8.0, the full Class E background template and the proposal-labelled 2026 Bill horizon item.
+  - A synthetic bookmark was saved through the UI, the page reloaded, and the bookmark re-opened against KB 2.8.0 with its focus selections.
+  - Overview, obligations and application reports rendered without errors for an insurer, the intermediary, trust and DABA Class T selections.
+  - Every changed profile was checked at 390 × 844 with no document-level horizontal overflow.
+  - No console errors were observed.
+- **Print.** Generated browser-engine PDFs grew by about one to three pages per changed profile. Reference reports: Class E sample 14 pages; CI 10; IIGB 10. Section headings are kept with their content. The Class E sample's final page holds the last next step with the report disclaimer, not a footer alone.
+- **Sources.** See SOURCES.md for the sources and point-in-time checks, including:
+  - a live conflicting-sources finding for the fund-administration licensing page
+  - a moved Government fintech report URL serving an identical file
+- **Not verified.** The GUI print-preview dialog; direct-file offline operation; calendar file delivery; a complete successful browser import and merge (invalid-import rejection is covered by regression tests only); an exhaustive accessibility review; comprehensive legal validation.
+
 # Verification and coverage — release 2.7.4
 
 ## Owner-authorised release checks — 25 September 2026

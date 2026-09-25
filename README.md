@@ -10,7 +10,7 @@ An independent educational project by Daniel Khisa for exploring Bermuda regulat
 
 - Separates three user journeys: a detailed regulatory regime map, an operational obligations-and-filings workplan, and task-specific application preparation.
 - Uses a 162-entry static knowledge base with source links and dated review metadata; the original 161 entries retain their 2.4.0 fingerprint.
-- Adds source-labelled CI and SPI class-background research, owner-approved editorial backgrounds for the other selectable insurer classes, and sector context cards for reviewed non-insurer types in version 2.7.4.
+- Gives every selectable insurer class and non-insurer entity type a source-labelled background in the regulatory overview. Version 2.8.0 adds business context, licence and registration routes, key terms and dated counts, alongside the CI/SPI comparison profiles introduced earlier.
 - Distinguishes selected insurer classes, DABA licences, investment licence conditions and unknown facts.
 - Separates current requirements, future compliance dates and consultation proposals.
 - Provides tentative calendars for supported year-end rules and five editable preparation templates.
@@ -20,7 +20,19 @@ An independent educational project by Daniel Khisa for exploring Bermuda regulat
 
 Detailed workflows concern the selectable single insurer classes. Other sectors have framework-level coverage only. IILT, other innovative classes, group and dual-registration profiles are not supported. Entity exemptions and supervisory directions need independent confirmation.
 
-The Class background pilot covers full profiles for Collateralized Insurer and Special Purpose Insurer. The other 12 selectable insurer classes have an evidence-led shared timeline plus class-specific origin, official context, statutory tests, neighbouring-class distinctions and BMA 2025 registration counts. Five have dated captive-return observations; the 3B/4 and C/D/E studies are linked as combined cohorts, not misattributed to one class. They remain shorter than the CI/SPI pilot and do not duplicate a full prudential or filing matrix. Class E presents section 4EF and the BMA's differing descriptions separately, without deciding a registration class or discussing an exact-boundary case. The SPI audit comparison distinguishes unaudited GAAP statements in a restricted SPI's return from the Act's audited Statutory Financial Statements and directs users to confirm the interaction with Bermuda counsel or the BMA. Profiles do not determine registration eligibility or change the existing obligations, fees, calendars or templates.
+The Class background pilot covers full profiles for Collateralized Insurer and Special Purpose Insurer, including their comparison table. The other 12 selectable insurer classes have:
+- an evidence-led shared timeline
+- class-specific origin, official context, statutory tests and neighbouring-class distinctions
+- BMA registration counts and 2024 class statistics
+- from 2.8.0, a "How it is used in practice" section, key terms and stated limits
+
+Captive-return, P&C catastrophe (3B/4) and long-term (C/D/E) study figures are labelled as combined cohorts where the BMA does not split them. Balance-sheet totals are distinguished from statutory classification measures. The profiles do not duplicate a full prudential or filing matrix.
+
+Non-insurer selections now have full entity backgrounds: intermediary; investment business; trust; corporate service provider; bank and deposit company; fund administration; money service business; and DABA Classes F, M and T. Each sets out the licence classes, registration or exemption routes, and activities from primary law, as sub-sections. These describe routes; they do not decide which route applies to an entity. Flagged points remain visible:
+- the BMA's intragroup insurance-manager comment
+- a BMA licensing page that still cites a repealed fund-administration route
+- the owner-resolved MSB exemption note
+- the DABA Class T appeal question Class E presents section 4EF and the BMA's differing descriptions separately, without deciding a registration class or discussing an exact-boundary case. The SPI audit comparison distinguishes unaudited GAAP statements in a restricted SPI's return from the Act's audited Statutory Financial Statements and directs users to confirm the interaction with Bermuda counsel or the BMA. Profiles do not determine registration eligibility or change the existing obligations, fees, calendars or templates.
 
 The overview's dated horizon includes an as-tabled 2026 Insurance Amendment Bill for Classes C, D and E. It is labelled a proposal, not an operative filing duty, and links from those class backgrounds to one shared horizon entry. The existing asset-and-liability-statement rule treatment remains separate.
 
@@ -40,7 +52,17 @@ With Node.js installed:
 node tests/regression.test.cjs
 ```
 
-The regression tests cover schema, scope/fee/date cases, all supported modes, information-architecture separation, all five insurer tasks, escaping, calendar structure, stored-data preservation and version mismatches. Class-background cases cover claim sources, primary-law qualification, shared-history fingerprinting, overview-only rendering, dated market denominators, the SPI audit wording, attributed Class E descriptions, import labelling and preservation of the 161-entry baseline. See VERIFICATION.md for the latest exact test count and browser checks actually observed. These tests do not constitute accessibility or legal sign-off.
+The regression tests cover schema, scope/fee/date cases, all supported modes, information-architecture separation, all five insurer tasks, escaping, calendar structure, stored-data preservation and version mismatches. Class-background cases cover:
+- claim sources, primary-law qualification and shared-history fingerprinting
+- overview-only rendering and dated market denominators
+- the SPI audit wording, attributed Class E descriptions and import labelling
+- preservation of the 161-entry baseline
+
+Version 2.8.0 adds cases for:
+- claim-text parity across all selections
+- business-context evidence and wording rules, and short-quote limits
+- route sub-sections, carried-over claims and flagged notes
+- a fingerprint that keeps the CI/SPI profiles unchanged without owner approval See VERIFICATION.md for the latest exact test count and browser checks actually observed. These tests do not constitute accessibility or legal sign-off.
 
 ## Privacy and local updates
 
@@ -52,7 +74,7 @@ Pilot profile imports are limited to the existing CI/SPI IDs and shipped source 
 
 ## Maintenance and sources
 
-Release version **2.7.4**, 25 September 2026, authorised for publication by the owner. The owner approved the 12 class-background texts as editorial copy, including Class E without a requirement for independent counsel review; no counsel sign-off or legal opinion is claimed. This release adds one sourced proposal to the horizon and an attributed IIGB count disclosure while preserving the original 161 entries and their source status. Original entry research date: **2 July 2026**. Software/editorial release dates do not reverify every entry. Read [SOURCES.md](SOURCES.md), [VERIFICATION.md](VERIFICATION.md) and [CHANGELOG.md](CHANGELOG.md).
+Release version **2.8.0**, 25 September 2026, authorised for publication by the owner. The owner approved each background batch as editorial copy. No counsel sign-off or legal opinion is claimed. The release preserves the original 161 entries, their source status and every calculation, fee, calendar and application rule. The previous release, 2.7.4, added the class-background texts, a sourced horizon proposal and an attributed IIGB count disclosure. Original entry research date: **2 July 2026**. Software/editorial release dates do not reverify every entry. Read [SOURCES.md](SOURCES.md), [VERIFICATION.md](VERIFICATION.md) and [CHANGELOG.md](CHANGELOG.md).
 
 Publish only the selected runtime, documentation, tests and preview assets. Private prompts, research downloads, local exports and career information do not belong in the public repository. Social preview source and PNG are in `assets/`.
 
