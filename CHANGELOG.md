@@ -2,6 +2,8 @@
 
 ## v2.9.0 — owner-authorised publication, 25 September 2026
 
+Published from commit `b424cebb99074a22527dea682b843949727d53d0`; [GitHub Pages deployment succeeded](https://github.com/Dankhisa/bermuda-compliance-navigator/actions/runs/36209426770). All ten checked public files matched the release manifest. A live smoke test showed KB 2.9.0 and the SBA card for Class E, including its stated grandfathering limit, with no captured errors.
+
 The owner authorised publication of 2.9.0 after approving the Scenario-Based Approach deep-dive and the two entry corrections as editorial copy. No counsel sign-off or legal opinion is claimed.
 
 - **SBA deep-dive.** Adds an owner-approved "Topic deep-dive: Scenario-Based Approach (SBA)" to the regulatory overview for Classes C, D and E. It has 50 source-labelled claims covering:

@@ -1,5 +1,9 @@
 # Verification and coverage — release 2.9.0
 
+## Owner-authorised release checks — 25 September 2026
+
+Publication completed from commit `b424cebb99074a22527dea682b843949727d53d0` with a [successful GitHub Pages deployment](https://github.com/Dankhisa/bermuda-compliance-navigator/actions/runs/36209426770). All ten checked public files matched the release manifest. The live site reported KB and app version 2.9.0 with release date 25 September 2026. The Class E overview, generated through the UI, showed the SBA card, its "Related topic" link and the grandfathering limit. No console errors were captured. These observations supersede the prepublication status below.
+
 ## 2.9.0 prepublication pass — 25 September 2026
 
 The owner authorised publication of 2.9.0 after approving the SBA deep-dive and the two entry corrections as editorial copy; no counsel sign-off or legal opinion is claimed. The checks below were made on the local candidate and re-run at the release gate.
