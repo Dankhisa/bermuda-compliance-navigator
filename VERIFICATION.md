@@ -1,3 +1,32 @@
+# Verification and coverage — release 2.9.0
+
+## 2.9.0 prepublication pass — 25 September 2026
+
+The owner authorised publication of 2.9.0 after approving the SBA deep-dive and the two entry corrections as editorial copy; no counsel sign-off or legal opinion is claimed. The checks below were made on the local candidate and re-run at the release gate.
+
+- **Tests.** `node --check kb.js` passed. `node tests/regression.test.cjs` passed **78/78**, 0 failed and 0 skipped.
+- **Baseline fingerprint.** The pinned 161-entry fingerprint was updated deliberately, with owner approval (decision T3), for corrections to `focus-cap-4` and `conseq-sba-unapproved`:
+  - 2.4.0 baseline: `2694e758…ab9`
+  - new: `ff075125…0a0`
+  - The remaining 159 original entries are unchanged and pinned separately: `452483c4…175d`.
+- **Rendering.**
+  - Compared with the published 2.8.0 files across all 24 selections and three journeys, the only change to existing overview content is a "Related topic" link on Classes C, D and E. No existing claim changed.
+  - The corrected consequence entry now appears for Classes C, D and E and no longer appears for Classes 3B and 4 in the modification-request journey.
+  - The CI/SPI fingerprint test passes.
+- **Browser (locally served).** Desktop and 390 × 844 show no document overflow. The SBA card is listed in the report navigation. No console errors.
+- **Release-gate browser checks (locally served Chrome-engine preview, UI-driven).**
+  - The Class D overview showed KB v2.9.0, the SBA card, its entry in the report navigation and the "Related topic" link. At 390 × 844 with every SBA disclosure expanded, there was no document-level horizontal overflow.
+  - A synthetic bookmark was saved through the UI, the page reloaded, and the bookmark re-opened against KB 2.9.0 with the SBA card. It was removed afterwards.
+  - The Class D obligations journey rendered without the SBA card. The modification-request application journey showed the corrected SBA row citing Sch. XXVI paras 28(40)(e) and 30.
+  - No console errors were captured.
+- **Source links.** On 25 September 2026 all 21 SBA source URLs responded. Two industry pages (Skadden, 4most) refused the basic command-line checker. Skadden loaded with browser request headers, and 4most loaded through a web reader.
+- **Print.** Class C, D and E overview PDFs grow from 12 to 20 pages. Full print expansion is kept by owner decision.
+- **Sources.** See SOURCES.md. Official PDFs were retained privately and hashed. Rendered pages were used for table figures.
+- **Not verified.**
+  - The BMA's 30 November 2023 stakeholder letter (final grandfathering) could not be retrieved; the card states this limit. Its title and date are confirmed by the BMA's Q4 2023 Regulatory Update. The BMA consultation index did not list it, and candidate file addresses did not resolve.
+  - An earlier Schedule XXVI version could not be compared with the July 2025 re-upload.
+  - No legal sign-off is claimed.
+
 # Verification and coverage — release 2.8.0
 
 ## Owner-authorised release checks — 25 September 2026

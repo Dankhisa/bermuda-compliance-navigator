@@ -405,7 +405,7 @@
   </div>
 </footer>
 
-<script src="kb.js?v=2.8.0"></script>
+<script src="kb.js?v=2.9.0"></script>
 <script>
 /* =========================================================================
    APP — presentation layer. All regulatory content lives in kb.js (KB).
@@ -455,7 +455,7 @@ function activeKB(){
   const overlay=getOverlay();
   const entries=new Map(KB.entries.map(e=>[e.id,e]));
   if(overlay)overlay.entries.forEach(e=>entries.set(e.id,e));
-  return {version:overlay?.version||KB.version,as_at:KB.as_at,entries:[...entries.values()],class_profiles:{...KB.class_profiles,...(overlay?.class_profiles||{})},class_profile_context:KB.class_profile_context,class_profile_shared_history:KB.class_profile_shared_history,class_profile_details:KB.class_profile_details,entity_profile_context:KB.entity_profile_context,entity_profile_details:KB.entity_profile_details, class_profile_comparison:KB.class_profile_comparison, class_profile_sources:KB.class_profile_sources,overlay};
+  return {version:overlay?.version||KB.version,as_at:KB.as_at,entries:[...entries.values()],class_profiles:{...KB.class_profiles,...(overlay?.class_profiles||{})},class_profile_context:KB.class_profile_context,class_profile_shared_history:KB.class_profile_shared_history,class_profile_details:KB.class_profile_details,entity_profile_context:KB.entity_profile_context,entity_profile_details:KB.entity_profile_details,topic_profiles:KB.topic_profiles, class_profile_comparison:KB.class_profile_comparison, class_profile_sources:KB.class_profile_sources,overlay};
 }
 function canonical(value){
   if(Array.isArray(value))return '['+value.map(canonical).join(',')+']';
@@ -464,7 +464,7 @@ function canonical(value){
 }
 // A non-security change indicator, not a signature or proof of regulatory review.
 function kbFingerprint(kb){
-  const text=canonical({entries:kb.entries,class_profiles:kb.class_profiles||KB.class_profiles,class_profile_context:kb.class_profile_context||KB.class_profile_context,class_profile_shared_history:kb.class_profile_shared_history||KB.class_profile_shared_history,class_profile_details:kb.class_profile_details||KB.class_profile_details,entity_profile_context:kb.entity_profile_context||KB.entity_profile_context,entity_profile_details:kb.entity_profile_details||KB.entity_profile_details,class_profile_comparison:kb.class_profile_comparison||KB.class_profile_comparison,class_profile_sources:kb.class_profile_sources||KB.class_profile_sources});let hash=2166136261;
+  const text=canonical({entries:kb.entries,class_profiles:kb.class_profiles||KB.class_profiles,class_profile_context:kb.class_profile_context||KB.class_profile_context,class_profile_shared_history:kb.class_profile_shared_history||KB.class_profile_shared_history,class_profile_details:kb.class_profile_details||KB.class_profile_details,entity_profile_context:kb.entity_profile_context||KB.entity_profile_context,entity_profile_details:kb.entity_profile_details||KB.entity_profile_details,topic_profiles:kb.topic_profiles||KB.topic_profiles,class_profile_comparison:kb.class_profile_comparison||KB.class_profile_comparison,class_profile_sources:kb.class_profile_sources||KB.class_profile_sources});let hash=2166136261;
   for(let i=0;i<text.length;i++){hash^=text.charCodeAt(i);hash=Math.imul(hash,16777619);}
   return text.length+':'+(hash>>>0).toString(16);
 }
@@ -518,7 +518,7 @@ function validateFragment(raw,allowEmpty=false){
   };
   if(!plainTree(obj))errors.push("Unsupported object keys or nesting depth.");
   if(meta.version!==undefined&&!str(meta.version,80))errors.push("version must be a non-empty string of at most 80 characters.");
-  if(meta.class_profile_sources!==undefined||meta.class_profile_comparison!==undefined||meta.class_profile_details!==undefined||meta.class_profile_shared_history!==undefined||meta.entity_profile_details!==undefined)errors.push('Local imports cannot replace the shipped profile source register, comparison, class details or entity details.');
+  if(meta.class_profile_sources!==undefined||meta.class_profile_comparison!==undefined||meta.class_profile_details!==undefined||meta.class_profile_shared_history!==undefined||meta.entity_profile_details!==undefined||meta.topic_profiles!==undefined)errors.push('Local imports cannot replace the shipped profile source register, comparison, class details, entity details or topic profiles.');
   for(const key of ['as_at','modified_at'])if(meta[key]!==undefined&&!validDate(meta[key]))errors.push(key+" must be a real YYYY-MM-DD date.");
   if(meta.class_profiles!==undefined){
     if(!record(meta.class_profiles)||Object.keys(meta.class_profiles).length>2)errors.push('class_profiles must be an object with at most two supported pilot classes.');
@@ -917,7 +917,7 @@ function profileEvidence(claim){
     if(!source)return '<span class="profile-label">Source unresolved</span>';
     const href=safeSourceUrl(source.url);
     return `<span class="profile-label">${esc(profileSourceLabel(source))}</span>${href?`<a href="${esc(href)}" target="_blank" rel="noopener noreferrer">${esc(source.title)} ↗</a>`:esc(source.title)} · retrieved ${esc(source.retrieved)}`;
-  }).join(' · ')} · citations: ${esc(claim.pin||'Citation to confirm')}${claim.status?` · <b>${esc(claim.status==='review-pending'?'Source scope to confirm':claim.status==='single-source'||claim.status==='single-news-example'?'Single-source context':claim.status==='conflicting'?'Conflicting sources':claim.status)}</b>`:''}</span>`;
+  }).join(' · ')} · citations: ${esc(claim.pin||'Citation to confirm')}${claim.status?` · <b>${esc(claim.status==='review-pending'?'Source scope to confirm':claim.status==='single-source'||claim.status==='single-news-example'?'Single-source context':claim.status==='conflicting'?'Conflicting sources':claim.status==='not-established'?'Not established':claim.status)}</b>`:''}</span>`;
 }
 function profileClaim(claim){return `<p>${esc(claim.text)}${profileEvidence(claim)}</p>`;}
 /* Shared background template (depth programme). Sections without supported claims are omitted; nothing here determines applicability. */
@@ -946,14 +946,19 @@ function profileMetaLine(meta){
   const overdue=validDate(meta.review_due)&&meta.review_due<new Date().toISOString().slice(0,10);
   return `<p class="profile-meta">Researched ${esc(profileLongDate(meta.researched_on))} · Review due ${esc(profileLongDate(meta.review_due))}${overdue?' · Review overdue':''} · ${approval}</p>`;
 }
+const PROFILE_LABELS={
+  class:{why:'Why the class exists',routes:'Sub-categories and routes',differs:'How it differs from neighbouring classes',applies:'What qualifies an entity'},
+  entity:{why:'Why the regime exists',routes:'Sub-categories and routes',differs:'How it differs from neighbouring categories',applies:'What qualifies an entity'},
+  topic:{why:'Why it exists',routes:'Approval routes and asset categories',differs:'How it differs from related approaches',applies:'What applies (requirements from primary law)'}
+};
 function renderProfileSections(d,{kind,shared=[],fallbackGlance=[]}){
-  const insurer=kind==='class';
+  const insurer=kind==='class',L=PROFILE_LABELS[kind]||PROFILE_LABELS.entity;
   const timeline=insurer&&shared.length?`<details class="profile-disclosure"><summary>Shared class-system timeline</summary><div class="profile-table-scroll"><table><caption>Bermuda insurer-class reforms (shown once per overview)</caption><thead><tr><th scope="col">Date</th><th scope="col">Event and evidence</th></tr></thead><tbody>${shared.map(c=>`<tr><th scope="row">${esc(c.date)}</th><td>${profileClaim(c)}</td></tr>`).join('')}</tbody></table></div></details>`:'';
   const developments=(d.developments||[]).map(entryId=>{const e=KB.entries.find(item=>item.id===entryId);return e?`<p><a href="#selectedChanges">${esc(e.data.instrument||e.text)} — see the existing Selected Changes &amp; Pending Items entry</a></p>`:'';}).join('');
   const history=insurer||d.history?.length?`<details class="profile-disclosure"><summary>Origin and history</summary>${(d.history||[]).map(profileClaim).join('')}${timeline}</details>`:'';
-  const why=d.purpose?.length||d.industry?.length?`<details class="profile-disclosure"><summary>Why the ${insurer?'class':'regime'} exists</summary><h4>Stated official context</h4>${(d.purpose||[]).map(profileClaim).join('')}${d.industry?.length?`<h4>Industry view</h4>${d.industry.map(profileClaim).join('')}`:''}</details>`:'';
-  const subcategories=d.subcategories?.length?`<details class="profile-disclosure"><summary>Sub-categories and routes</summary><p class="profile-intro">Background descriptions of routes within this selection. They do not determine which route applies to a particular entity.</p>${d.subcategories.map(s=>`<h4>${esc(s.label)}</h4>${(s.claims||[]).map(profileClaim).join('')}`).join('')}</details>`:'';
-  const qualification=insurer||d.qualification?.length?`<details class="profile-disclosure"><summary>What qualifies an entity</summary>${(d.qualification||[]).map(profileClaim).join('')}<p><b>Confirm applicability with the BMA and your advisers.</b></p></details>`:'';
+  const why=d.purpose?.length||d.industry?.length?`<details class="profile-disclosure"><summary>${L.why}</summary><h4>Stated official context</h4>${(d.purpose||[]).map(profileClaim).join('')}${d.industry?.length?`<h4>Industry view</h4>${d.industry.map(profileClaim).join('')}`:''}</details>`:'';
+  const subcategories=d.subcategories?.length?`<details class="profile-disclosure"><summary>${L.routes}</summary><p class="profile-intro">${kind==='topic'?'Background on the approval routes and categories set out in the rules and BMA instructions. It does not determine whether a particular firm, model or asset is approved.':'Background descriptions of routes within this selection. They do not determine which route applies to a particular entity.'}</p>${d.subcategories.map(s=>`<h4>${esc(s.label)}</h4>${(s.claims||[]).map(profileClaim).join('')}`).join('')}</details>`:'';
+  const qualification=insurer||d.qualification?.length?`<details class="profile-disclosure"><summary>${L.applies}</summary>${(d.qualification||[]).map(profileClaim).join('')}<p><b>Confirm applicability with the BMA and your advisers.</b></p></details>`:'';
   const footprint=d.footprint?.length||d.market?.length?`<details class="profile-disclosure profile-footprint"><summary>Market footprint</summary>${(d.footprint||[]).map(profileClaim).join('')}${(d.market||[]).map(profileClaim).join('')}</details>`:'';
   const terms=d.terms?.length?`<details class="profile-disclosure"><summary>Key terms</summary><p class="profile-intro">Statutory terms are defined in law. Regulatory terms describe BMA returns, groupings or processes. Market-usage terms describe how the industry uses a label and do not establish legal status.</p>${d.terms.map(profileTerm).join('')}</details>`:'';
   return `<details class="profile-disclosure" open><summary>At a glance</summary>${(d.glance||fallbackGlance).map(profileClaim).join('')}</details>
@@ -961,13 +966,31 @@ function renderProfileSections(d,{kind,shared=[],fallbackGlance=[]}){
       ${why}
       ${profileBlock('How it is used in practice',d.business,'Descriptive market context from labelled sources. It is not an eligibility test or a statement of what an entity must do.')}
       ${subcategories}
-      ${profileBlock(insurer?'How it differs from neighbouring classes':'How it differs from neighbouring categories',d.distinctions)}
+      ${profileBlock(L.differs,d.distinctions)}
       ${qualification}
       ${footprint}
       ${terms}
       ${profileBlock('Common misconceptions and boundaries',d.misconceptions)}${profileBlock('Limits of current information',d.limits)}
-      ${developments?`<details class="profile-disclosure"><summary>Current and upcoming developments</summary><p>These are linked horizon items, not operative changes or duplicated requirements.</p>${developments}</details>`:''}
+      ${developments||d.horizon?.length?`<details class="profile-disclosure"><summary>Current and upcoming developments</summary><p>${d.horizon?.length?'These are linked horizon items and dated notes, not operative changes or duplicated requirements. Confirm current status before relying on them.':'These are linked horizon items, not operative changes or duplicated requirements.'}</p>${developments}${(d.horizon||[]).map(profileClaim).join('')}</details>`:''}
       <details class="profile-disclosure"><summary>Sources for this profile</summary>${profileSourceGroups([d,shared])}</details>`;
+}
+function topicProfilesFor(){
+  if(state.entityType!=='insurer')return [];
+  return Object.entries(KB.topic_profiles||{}).filter(([,t])=>(t.scope||[]).includes(state.entityClass));
+}
+function renderTopicProfiles(num){
+  if(state.mode!=='MAP')return '';
+  return topicProfilesFor().map(([id,t])=>`<section class="card" id="topic-${esc(id)}" aria-label="${esc(t.title)}">
+      <h3>${num()}Topic deep-dive: ${esc(t.title)} — context, not requirements</h3>
+      <div class="callout c-warn"><span>Background and context on a cross-cutting topic. Requirements are cited to the rules; BMA guidance and industry views are labelled. This does not determine whether a firm, model or asset qualifies or is approved.</span></div>
+      <p class="profile-meta">Applies to the selected class as background: ${esc((t.scope||[]).map(c=>KB.insurerClasses[c]||c).join(', '))}. Source labels distinguish law, BMA rules, BMA guidance, official commentary, industry perspective and news.</p>
+      ${renderProfileSections(t,{kind:'topic'})}
+      ${profileMetaLine(t.meta)}
+    </section>`).join('');
+}
+function relatedTopicLinks(){
+  const list=topicProfilesFor();
+  return list.length?`<p class="profile-meta">Related topic${list.length>1?'s':''}: ${list.map(([id,t])=>`<a href="#topic-${esc(id)}">${esc(t.title)} deep-dive (below)</a>`).join(' · ')}</p>`:'';
 }
 function entityProfileRecord(store){
   const byType=store?.[state.entityType],nested=byType?.[state.entityClass];
@@ -983,6 +1006,7 @@ function renderClassProfile(num){
       <div class="callout c-warn"><span>Background and context. Industry sources are labelled and do not state requirements. This profile does not determine registration eligibility or replace the BMA's classification decision.</span></div>
       <p class="profile-meta">${esc(KB.insurerClasses[id])} · Source labels distinguish law, official commentary and industry perspective. Each claim has a citation and retrieval date.</p>
       ${renderProfileSections(details||{},{kind:'class',shared:KB.class_profile_shared_history||[],fallbackGlance:context.claims.slice(0,1)})}
+      ${relatedTopicLinks()}
       ${profileMetaLine(details?.meta)}
     </section>`;
   }
@@ -1032,7 +1056,7 @@ function renderResults(fromSaved){
     if(state.mode==='MAP')state.focus=[...document.querySelectorAll("#focusChecks input:checked")].map(i=>i.value);
     state.task=document.getElementById("taskType").value;
   }
-  if(KB.version!=="2.8.0"||KB.app_version!=="2.8.0"){announce("Application and knowledge-base versions differ. Reload both assets before generating a report.");return;}
+  if(KB.version!=="2.9.0"||KB.app_version!=="2.9.0"){announce("Application and knowledge-base versions differ. Reload both assets before generating a report.");return;}
   if(!validInputs(state)){announce("Assessment inputs are invalid. Start a new assessment.");return;}
   usedEntryIds=[]; legalPendingSeen=false;
   const akb=activeKB();
@@ -1075,7 +1099,7 @@ function renderResults(fromSaved){
     <div id="legalReviewNotice"></div>
     <div class="card"><h3>${num()}Entity Class Summary</h3><p style="font-size:14.5px">${currentSummary()||"—"}</p></div>`;
 
-  if(state.mode==='MAP')html+=renderClassProfile(num)+renderEntityCoverageNotice(num);
+  if(state.mode==='MAP')html+=renderClassProfile(num)+renderTopicProfiles(num)+renderEntityCoverageNotice(num);
   else if(state.entityType==='insurer'&&(KB.class_profiles[state.entityClass]||KB.class_profile_context?.[state.entityClass]))html+='<p class="profile-meta"><a href="#classBackground" onclick="event.preventDefault();openJourney(\'MAP\')">Class background is available in the regulatory landscape overview.</a></p>';
 
   if(state.mode==="MAP"){

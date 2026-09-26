@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## v2.9.0 — owner-authorised publication, 25 September 2026
+
+The owner authorised publication of 2.9.0 after approving the Scenario-Based Approach deep-dive and the two entry corrections as editorial copy. No counsel sign-off or legal opinion is claimed.
+
+- **SBA deep-dive.** Adds an owner-approved "Topic deep-dive: Scenario-Based Approach (SBA)" to the regulatory overview for Classes C, D and E. It has 50 source-labelled claims covering:
+  - origin (2015–2016 EBS), the 2023 consultations and the 31 March 2024 rules
+  - eligibility and BMA approval
+  - asset categories needing approval, and default and downgrade costs
+  - technical and governance requirements
+  - ongoing supervision, 2026 fees and dated developments
+  - a labelled comparison with the Solvency II matching adjustment
+
+  Requirements are cited to Schedule XXVI of the Class C, D and E Solvency Rules; BMA guidance and industry views are labelled. The card appears only in the overview and is linked from the C, D and E class backgrounds.
+- **Entry corrections (owner-approved):**
+  - `focus-cap-4` now describes the established SBA approval requirements (status: established).
+  - `conseq-sba-unapproved` now applies only to Classes C, D and E, cites Schedule XXVI (status: verify), and no longer appears for Classes 3B and 4.
+  - The other 159 original entries are unchanged and pinned separately.
+- **Supporting changes:** section labels vary by profile type (class and entity labels unchanged); an optional list of dated development notes; "Not established" shown as a readable status label.
+- **Tests:** the regression suite passes 78/78. CI and SPI profiles are unchanged.
+
 ## v2.8.0 — owner-authorised publication, 25 September 2026
 
 Published from commit `069739f8e520e9012451fa3e1a07d9963227da44`; [GitHub Pages deployment succeeded](https://github.com/Dankhisa/bermuda-compliance-navigator/actions/runs/36165665516). All ten checked public files matched the release manifest, and a live smoke test showed KB 2.8.0 with no captured errors.

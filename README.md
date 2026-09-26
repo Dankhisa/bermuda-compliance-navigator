@@ -9,8 +9,9 @@ An independent educational project by Daniel Khisa for exploring Bermuda regulat
 ## What it does
 
 - Separates three user journeys: a detailed regulatory regime map, an operational obligations-and-filings workplan, and task-specific application preparation.
-- Uses a 162-entry static knowledge base with source links and dated review metadata; the original 161 entries retain their 2.4.0 fingerprint.
+- Uses a 162-entry static knowledge base with source links and dated review metadata. Of the original 161 entries, 159 are unchanged since 2.4.0; the two Scenario-Based Approach entries were corrected in 2.9.0 with owner approval.
 - Gives every selectable insurer class and non-insurer entity type a source-labelled background in the regulatory overview. Version 2.8.0 adds business context, licence and registration routes, key terms and dated counts, alongside the CI/SPI comparison profiles introduced earlier.
+- Version 2.9.0 adds a Scenario-Based Approach (SBA) topic deep-dive to the overview for Classes C, D and E.
 - Distinguishes selected insurer classes, DABA licences, investment licence conditions and unknown facts.
 - Separates current requirements, future compliance dates and consultation proposals.
 - Provides tentative calendars for supported year-end rules and five editable preparation templates.
@@ -32,7 +33,17 @@ Non-insurer selections now have full entity backgrounds: intermediary; investmen
 - the BMA's intragroup insurance-manager comment
 - a BMA licensing page that still cites a repealed fund-administration route
 - the owner-resolved MSB exemption note
-- the DABA Class T appeal question Class E presents section 4EF and the BMA's differing descriptions separately, without deciding a registration class or discussing an exact-boundary case. The SPI audit comparison distinguishes unaudited GAAP statements in a restricted SPI's return from the Act's audited Statutory Financial Statements and directs users to confirm the interaction with Bermuda counsel or the BMA. Profiles do not determine registration eligibility or change the existing obligations, fees, calendars or templates.
+- the DABA Class T appeal question
+
+Class E presents section 4EF and the BMA's differing descriptions separately, without deciding a registration class or discussing an exact-boundary case. The SPI audit comparison distinguishes unaudited GAAP statements in a restricted SPI's return from the Act's audited Statutory Financial Statements and directs users to confirm the interaction with Bermuda counsel or the BMA. Profiles do not determine registration eligibility or change the existing obligations, fees, calendars or templates.
+
+The SBA topic deep-dive (from 2.9.0) explains the Scenario-Based Approach for long-term liabilities:
+- its origin and the 2024 rules
+- BMA approval and the asset categories that need separate approval
+- technical and governance requirements, fees and dated developments
+- a labelled comparison with the Solvency II matching adjustment
+
+Requirements are cited to Schedule XXVI of the Class C, D and E Solvency Rules; BMA commentary and industry views are labelled separately. The card is context only: it does not decide whether an insurer may use the SBA. The final scope of grandfathering is flagged for confirmation because the BMA's November 2023 stakeholder letter was not retrieved.
 
 The overview's dated horizon includes an as-tabled 2026 Insurance Amendment Bill for Classes C, D and E. It is labelled a proposal, not an operative filing duty, and links from those class backgrounds to one shared horizon entry. The existing asset-and-liability-statement rule treatment remains separate.
 
@@ -62,7 +73,11 @@ Version 2.8.0 adds cases for:
 - claim-text parity across all selections
 - business-context evidence and wording rules, and short-quote limits
 - route sub-sections, carried-over claims and flagged notes
-- a fingerprint that keeps the CI/SPI profiles unchanged without owner approval See VERIFICATION.md for the latest exact test count and browser checks actually observed. These tests do not constitute accessibility or legal sign-off.
+- a fingerprint that keeps the CI/SPI profiles unchanged without owner approval
+
+Version 2.9.0 adds cases for the SBA card's schema and evidence rules, overview-only placement for Classes C, D and E, import rejection, and the two corrected entries.
+
+See VERIFICATION.md for the latest exact test count and browser checks actually observed. These tests do not constitute accessibility or legal sign-off.
 
 ## Privacy and local updates
 
@@ -74,7 +89,7 @@ Pilot profile imports are limited to the existing CI/SPI IDs and shipped source 
 
 ## Maintenance and sources
 
-Release version **2.8.0**, 25 September 2026, authorised for publication by the owner. The owner approved each background batch as editorial copy. No counsel sign-off or legal opinion is claimed. The release preserves the original 161 entries, their source status and every calculation, fee, calendar and application rule. The previous release, 2.7.4, added the class-background texts, a sourced horizon proposal and an attributed IIGB count disclosure. Original entry research date: **2 July 2026**. Software/editorial release dates do not reverify every entry. Read [SOURCES.md](SOURCES.md), [VERIFICATION.md](VERIFICATION.md) and [CHANGELOG.md](CHANGELOG.md).
+Release version **2.9.0**, 25 September 2026, authorised for publication by the owner. The owner approved the SBA deep-dive and the two entry corrections as editorial copy. No counsel sign-off or legal opinion is claimed. The other 159 original entries, and every calculation, fee, calendar and application rule, are unchanged. The previous release, 2.8.0, added business context, routes and key terms to every class and entity background. Original entry research date: **2 July 2026**. Software/editorial release dates do not reverify every entry. Read [SOURCES.md](SOURCES.md), [VERIFICATION.md](VERIFICATION.md) and [CHANGELOG.md](CHANGELOG.md).
 
 Publish only the selected runtime, documentation, tests and preview assets. Private prompts, research downloads, local exports and career information do not belong in the public repository. Social preview source and PNG are in `assets/`.
 

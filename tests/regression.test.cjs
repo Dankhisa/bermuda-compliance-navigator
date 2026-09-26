@@ -36,14 +36,27 @@ test('wizard preserves a newly selected modification request before rebuilding o
 test('all 162 shipped entries pass the import schema',()=>{
   const f=fixture();assert.equal(f.run('KB.entries.length'),162);assert.deepEqual(f.data('validateFragment(JSON.stringify(KB.entries)).errors'),[]);
 });
-test('the 161 existing entries retain the 2.4.0 fingerprint',()=>{
+test('the 161 original entries match their pinned, owner-approved fingerprints',()=>{
+  // 2.4.0 baseline was 2694e7586ca47be93b620c045e1f6774355ab915bcfade97ee00a15cbab3dab9. On 25 September 2026 the owner approved
+  // (SBA decision T3) corrections to focus-cap-4 and conseq-sba-unapproved only; the other 159 original entries stay pinned separately.
   const f=fixture();
-  const hash=crypto.createHash('sha256').update(JSON.stringify(f.data("KB.entries.filter(e=>e.id!=='rec-bill-insurance-als-2026')"))).digest('hex');
-  assert.equal(hash,'2694e7586ca47be93b620c045e1f6774355ab915bcfade97ee00a15cbab3dab9');
+  const hash=list=>crypto.createHash('sha256').update(JSON.stringify(list)).digest('hex');
+  const original=f.data("KB.entries.filter(e=>e.id!=='rec-bill-insurance-als-2026')");
+  assert.equal(original.length,161);
+  assert.equal(hash(original.filter(e=>!['focus-cap-4','conseq-sba-unapproved'].includes(e.id))),'452483c41ef2510f9f5237f83554488e853e3977ef9f95b0a4a0f62e2d49175d');
+  assert.equal(hash(original),'ff0751259c7130f52e9eaf651a32d085d27e7b57ec411471a5299802af0ee0a0');
+});
+test('owner-approved SBA entry corrections cite Schedule XXVI and drop the non-long-term scope',()=>{
+  const f=fixture();
+  const focus=f.data("KB.entries.find(e=>e.id==='focus-cap-4')"),conseq=f.data("KB.entries.find(e=>e.id==='conseq-sba-unapproved')");
+  assert.equal(focus.verification,'established');assert.match(focus.citation,/Sch\. XXVI paras 28–30/);assert.match(focus.text,/distinct from an internal capital model/);
+  assert.deepEqual(conseq.entity_scope,['classC','classD','classE']);assert.equal(conseq.verification,'verify');assert.match(conseq.data.rows[0].provision,/para/);
+  for(const e of [focus,conseq])assert.equal(e.source.type,'bma-primary');
+  assert.deepEqual(f.data('validateFragment(JSON.stringify(KB.entries)).errors'),[]);
 });
 test('pilot profiles have source-backed claims and primary support for legal cells',()=>{
   const f=fixture();
-  assert.equal(f.run('KB.version'),'2.8.0');assert.equal(f.run('KB.app_version'),'2.8.0');
+  assert.equal(f.run('KB.version'),'2.9.0');assert.equal(f.run('KB.app_version'),'2.9.0');
   const errors=f.data(`(()=>{const errors=[],sources=KB.class_profile_sources,claim=(c,legal=false)=>{
     if(!c||typeof c.text!=='string'||!c.text||!Array.isArray(c.sources)||!c.sources.length||!c.pin)errors.push('incomplete claim');
     else for(const id of c.sources){const s=sources[id];if(!s||!s.url||!s.retrieved||![1,2,3,4].includes(s.tier))errors.push('source '+id);}
@@ -785,4 +798,44 @@ test('every selectable non-insurer has a full entity background profile',()=>{
       assert.ok(rec&&rec.title&&rec.meta,t+'/'+c+' has a details record');
     }
   }
+});
+
+// SBA topic deep-dive (Stage A): overview-only card for Classes C, D and E, built on the shared template.
+test('SBA topic profile is schema-valid and follows the evidence and wording rules',()=>{
+  const f=fixture();
+  const errors=f.data(`(()=>{const errors=[],src=KB.class_profile_sources,t=KB.topic_profiles.sba;
+    const claim=(c,label,legal)=>{if(!c?.text||!c.pin||!Array.isArray(c.sources)||!c.sources.length){errors.push(label+' incomplete');return;}for(const s of c.sources)if(!src[s]||!/^https:\\/\\//.test(src[s].url)||!/^\\d{4}-\\d{2}-\\d{2}$/.test(src[s].retrieved))errors.push(label+' source '+s);if(legal&&!c.sources.some(s=>['law','rule'].includes(src[s]?.kind)))errors.push(label+' needs primary law');};
+    if(!t||!t.title||!Array.isArray(t.scope)||!t.meta)errors.push('topic shape');
+    if(JSON.stringify(t.scope)!==JSON.stringify(['classC','classD','classE']))errors.push('scope');
+    for(const k of ['glance','history','purpose','industry','business','distinctions','footprint','misconceptions','limits','horizon'])for(const c of t[k]||[])claim(c,k);
+    for(const c of t.qualification)claim(c,'qualification',true);
+    for(const s of t.subcategories)for(const c of s.claims)claim(c,'sub '+s.id,s.id==='capabilities');
+    for(const term of t.terms){claim(term,'term '+term.term);if(term.usage==='regulatory'&&!term.sources.every(s=>src[s].tier<=2&&!['industry','news'].includes(src[s].kind)))errors.push('regulatory term source');}
+    for(const c of [...t.business,...t.terms.filter(x=>x.usage==='market')]){if(/\\b(must|may only|is required to|are required to|mandatory)\\b/i.test(c.text))errors.push('BC-2 '+c.text.slice(0,40));
+      if(/\\b(typically|commonly|generally|frequently|usually|often)\\b/i.test(c.text)){const k=c.sources.map(s=>src[s]);if(!k.some(s=>s.tier<=2)&&new Set(k.filter(s=>s.kind==='industry').map(s=>s.publisher)).size<2)errors.push('BC-1 '+c.text.slice(0,40));}}
+    for(const c of profileClaimsIn(t))for(const m of c.text.matchAll(/"([^"]+)"/g))if(m[1].split(/\\s+/).length>=15)errors.push('long quote');
+    return errors;})()`);
+  assert.deepEqual(errors,[]);
+});
+test('SBA deep-dive renders only in the C/D/E overview and is linked from those backgrounds',()=>{
+  const f=fixture();
+  for(const cls of ['classC','classD','classE']){
+    const result=render(f,'insurer',cls);
+    assert.match(result,/id="topic-sba"/,cls);assert.match(result,/Topic deep-dive: Scenario-Based Approach \(SBA\) — context, not requirements/);
+    for(const h of ['Approval routes and asset categories','SBA model approval','Asset categories and approvals','Technical capabilities: BMA requirements','Ongoing supervision','What applies (requirements from primary law)','How it differs from related approaches'])assert.ok(result.includes(h),cls+' '+h);
+    for(const p of [/105% Liquidity Coverage Ratio/,/10% of the SBA portfolio in aggregate and 0\.5% per asset/,/nine prescribed interest-rate scenarios/,/outsourcing the running, maintenance and management of the SBA model is not allowed/,/31 March 2024/,/Not established/])assert.match(result,p,cls+' '+p);
+    assert.match(result,/<a href="#topic-sba">Scenario-Based Approach \(SBA\) deep-dive \(below\)<\/a>/,cls+' link');
+    assert.match(result,statusPattern(f,'KB.topic_profiles.sba'),cls+' status');
+    for(const text of f.data('profileClaimsIn(KB.topic_profiles.sba).map(c=>c.text)'))assert.ok(result.includes(escHtml(text)),cls+' claim: '+text.slice(0,40));
+    for(const mode of ['DISTIL','EXECUTE'])assert.ok(!render(f,'insurer',cls,mode).includes('topic-sba'),cls+' '+mode+' leakage');
+  }
+  for(const [type,cls] of [['insurer','class1'],['insurer','class3b'],['insurer','class4'],['insurer','spi'],['insurer','collateralized'],['trust',''],['daba','classF']]){
+    const result=render(f,type,cls);assert.ok(!result.includes('topic-sba'),type+'/'+cls+' should not show SBA');
+  }
+});
+test('SBA topic is fingerprinted and cannot be imported',()=>{
+  const f=fixture();
+  assert.equal(f.run("(()=>{const a=JSON.parse(JSON.stringify(activeKB())),b=JSON.parse(JSON.stringify(a));b.topic_profiles.sba.glance[0].text+=' x';return kbFingerprint(a)===kbFingerprint(b)})()"),false);
+  const v=f.data("validateFragment(JSON.stringify({entries:[KB.entries[0]],topic_profiles:{sba:{title:'x'}}}))");
+  assert.equal(v.ok,false);assert.ok(v.errors.some(e=>/topic profiles/.test(e)));
 });
