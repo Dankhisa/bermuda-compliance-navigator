@@ -1,3 +1,61 @@
+# Verification and coverage — release 2.10.0
+
+## 2.10.0 prepublication pass — 27 September 2026
+
+The owner authorised publication of 2.10.0 after approving the topic cards and checklists as editorial copy; no counsel sign-off or legal opinion is claimed. The checks below were made on the local candidate and re-run at the release gate.
+
+- **Tests.**
+  - `node --check kb.js` passed.
+  - `node tests/regression.test.cjs` passed **92/92**, with 0 failed and 0 skipped.
+  - Pinned fingerprints confirm that the SBA card, all 162 entries, the 79 original source records and the CI/SPI profiles are unchanged.
+  - Three existing tests were updated for the new study field, the version and a section-scoped check.
+- **Mutation checks.** Each new rule was tested against a deliberately broken copy, and each broken copy failed the suite:
+  - an undated observation
+  - a requirement cited only to guidance
+  - a status labelled "Complete"
+  - a removed print notice
+  - an edited SBA card
+  - removed study-state validation
+
+  An unmodified control copy passed.
+- **Sources.**
+  - The OpRes Code, Guidance Notes and stakeholder letter, the class and group rules with their Schedules, POCA, the Insurance Code of Conduct, the 2019 self-assessment review and the other new sources were read from `cdn.bma.bm`, `bermudalaws.bm` or the publishers' sites, and retained privately with hashes.
+  - All 22 new source URLs responded on 27 September 2026.
+  - Section numbers were taken from the body text of each Act, because the contents lists extracted from some consolidated PDFs are offset from the section numbers.
+- **Browser (locally served Chrome-engine preview, driven through the UI unless stated).**
+  - **Rendering.** The Class 3B overview rendered all three topic cards with collapsed checklists and no console errors.
+  - **Controls.** Setting a study status by mouse, entering a note by keyboard, filters, grouping and the PCC study filter all updated the checklist and announced changes. The PCC study filter left the report's own facts unchanged.
+  - **Phone width.** At 390 × 844, with every section and checklist open, there was no document-level horizontal overflow for Class E, the bank profile or DABA Class F.
+  - **Structure.** In-page checks on those profiles (576–870 form controls each) found no unlabelled controls, duplicate IDs or fieldsets without legends. External links in the topic cards use `rel="noopener noreferrer"`.
+- **Content Security Policy.** With a violation listener attached, these ran with **no violations**:
+  - rendering
+  - checklist interaction
+  - the CSV and Markdown export handlers (file delivery was intercepted in-page, not downloaded)
+  - saving through the dialog by keyboard
+  - reload and re-open from Saved Assessments, with the checklist status restored
+  - a knowledge-base import preview and merge, whose test data was removed afterwards
+- **Print (Chrome print-to-PDF; the app's pre-print step emulated).**
+  - Every report and checklist PDF carries the reliance notice on page 1 and the running footer on every page. The footer sits in the bottom page margin; an earlier fixed-position version covered the last line on some pages and was replaced.
+  - By owner decision (Gate 3), the three new topic cards print as a summary (At a glance, scope, metadata and a pointer); the screen is unchanged and the SBA card keeps full print expansion. Full reports print no checklist items. A checklist prints on its own with a header giving the notice, knowledge-base version, profile and filters. Study statuses and notes print only when "Include my study statuses and notes" is ticked.
+  - Page counts:
+
+    | Report | Pages |
+    | --- | --- |
+    | Class E overview | 24 (2.9.0: 20; 42 before the summary print) |
+    | Class E obligations | 16 |
+    | Class E modification request | 6 |
+    | Bank overview | 8 (19 before the summary print) |
+    | OpRes checklist for a bank | 16 (19 with notes) |
+    | CISSA checklist for Class 3B | 9 |
+- **Automated accessibility scan (axe-core 4.13.0, installed outside the project with owner approval).** WCAG 2.0, 2.1 and 2.2 A and AA rules were run on the landing page, the Class E overview (all sections and checklists open), obligations and modification-request reports, the bank and DABA Class F overviews, Saved Assessments and the Knowledge Base page. There were **0 violations** and no page errors. Colour contrast could not be computed for decorative icon glyphs (ⓘ, ■) in existing callouts (needs review, 1–3 per page). Automated checks cover part of WCAG only.
+- **Not verified.**
+  - The browser's print-preview dialog.
+  - Actual file delivery for exports.
+  - The page-margin footer in browsers other than Chrome.
+  - Direct-file offline operation.
+  - A manual accessibility audit.
+  - Legal review of the items marked "Source scope to confirm" or "Not established".
+
 # Verification and coverage — release 2.9.0
 
 ## Owner-authorised release checks — 25 September 2026

@@ -56,7 +56,7 @@ test('owner-approved SBA entry corrections cite Schedule XXVI and drop the non-l
 });
 test('pilot profiles have source-backed claims and primary support for legal cells',()=>{
   const f=fixture();
-  assert.equal(f.run('KB.version'),'2.9.0');assert.equal(f.run('KB.app_version'),'2.9.0');
+  assert.equal(f.run('KB.version'),'2.10.0');assert.equal(f.run('KB.app_version'),'2.10.0');
   const errors=f.data(`(()=>{const errors=[],sources=KB.class_profile_sources,claim=(c,legal=false)=>{
     if(!c||typeof c.text!=='string'||!c.text||!Array.isArray(c.sources)||!c.sources.length||!c.pin)errors.push('incomplete claim');
     else for(const id of c.sources){const s=sources[id];if(!s||!s.url||!s.retrieved||![1,2,3,4].includes(s.tier))errors.push('source '+id);}
@@ -352,7 +352,7 @@ test('bookmark fingerprint catches content change with an unchanged version',()=
   assert.equal(f.run("(()=>{const a=JSON.parse(JSON.stringify(activeKB())),b=JSON.parse(JSON.stringify(a));b.entity_profile_context.msb.claims[0].text+=' Updated.';return kbFingerprint(a)===kbFingerprint(b)})()"),false);
 });
 test('new resets inputs; reopen synchronizes focus checkboxes through syncForm',()=>{
-  const f=fixture();f.run("Object.assign(state,{entityType:'insurer',entityClass:'classE',fye:'2025-12-31',mode:'MAP',task:'extension',focus:['capital']});startWizard()");assert.deepEqual(f.data('state'),{entityType:'',entityClass:'',fye:'',mode:'',task:'',focus:[],facts:{}});
+  const f=fixture();f.run("Object.assign(state,{entityType:'insurer',entityClass:'classE',fye:'2025-12-31',mode:'MAP',task:'extension',focus:['capital']});startWizard()");assert.deepEqual(f.data('state'),{entityType:'',entityClass:'',fye:'',mode:'',task:'',focus:[],facts:{},study:{}});
 });
 test('changed input after preview cannot merge an old fragment',()=>{
   const f=fixture();f.element('kbFragment').value=f.run('JSON.stringify([KB.entries[0]])');f.run('previewFragment()');f.element('kbFragment').value='null';f.run('mergeFragment()');assert.equal(f.values.has('bcn_kb_overlay_v2'),false);assert.equal(f.run('pendingFragment'),null);
@@ -566,11 +566,13 @@ test('every shipped background claim renders in the overview and nowhere else',(
 test('new template sections render only when data exists, escape content and label market usage',()=>{
   const f=fixture();
   f.run('for(const k of ["business","subcategories","terms"])delete KB.class_profile_details.class2[k]');
-  let result=render(f,'insurer','class2');
+  // 2.10.0: topic deep-dives also render in the overview, so these checks read the class background section only.
+  const classBackground=r=>r.slice(r.indexOf('id="classBackground"'),r.indexOf('</section>',r.indexOf('id="classBackground"')));
+  let result=classBackground(render(f,'insurer','class2'));
   for(const h of ['How it is used in practice','Sub-categories and routes','Key terms'])assert.ok(!result.includes(h),'empty '+h);
   f.run(`KB.class_profile_details.class2.business=[{text:'<b>Captive</b> use context',sources:['act'],pin:'s.4B'}];
     KB.class_profile_details.class2.terms=[{term:'<i>Captive</i>',usage:'market',text:'Industry label.',sources:['act'],pin:'s.4B'}]`);
-  result=render(f,'insurer','class2');
+  result=classBackground(render(f,'insurer','class2'));
   assert.match(result,/How it is used in practice/);assert.match(result,/not an eligibility test/);assert.match(result,/Key terms/);assert.match(result,/Market usage/);
   assert.ok(result.includes('&lt;b&gt;Captive&lt;/b&gt;')&&result.includes('&lt;i&gt;Captive&lt;/i&gt;'));
   assert.ok(!result.includes('<b>Captive')&&!result.includes('<i>Captive'));
@@ -838,4 +840,205 @@ test('SBA topic is fingerprinted and cannot be imported',()=>{
   assert.equal(f.run("(()=>{const a=JSON.parse(JSON.stringify(activeKB())),b=JSON.parse(JSON.stringify(a));b.topic_profiles.sba.glance[0].text+=' x';return kbFingerprint(a)===kbFingerprint(b)})()"),false);
   const v=f.data("validateFragment(JSON.stringify({entries:[KB.entries[0]],topic_profiles:{sba:{title:'x'}}}))");
   assert.equal(v.ok,false);assert.ok(v.errors.some(e=>/topic profiles/.test(e)));
+});
+
+// 2.10.0 topic deep-dives (CISSA/GSSA, OpRes, PCC) with learning checklists. Owner gates 1–2 approved 27 September 2026.
+const NEW_TOPICS=['cissa_gssa','opres','pcc_key_person'];
+const NEW_SOURCE_IDS=['bma_opres_code_2025','bma_opres_gn_2025','bma_opres_letter_2025','bma_icc_2022','rules_43b_bma','rules_3a_bma','rules_cde_bma','rules_43b_consol','rules_3a_consol','rules_cde_consol','gsr_2011_bma','gsolv_2011_bma','bma_ssa_review_2019','bma_gb_handbook_2024','bma_cp_group_2026','bma_climate_gn_2023','poca_1997','bma_pcc_notice_2026','iais_icp_2024','fsb_tprm_2023','bcbs_opres_2021','pra_ss121'];
+const ALL_SELECTIONS=f=>[...f.data('Object.keys(KB.insurerClasses)').map(c=>['insurer',c]),...['intermediary','investment','fundadmin','trust','bank','msb','csp'].map(t=>[t,'']),...['classF','classM','classT'].map(c=>['daba',c])];
+function topicSection(result,id){const a=result.indexOf(`id="topic-${id}"`);return a<0?'':result.slice(a,result.indexOf('</section>',a));}
+test('SBA card, the 162 entries and the original source register are unchanged (pinned fingerprints)',()=>{
+  const f=fixture(),hash=x=>crypto.createHash('sha256').update(JSON.stringify(x)).digest('hex');
+  assert.equal(hash(f.data('KB.topic_profiles.sba')),'c816859ed0e02ffc165b68a24377cea9be4c494498730b35bc67913d50c2afc0');
+  assert.deepEqual(f.data('KB.topic_profiles.sba.scope'),['classC','classD','classE']);
+  assert.equal(hash(f.data('KB.entries')),'2251345a5b34cc83ed482af5108c8cacd9a0f68f3c9ab05da67c331ca4c10b41');
+  const original=f.data(`Object.fromEntries(Object.entries(KB.class_profile_sources).filter(([id])=>!${JSON.stringify(NEW_SOURCE_IDS)}.includes(id)))`);
+  assert.equal(Object.keys(original).length,79);assert.equal(hash(original),'80efe0deb00d20d60e080be7b139b8148cc1f7adcc56313989aca5071c0531ff');
+});
+test('new topic profiles are schema-valid, source-backed and follow the evidence and wording rules',()=>{
+  const f=fixture();
+  const errors=f.data(`(()=>{const errors=[],src=KB.class_profile_sources,primary=['law','rule','code','notice'];
+    const ok=c=>Array.isArray(c.sources)&&c.sources.every(s=>src[s]&&/^https:\\/\\//.test(src[s].url)&&/^\\d{4}-\\d{2}-\\d{2}$/.test(src[s].retrieved)&&[1,2,3,4].includes(src[s].tier));
+    for(const id of ${JSON.stringify(NEW_TOPICS)}){const t=KB.topic_profiles[id];
+      if(!t||!t.title||!t.scope||Array.isArray(t.scope)||!t.meta||!t.checklist)errors.push(id+' shape');
+      const sc=t.scope;if((sc.insurerClasses||[]).some(c=>!Object.hasOwn(KB.insurerClasses,c))||(sc.entityTypes||[]).some(x=>!KB.scopeGroups.nonInsurers.includes(x))||(sc.dabaClasses||[]).some(c=>!Object.hasOwn(KB.dabaClasses,c)))errors.push(id+' scope tokens');
+      if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(t.meta.researched_on)||!(t.meta.review_due>t.meta.researched_on)||!['pending','owner-editorial'].includes(t.meta.approval))errors.push(id+' meta');
+      for(const c of profileClaimsIn(t)){
+        const link=c.basis==='link';
+        if(!link&&(!c.sources.length||!ok(c)))errors.push(id+' source '+(c.id||String(c.text).slice(0,30)));
+        if(!link&&!c.pin)errors.push(id+' pin '+(c.id||String(c.text).slice(0,30)));
+        if(c.status!==undefined&&!['confirmed','single-source','review-pending','conflicting','not-established'].includes(c.status))errors.push(id+' status');
+        for(const m of String(c.text||'').matchAll(/"([^"]+)"/g))if(m[1].split(/\\s+/).length>=15)errors.push(id+' long quote');
+      }
+      for(const c of t.qualification)if(!c.sources.some(s=>primary.includes(src[s].kind)))errors.push(id+' qualification needs primary law');
+      for(const term of t.terms){if(term.usage==='regulatory'&&!term.sources.every(s=>src[s].tier<=2&&!['industry','news','standard'].includes(src[s].kind)))errors.push(id+' regulatory term '+term.term);
+        if(term.usage==='statutory'&&!term.sources.some(s=>src[s].kind==='law'))errors.push(id+' statutory term '+term.term);}
+      for(const c of t.business||[])if(/\\b(must|may only|is required to|are required to|mandatory)\\b/i.test(c.text))errors.push(id+' BC-2');
+    }
+    return errors;})()`);
+  assert.deepEqual(errors,[]);
+});
+test('checklist items: requirements cite primary T1 sources, observations are dated, and the schema is valid',()=>{
+  const f=fixture();
+  const errors=f.data(`(()=>{const errors=[],src=KB.class_profile_sources,owners=CL_OWNER_ORDER,bases=['requirement','expectation','observation','good-practice','link'];
+    for(const id of ${JSON.stringify(NEW_TOPICS)}){const cl=KB.topic_profiles[id].checklist,ids=new Set(),stages=new Set(cl.stages.map(s=>s.id)),facts=new Set((cl.facts||[]).map(x=>x.id));
+      if(cl.version!=='1.0'||!cl.intro||!/not a compliance assessment|not evidence/.test(cl.intro))errors.push(id+' intro');
+      for(const it of cl.items){
+        if(!/^[a-z0-9-]{1,60}$/.test(it.id)||ids.has(it.id))errors.push('id '+it.id);ids.add(it.id);
+        if(!stages.has(it.stage)||!bases.includes(it.basis)||!it.text||(it.owner&&!owners.includes(it.owner)))errors.push('fields '+it.id);
+        if(it.basis==='requirement'&&(!it.pin||!it.sources.some(s=>src[s]?.tier===1&&['law','rule','code','notice'].includes(src[s].kind))))errors.push('requirement without primary T1 source '+it.id);
+        if(it.basis==='observation'&&(!/2019/.test(it.source_date||'')||!it.sources.every(s=>src[s]?.tier===2)))errors.push('undated observation '+it.id);
+        if(it.code&&it.basis!=='requirement')errors.push('code flag '+it.id);
+        if(it.horizon&&it.basis==='requirement')errors.push('horizon requirement '+it.id);
+        for(const e of it.ref_entries||[])if(!KB.entries.some(x=>x.id===e))errors.push('ref '+it.id);
+        const a=it.applies||{};for(const k of Object.keys(a.facts||{}))if(!facts.has(k))errors.push('fact '+it.id);
+        if((a.classes||[]).some(c=>!Object.hasOwn(KB.insurerClasses,c))||(a.entityTypes||[]).some(x=>x!=='insurer'&&!KB.scopeGroups.nonInsurers.includes(x)))errors.push('applies '+it.id);
+      }}
+    return errors;})()`);
+  assert.deepEqual(errors,[]);
+  assert.deepEqual(f.data("['cissa_gssa','opres','pcc_key_person'].map(id=>KB.topic_profiles[id].checklist.items.length)"),[65,100,31]);
+  assert.equal(f.run("KB.topic_profiles.pcc_key_person.checklist.items.some(i=>i.id==='pcc-i02')"),false,'dropped at Gate 2');
+});
+test('each topic card renders only for in-scope profiles and only in the overview, with Code-based scope notes',()=>{
+  const f=fixture();
+  const cissa=['class3a','class3b','class4','classC','classD','classE'],opresIns=[...cissa,'iigb'];
+  for(const [type,cls] of ALL_SELECTIONS(f)){
+    const result=render(f,type,cls),label=type+'/'+cls;
+    assert.equal(result.includes('id="topic-pcc_key_person"'),true,label+' PCC');
+    assert.equal(result.includes('id="topic-cissa_gssa"'),type==='insurer'&&cissa.includes(cls),label+' CISSA');
+    const opres=type==='insurer'?opresIns.includes(cls):type==='daba'?cls==='classF':true;
+    assert.equal(result.includes('id="topic-opres"'),opres,label+' OpRes');
+    assert.equal(result.includes('id="topic-scope-opres"'),!opres,label+' OpRes scope note');
+    for(const mode of ['DISTIL','EXECUTE']){const other=render(f,type,cls,mode);assert.ok(!other.includes('id="topic-'),label+' '+mode+' leakage');assert.ok(!other.includes('Learning checklist ('),label+' '+mode+' checklist leakage');}
+  }
+  assert.match(render(f,'insurer','class1'),/lists the entities it applies to; this insurer class is not on that list/);
+  assert.match(render(f,'daba','classM'),/Class F licence; this licence class is not on that list/);
+  f.run("Object.assign(state,{entityType:'investment',entityClass:'',mode:'MAP',task:'',focus:[],facts:{investmentLicence:'other'},study:{}});renderResults(true)");
+  const result=f.element('results').innerHTML;assert.ok(!result.includes('id="topic-opres"'));assert.match(result,/does not apply to sandbox or test licences/);
+  f.run("Object.assign(state,{facts:{investmentLicence:'unknown'}});renderResults(true)");assert.ok(f.element('results').innerHTML.includes('id="topic-opres"'),'unknown fact never hides a card');
+  assert.match(render(f,'insurer','classE','DISTIL'),/A learning checklist for Solvency self-assessment \(CISSA and GSSA\), Operational Resilience and Outsourcing Code, Police Clearance Certificates and Key Person vetting is available in the regulatory landscape overview\./);
+  f.run("Object.assign(state,{entityType:'insurer',entityClass:'classE',mode:'EXECUTE',task:'extension',focus:[],facts:{},study:{}});renderResults(true)");
+  assert.match(f.element('results').innerHTML,/Topic deep-dives available in the regulatory landscape overview: Scenario-Based Approach \(SBA\), Solvency self-assessment/);
+});
+test('topic cards show every claim, a collapsed checklist beneath At a glance, and related links from backgrounds',()=>{
+  const f=fixture();
+  for(const [id,type,cls] of [['cissa_gssa','insurer','class3b'],['opres','bank',''],['pcc_key_person','daba','classT']]){
+    const result=render(f,type,cls),card=topicSection(result,id);
+    assert.ok(card,id);assert.match(card,/— context, not requirements/);assert.match(card,/not issued, endorsed or approved by the Bermuda Monetary Authority/);
+    const glance=card.indexOf('At a glance'),list=card.indexOf('class="cl-root"'),next=card.indexOf('<details class="profile-disclosure"',list);
+    assert.ok(glance>0&&list>glance&&next>list,id+' checklist sits beneath At a glance');
+    assert.ok(!/class="cl-root"[^>]*\sopen/.test(card),id+' collapsed');
+    for(const text of f.data(`profileClaimsIn(Object.fromEntries(Object.entries(KB.topic_profiles.${id}).filter(([k])=>!['checklist','out_of_scope'].includes(k)))).map(c=>c.text)`))assert.ok(card.includes(escHtml(text)),id+' claim: '+String(text).slice(0,40));
+    assert.match(card,statusPattern(f,'KB.topic_profiles.'+id));
+    assert.ok(result.includes('<a href="#topic-'+id+'">'),id+' related link');
+  }
+  const cards=render(f,'insurer','classC');assert.ok(cards.indexOf('id="topic-sba"')<cards.indexOf('id="topic-cissa_gssa"'),'SBA stays first');
+});
+test('checklist filters, grouping, horizon toggle and Depends on labels follow the study facts',()=>{
+  const f=fixture();render(f,'bank','');
+  const count=(tid,x)=>f.run(`clItems('${tid}',KB.topic_profiles.${tid}).${x}.length`);
+  const shown=count('pcc_key_person','shown');
+  assert.match(f.run("renderChecklistBody('pcc_key_person',KB.topic_profiles.pcc_key_person)"),/Depends on: AML\/ATF regulated financial institution\?, Does the application or change involve BMA Key Person vetting\?/);
+  f.run("studySetFact('pcc_key_person','amlRfi','no')");
+  assert.ok(count('pcc_key_person','hiddenByFacts')>0);assert.ok(count('pcc_key_person','shown')<shown);
+  assert.match(f.run("clSummaryText('pcc_key_person',KB.topic_profiles.pcc_key_person)"),/hidden by your study filters/);
+  f.run("studySetFact('pcc_key_person','amlRfi','yes');studySetFact('pcc_key_person','keyVetting','yes');studySetFact('pcc_key_person','completeBefore','no')");
+  assert.equal(count('pcc_key_person','hiddenByFacts'),0);assert.ok(!/Depends on:/.test(f.run("renderChecklistBody('pcc_key_person',KB.topic_profiles.pcc_key_person)")));
+  assert.equal(f.run('state.facts.amlRfi'),undefined,'study facts never enter wizard facts');
+  render(f,'insurer','classE');
+  const base=count('cissa_gssa','shown');f.run("checklistView('cissa_gssa').bases.observation=true");assert.equal(count('cissa_gssa','shown'),base+8);
+  f.run("checklistView('cissa_gssa').horizon=true");assert.equal(count('cissa_gssa','shown'),base+8+3);
+  f.run("checklistView('cissa_gssa').bases={requirement:true,expectation:false,observation:false,'good-practice':false};checklistView('cissa_gssa').horizon=false");
+  assert.ok(f.data("clItems('cissa_gssa',KB.topic_profiles.cissa_gssa).shown.map(x=>x.item.basis)").every(b=>['requirement','link'].includes(b)),'requirements only');
+  for(const group of ['owner','basis','stage']){f.run(`checklistView('cissa_gssa').group='${group}'`);assert.ok(f.run("clGroups('cissa_gssa',KB.topic_profiles.cissa_gssa,clItems('cissa_gssa',KB.topic_profiles.cissa_gssa).shown).length")>1,group);}
+  assert.equal(f.data("clItems('cissa_gssa',KB.topic_profiles.cissa_gssa).all.map(i=>i.id)").includes('cissa-f02c'),false,'Class C item hidden for Class E');
+  render(f,'insurer','classC');assert.ok(f.data("clItems('cissa_gssa',KB.topic_profiles.cissa_gssa).all.map(i=>i.id)").includes('cissa-f02c'));
+});
+test('checklist status labels, summaries and exports never use scores, percentages or compliance wording',()=>{
+  const f=fixture();render(f,'insurer','classE');
+  f.run("studySet('opres','opres-a01','understood');studySet('opres','opres-b01','reviewing');studySet('opres','opres-c01','not-applicable')");
+  const chrome=f.run(`[STUDY_STATUSES.map(x=>x[1]).join(' '),CL_BASES.map(x=>x[1]).join(' '),clSummaryText('opres',KB.topic_profiles.opres),clFilterText('opres',KB.topic_profiles.opres),
+    clGroups('opres',KB.topic_profiles.opres,clItems('opres',KB.topic_profiles.opres).shown).map(g=>g.label+' '+clReviewed('opres',g.items)).join(' '),clOwnText('opres','opres-a01'),
+    checklistCsv('opres',true).split('\\r\\n').slice(0,9).join(' '),clExportRows('opres',KB.topic_profiles.opres,true).map(r=>r.study).join(' ')].join(' | ')`);
+  const banned=/\bcompliant\b|\bscore|%|ready to file|\bpassed\b|\bdone\b|\bcomplete\b/i;
+  assert.ok(!banned.test(chrome),String(chrome.match(banned)?.[0]));
+  assert.match(f.run("clSummaryText('opres',KB.topic_profiles.opres)"),/^3 of \d+ shown items reviewed/);
+  assert.deepEqual(f.data('STUDY_STATUSES.map(x=>x[1])'),['Not reviewed','Reviewing','Understood','Not applicable to my study']);
+});
+test('checklist exports carry the reliance notice, KB version and filters; notes only on request, escaped and injection-safe',()=>{
+  const f=fixture();render(f,'insurer','classE');
+  f.run(`studySet('opres','opres-a01','understood');studyNote('opres','opres-a01','=HYPERLINK("x") <script>alert(1)</script> private note')`);
+  let csv=f.run("checklistCsv('opres',false)");
+  for(const p of [/not issued, endorsed or approved by the Bermuda Monetary Authority/,/Knowledge base,v2\.10\.0/,/Filters,"?Shown: Requirements, BMA expectations/,/Your study statuses and notes,Not included/,/Profile,/])assert.match(csv,p);
+  assert.ok(!csv.includes('private note'));
+  csv=f.run("checklistCsv('opres',true)");assert.match(csv,/Your study status,Your note/);assert.ok(csv.includes(`"'=HYPERLINK(""x"") <script>alert(1)</script> private note"`),'CSV formula prefix neutralised');
+  let md=f.run("checklistMarkdown('opres',false)");
+  for(const p of [/^# Operational Resilience and Outsourcing Code: learning checklist/,/> Educational study aid only/,/- Knowledge base: v2\.10\.0/,/- Filters: Shown: Requirements, BMA expectations/,/## Scope and dates/])assert.match(md,p);
+  assert.ok(!md.includes('private note'));
+  md=f.run("checklistMarkdown('opres',true)");assert.ok(md.includes('\\<script\\>')&&!md.includes('<script>'),'markdown escaped');
+});
+test('notes are escaped in the page and capped at 280 characters without control characters',()=>{
+  const f=fixture();render(f,'insurer','class3a');
+  f.run("studyNote('cissa_gssa','cissa-a01','<img src=x onerror=alert(1)>'+'a'.repeat(400)+String.fromCharCode(7))");
+  const note=f.run("studyNoteText('cissa_gssa','cissa-a01')");assert.equal(note.length,280);assert.ok(!/[\u0000-\u001f]/.test(note));
+  const body=f.run("renderChecklistBody('cissa_gssa',KB.topic_profiles.cissa_gssa)");
+  assert.ok(body.includes('&lt;img src=x onerror=alert(1)&gt;')&&!body.includes('<img src=x'));assert.match(body,/maxlength="280"/);
+  f.run("studyNote('cissa_gssa','cissa-a01','   ')");assert.equal(f.run("studyRecord('cissa_gssa').items['cissa-a01']"),undefined,'empty note and default status leave no record');
+});
+test('saved bookmarks round-trip checklist state; malformed or foreign study data is rejected or set aside',()=>{
+  const f=fixture();f.element('saveModal').close=()=>{};f.element('preparedBy').value='QA';
+  render(f,'insurer','classD');
+  f.run("studySet('opres','opres-a02','understood');studyNote('opres','opres-a02','Check with CFO');studySetFact('pcc_key_person','amlRfi','yes');confirmSaveAssessment()");
+  const saved=JSON.parse(f.values.get('bcn_assessments'));assert.equal(saved.length,1);
+  assert.equal(saved[0].inputs.study.opres.items['opres-a02'].s,'understood');assert.equal(saved[0].inputs.study.pcc_key_person.facts.amlRfi,'yes');
+  f.run('startWizard()');assert.deepEqual(f.data('state.study'),{});
+  f.run(`reopenAssessment(${JSON.stringify(saved[0].id)})`);
+  assert.equal(f.run("studyStatus('opres','opres-a02')"),'understood');assert.equal(f.run("studyNoteText('opres','opres-a02')"),'Check with CFO');
+  assert.match(f.element('results').innerHTML,/name="cl-opres-opres-a02-s" value="understood"[^>]*checked/);
+  const valid=study=>f.run(`validInputs({...state,study:${JSON.stringify(study)}})`);
+  assert.equal(valid({opres:{v:'1.0',fp:'0123abcd',items:{'opres-a01':{s:'reviewing',n:'ok',h:'89abcdef'}}}}),true);
+  for(const bad of [[],{opres:{v:'1.0',fp:'zz',items:{}}},{opres:{v:'1.0',fp:'0123abcd',items:{'opres-a01':{s:'done'}}}},{opres:{v:'1.0',fp:'0123abcd',items:{'opres-a01':{s:'reviewing',n:'x'.repeat(281)}}}},{opres:{v:'1.0',fp:'0123abcd',items:{},extra:1}},{opres:{v:'1.0',fp:'0123abcd',items:{a:{s:'reviewing',score:5}}}},{pcc_key_person:{v:'1.0',fp:'0123abcd',items:{},facts:{amlRfi:'maybe'}}},{'Bad Topic':{v:'1.0',fp:'0123abcd',items:{}}}])assert.equal(valid(bad),false,JSON.stringify(bad));
+  const raw=JSON.stringify([{...saved[0],id:'bad1',inputs:{...saved[0].inputs,study:{opres:{v:'1.0',fp:'0123abcd',items:{'opres-a01':{s:'passed'}}}}}}]);
+  f.values.set('bcn_assessments',raw);assert.equal(f.data('getAssessments()').length,0);assert.equal(f.values.get('bcn_assessments'),raw,'malformed data is not overwritten');
+  const itemHash=f.run("shortHash(KB.topic_profiles.opres.checklist.items.find(i=>i.id==='opres-a04'))");
+  const foreign=[{...saved[0],id:'f1',inputs:{...saved[0].inputs,study:{ghost:{v:'1.0',fp:'0123abcd',items:{}},opres:{v:'1.0',fp:'0123abcd',items:{'opres-zz-99':{s:'understood'},'opres-a03':{s:'reviewing',h:'00000000'},'opres-a04':{s:'reviewing',h:itemHash}}}}}}];
+  f.values.set('bcn_assessments',JSON.stringify(foreign));f.run("reopenAssessment('f1')");
+  const result=f.element('results').innerHTML;
+  assert.match(result,/no longer available \(ghost\) were set aside/);assert.match(result,/no longer exist and were set aside \(opres-zz-99\)/);assert.match(result,/changed since this bookmark was saved \(opres-a03\)/);
+  assert.equal(f.run("Object.hasOwn(state.study,'ghost')"),false);assert.match(result,/Changed since this bookmark was saved/);
+});
+test('printed and screen reports carry the NAV-01 reliance notice, NAV-03 footer, non-affiliation disclaimer and CSP',()=>{
+  const f=fixture();
+  for(const mode of ['MAP','DISTIL','EXECUTE']){
+    const result=render(f,'insurer','classE',mode);
+    assert.match(result,/class="callout c-warn print-only"><span><b>Educational information only — not legal or professional advice\.<\/b> Independent project; not issued, endorsed or approved by the Bermuda Monetary Authority\. KB v2\.10\.0/,mode);
+    assert.match(f.element('printFooterStyle').textContent,/^@media print\{@page\{@bottom-center\{content:"KB v2\.10\.0 · generated [^"]+ · educational, not advice · not BMA-issued";/,mode);
+    assert.match(result,/This Navigator is an independent educational project and is not issued, endorsed or approved by the Bermuda Monetary Authority\./,mode);
+  }
+  assert.ok(html.includes(`<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">`));
+  assert.ok(html.indexOf('Content-Security-Policy')<html.indexOf('<style>'));
+  assert.ok(html.includes('<style id="printFooterStyle"></style>'));assert.equal(f.run("printFooterCss('a '+String.fromCharCode(34)+'q'+String.fromCharCode(34)+' '+String.fromCharCode(92)+' b'+String.fromCharCode(10)+'c')"),'@media print{@page{@bottom-center{content:"a \\"q\\" \\\\ b c";font-size:7.5pt;color:#333}}}','footer text is escaped for CSS');
+  const map=render(f,'insurer','classE');
+  const topics=NEW_TOPICS.map(id=>topicSection(map,id)).join('');assert.ok(topics.length>1000);
+  for(const m of topics.matchAll(/<a [^>]*target="_blank"[^>]*>/g))assert.match(m[0],/rel="noopener noreferrer"/);
+});
+test('OpRes checklist shows the adherence date and the Act-specific legal weight for Code requirements',()=>{
+  const f=fixture();
+  let card=topicSection(render(f,'bank',''),'opres');assert.match(card,/For this profile: 1 January 2027/);assert.match(card,/BDCA s\.8A\(4\)/);assert.match(card,/Code requirement/);
+  card=topicSection(render(f,'trust',''),'opres');assert.match(card,/For this profile: 31 March 2028/);assert.match(card,/have regard to BMA codes of practice/);assert.match(card,/Source scope to confirm/);
+  card=topicSection(render(f,'insurer','class4'),'opres');assert.match(card,/comply with applicable BMA codes of conduct/);assert.match(card,/Conflicting sources/);
+});
+test('new topics are fingerprinted and cannot be imported locally',()=>{
+  const f=fixture();
+  assert.equal(f.run("(()=>{const a=JSON.parse(JSON.stringify(activeKB())),b=JSON.parse(JSON.stringify(a));b.topic_profiles.opres.checklist.items[0].text+=' x';return kbFingerprint(a)===kbFingerprint(b)})()"),false);
+  const v=f.data("validateFragment(JSON.stringify({entries:[KB.entries[0]],topic_profiles:{opres:{title:'x'}}}))");
+  assert.equal(v.ok,false);assert.ok(v.errors.some(e=>/topic profiles/.test(e)));
+});
+test('Gate 3: new topic cards are owner-approved and print as a summary; the SBA card keeps full print',()=>{
+  const f=fixture();
+  assert.deepEqual(f.data(`${JSON.stringify(NEW_TOPICS)}.map(id=>KB.topic_profiles[id].meta.approval)`),['owner-editorial','owner-editorial','owner-editorial']);
+  const result=render(f,'insurer','classE');
+  for(const id of NEW_TOPICS){assert.match(result,new RegExp('<section class="card topic-compact-print" id="topic-'+id+'"'));assert.match(topicSection(result,id),/class="print-only topic-print-pointer">Printed summary\./);assert.match(topicSection(result,id),/Owner-approved editorial copy/);}
+  assert.match(result,/<section class="card" id="topic-sba"/);assert.ok(!topicSection(result,'sba').includes('topic-print-pointer'));
+  assert.ok(html.includes('.topic-compact-print>details:not(:first-of-type){display:none!important}'));
 });

@@ -1,5 +1,34 @@
 # CHANGELOG
 
+## v2.10.0 — owner-authorised publication, 27 September 2026
+
+The owner authorised publication of 2.10.0 after approving the research (Gate 2) and the built topic cards and checklists as editorial copy (Gate 3). No counsel sign-off or legal opinion is claimed.
+
+- **Three topic deep-dives** in the regulatory landscape overview, built on the SBA card's template:
+  - **Solvency self-assessment (CISSA and GSSA):** Classes 3A, 3B, 4, C, D and E.
+  - **Operational Resilience and Outsourcing Code:** the entities listed in Code para 3.
+  - **Police Clearance Certificates and Key Person vetting:** every supported sector, including DABA Classes F, M and T.
+
+  Requirements are cited to primary law and BMA instruments. BMA expectations, dated observations from the BMA's 2019 review, official commentary and international standards are labelled. Conflicting texts and points not established are shown, not resolved.
+- **Learning checklists (196 items):**
+  - Filters by basis, a separate toggle for future items, grouping by stage, typical owner or basis, and "Depends on" labels for unconfirmed study facts.
+  - Study statuses (Not reviewed, Reviewing, Understood, Not applicable to my study) and optional notes of up to 280 characters.
+  - CSV, Markdown and print exports carrying the reliance notice, knowledge-base version, profile and filters.
+  - No score, percentage or compliance status.
+  - The PCC study facts stay inside the checklist and do not change the report.
+- **Saved bookmarks** can hold checklist state. It is validated field by field; malformed data invalidates the bookmark without overwriting it. Items changed or removed since saving are reported on re-opening.
+- **Scope rule.** Topics can be scoped by insurer class, entity type and DABA class, and can reuse an existing applicability rule. The SBA card keeps its original class-list scope.
+- **Journey links.** The obligations and application journeys show one line pointing to the topic deep-dives; no topic text is repeated there.
+- **Review findings:**
+  - **NAV-01:** printed reports carry a reliance and non-affiliation notice on page 1, and the closing disclaimer now states the tool is not issued, endorsed or approved by the BMA.
+  - **NAV-03:** a running footer in the bottom page margin of every printed page.
+  - **NAV-13:** a Content Security Policy that blocks network connections, plugins and external scripts.
+- **Sources.** 22 new sources were added; source labels now also distinguish BMA codes, BMA notices and international standards.
+- **Unchanged:** the 162 entries, the SBA card, the CI/SPI profiles, the original source records, and every calculation, fee, calendar, template and application rule. Each is pinned by a regression test.
+- **Printing.** The new topic cards print as a summary (At a glance, scope and a pointer to the full screen version); each checklist has its own Print button. The printed Class E overview is 24 pages (20 in 2.9.0).
+- **Approval.** The three cards are owner-approved editorial copy; no legal opinion is claimed.
+- **Tests:** the regression suite grows from 78 to 92 tests.
+
 ## v2.9.0 — owner-authorised publication, 25 September 2026
 
 Published from commit `b424cebb99074a22527dea682b843949727d53d0`; [GitHub Pages deployment succeeded](https://github.com/Dankhisa/bermuda-compliance-navigator/actions/runs/36209426770). All ten checked public files matched the release manifest. A live smoke test showed KB 2.9.0 and the SBA card for Class E, including its stated grandfathering limit, with no captured errors.

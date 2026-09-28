@@ -1,5 +1,27 @@
 # SOURCES.md — Research Log
 
+## 27 September 2026 — topic deep-dives: CISSA/GSSA, OpRes and PCC (2.10.0)
+
+Requirements in the three topic deep-dives and their checklists cite law or BMA instruments with pinpoints. Expectations, dated observations, official commentary and international standards are labelled separately.
+- Official PDFs were retained privately with SHA-256 hashes.
+- Section numbers come from the body text of each Act.
+- Availability checks are point-in-time and do not establish the legal currency of every amended instrument.
+
+| Tier / source | Used for | Limit |
+| --- | --- | --- |
+| T1 · [Operational Resilience and Outsourcing Code (Sep 2025)](https://cdn.bma.bm/documents/2025-09-15-16-10-28-Operational-Resilience-and-Outsourcing---Code.pdf) | Scope (para 3), lifecycle, board duties, outsourcing, 24-hour notice (para 78), self-assessment, dates (XVI) | The Code's "must" paragraphs are shown as Code requirements. Their statutory weight differs by Act: insurers and banks "comply"; other sectors "have regard to". This is flagged for legal confirmation. |
+| T1 · [OpRes Guidance Notes (Sep 2025)](https://cdn.bma.bm/documents/2025-09-15-16-12-12-Operational-Resilience-and-Outsourcing---Guidance-Notes.pdf) | BMA expectations: proportionality, purchased services, agreement terms, scenarios | Shown as expectations; one "must"/"should" difference from the Code is displayed as a conflict |
+| T2 · [OpRes stakeholder letter (15 Sep 2025)](https://cdn.bma.bm/documents/2025-09-15-16-07-24-Operational-Resilience-and-Outsourcing----Stakeholder-Letter.pdf) | Consultation-to-final changes: bank date, self-assessment timing, notification channel, 30-day outsourcing notice | The letter and Code para 33 differ on BMA approval of a delegated party (shown as a conflict) |
+| T1 · Class 4/3B, 3A and C/D/E Solvency Requirement Rules: current consolidations (rule 6) and BMA copies with Schedules (Schedule IX, CISSA); BR 18/2024 Schedule XIII Part IX (Class C) | Legal basis, report contents, the 15% deviation explanation, model questions | The consolidations omit Schedules. Their amendment notes list no later change to Schedule IX (reasoned, not legally confirmed). The published Class C text omits the item 11 sub-items (not established). |
+| T1 · [Insurance Code of Conduct (Aug 2022)](https://cdn.bma.bm/documents/2022-08-31-12-35-41-Insurance-Code-of-Conduct--Revised-August-2022.pdf) | Self-assessment duty (paras 75–76); risk categories; insurer outsourcing expectations | June 2026 proposed amendments shown only as future items |
+| T1 · Insurance (Group Supervision) Rules 2011 r.18, r.5(7)(ba); Group Solvency Requirement Rules Schedule IX | GSSA background reading | Group profiles are not supported |
+| T2 · [BMA review of solvency self-assessments (Mar 2019)](https://cdn.bma.bm/documents/2019-03-27-07-42-22-Review-of-Bermuda-Insurers-Solvency-Self-Assessment-Report.pdf) | Expectations and observed weaknesses | Based on 2017 year-end filings; shown as dated learning material |
+| T1 · 2024 year-end instructions handbooks (long-term; general business); climate-risk Guidance Note (Mar 2023) | Report-in-lieu option (long-term), basis of preparation, climate reporting in the CISSA | 2025 editions not located |
+| T2 · [BMA consultation, June 2026](https://cdn.bma.bm/documents/2026-06-11-08-45-03-Consultation-Paper---Proposed-Amendments-to-Code-of-Conduct-Group-Supervision-and-Prudential-Standards-Insurance-Group-Solvency-Requirement-Rules-2011.pdf) | Proposed Prudent Person Principle attestation and GSSA filing | Proposals only; issue of the amended Code not established |
+| T1 · [BMA Notice on Police Clearance Certificates (13 Aug 2026)](https://cdn.bma.bm/documents/2026-08-13-14-53-34-Notice---New-Policy-Implementation---Police-Clearance-Certificate-Requirement-for-Key-Persons.pdf); [Proceeds of Crime Act 1997, s.42A(1)](https://www.bermudalaws.bm/Laws/Consolidated%20Law/1997/Proceeds%20of%20Crime%20Act%201997) | Key Person definition, certificate rules, transition; AML/ATF regulated financial institution categories | Updated BMA forms not located; insurance agents are not named in s.42A(1)(d) (not established) |
+| T1 · Insurance Act 1978 and the seven sector Acts | Minimum criteria (para 1); controller and officer change notices (IA ss.30J, 30CA; BDCA s.35; IBA s.43; FAPA s.29; TBA s.34; CSPA s.45; MSBA s.48; DABA s.57); control routes; codes-of-practice duties | Pins taken from body text |
+| T3 · IAIS ICPs (Dec 2024), FSB third-party toolkit (Dec 2023), BCBS operational resilience principles (Mar 2021), PRA SS1/21 | International comparison only (ICP 16.10, ICP 8.8) | Labelled "International standard"; EU DORA is not cited because its primary text was not opened |
+
 ## 25 September 2026 — Scenario-Based Approach topic (2.9.0)
 
 The SBA deep-dive cites the current rules for requirements and labels official commentary and industry views separately. Official PDFs were retained privately with SHA-256 hashes. Point-in-time availability does not establish legal currency.

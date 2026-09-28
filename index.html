@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bermuda Regulatory Compliance Navigator</title>
 <meta name="description" content="An educational portfolio project by Daniel Khisa: explore Bermuda regulatory frameworks, filing guidance and draft correspondence with dated sources and clear verification limits.">
@@ -238,7 +239,49 @@
     .profile-table-scroll{overflow:visible!important}
     .profile-table-scroll table{min-width:0!important;width:100%;table-layout:fixed}
   }
+  /* ---------- Reliance notices (NAV-01, NAV-03) and learning checklists ---------- */
+  .print-only{display:none!important}
+  .cl-root{border-top:1px solid var(--line);padding:12px 0}
+  .cl-root>summary{cursor:pointer;color:var(--navy);font-weight:700;padding:3px 0;min-height:44px;display:flex;align-items:center}
+  .cl-controls{display:flex;flex-wrap:wrap;gap:12px 22px;margin:10px 0;padding:12px 14px;background:#faf9f6;border:1px solid var(--line);border-radius:8px}
+  .cl-controls fieldset{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+  .cl-controls legend{font-size:12.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+  .cl-controls label{font-size:13px;display:inline-flex;gap:6px;align-items:center;min-height:32px}
+  .cl-controls select{width:auto;max-width:100%;padding:6px 8px;font-size:13px}
+  .cl-summary{font-size:13px;color:var(--navy);font-weight:600;margin:8px 0}
+  .cl-group>h4{color:var(--navy);font-size:14.5px;margin:18px 0 6px;padding-bottom:4px;border-bottom:1px solid var(--gold-soft)}
+  .cl-item{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:8px 0;background:#fff}
+  .cl-item>p{font-size:13.5px;margin:0}
+  .cl-basis{display:inline-block;border:1px solid var(--line);border-radius:5px;padding:1px 6px;margin-right:6px;font-size:11.5px;font-weight:700;color:var(--navy);background:#eef1f6}
+  .cl-basis-observation{background:var(--amber-bg);color:var(--amber)}
+  .cl-basis-good-practice,.cl-basis-link{background:#f4f4f4;color:#444}
+  .cl-depends{display:inline-block;border:1px dashed #b58932;border-radius:5px;padding:1px 6px;margin-right:6px;font-size:11.5px;color:#5c4300}
+  .cl-meta{display:block;color:var(--muted);font-size:11.5px;margin-top:4px;overflow-wrap:anywhere}
+  .cl-status{margin-top:8px}.cl-status legend{font-size:12px;font-weight:600;color:var(--navy)}
+  .cl-status label{font-size:12.5px;display:inline-flex;gap:5px;align-items:center;margin-right:12px;min-height:32px}
+  .cl-note label{display:block;font-size:12px;color:var(--muted);margin-top:6px}
+  .cl-note input{font-size:13px;padding:7px 9px}
+  .cl-item details{margin-top:6px;font-size:12.5px}.cl-item details summary{color:#164c83}
+  .cl-export{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px}
+  .cl-export label{font-size:13px;display:inline-flex;gap:6px;align-items:center}
+  @media print{
+    .print-only{display:block!important}
+    @page{margin-bottom:14mm}
+    .cl-controls,.cl-note,.cl-status,.cl-export{display:none!important}
+    .cl-root .cl-body,.cl-root .cl-summary{display:none!important}
+    .cl-root .cl-print-pointer{display:block!important}
+    body[data-print-checklist] #results>*:not(.cl-print-host):not(.print-only){display:none!important}
+    body[data-print-checklist] .cl-print-host>*:not(h3):not(.cl-root){display:none!important}
+    body[data-print-checklist] .cl-print-host .cl-root .cl-body,body[data-print-checklist] .cl-print-host .cl-root .cl-summary,body[data-print-checklist] .cl-print-host .cl-print-head{display:block!important}
+    body[data-print-checklist] .cl-print-host .cl-print-pointer{display:none!important}
+    body[data-print-checklist] .cl-root:not(.cl-with-notes) .cl-own{display:none!important}
+    .topic-compact-print>details:not(:first-of-type){display:none!important}
+    body[data-print-checklist] .cl-print-host>details.cl-root{display:block!important}
+    body[data-print-checklist] .cl-print-host .topic-print-pointer{display:none!important}
+    .cl-item{break-inside:avoid}.cl-group>h4{break-after:avoid}
+  }
 </style>
+<style id="printFooterStyle"></style>
 <meta property="og:image" content="https://dankhisa.github.io/bermuda-compliance-navigator/assets/social-preview.png">
 <meta property="og:image:alt" content="Bermuda Compliance Navigator — frameworks, obligations and application preparation">
 </head>
@@ -400,12 +443,12 @@
 
 <footer>
   <div class="fwrap">
-    <p><b>Created by Daniel Khisa.</b> <a href="https://dankhisa.github.io/" style="color:inherit;text-decoration:underline;text-underline-offset:3px">Daniel Khisa — portfolio</a> · Educational portfolio project · Updated <time datetime="2026-09-25">25 September 2026</time>. Original KB research: 2 July 2026; individual entries carry their own review dates.</p>
+    <p><b>Created by Daniel Khisa.</b> <a href="https://dankhisa.github.io/" style="color:inherit;text-decoration:underline;text-underline-offset:3px">Daniel Khisa — portfolio</a> · Educational portfolio project · Updated <time datetime="2026-09-27">27 September 2026</time>. Original KB research: 2 July 2026; individual entries carry their own review dates.</p>
     <b>Disclaimer.</b> This tool provides general information only, generated from a static knowledge base as at the date shown on each report. It is not legal, regulatory, actuarial, tax, or other professional advice, and it does not create an adviser–client relationship. Regulatory requirements, fees, forms, and deadlines change. Before acting or filing, verify every obligation against the current consolidated Bermuda legislation, the Bermuda Monetary Authority's Rules, Codes of Conduct, and Guidance Notes (<b>bma.bm</b>), and obtain professional advice appropriate to your circumstances. Where an item is marked "Verify" or "Unverified", confirmation against primary sources is required.
   </div>
 </footer>
 
-<script src="kb.js?v=2.9.0"></script>
+<script src="kb.js?v=2.10.0"></script>
 <script>
 /* =========================================================================
    APP — presentation layer. All regulatory content lives in kb.js (KB).
@@ -416,7 +459,7 @@ let migrationNotice = "";
 const ASSESS_KEY = "bcn_assessments";
 
 
-const state = {entityType:"", entityClass:"", fye:"", mode:"", task:"", focus:[], facts:{}};
+const state = {entityType:"", entityClass:"", fye:"", mode:"", task:"", focus:[], facts:{}, study:{}};
 let usedEntryIds = [];      // Entries actually displayed in the last report
 let legalPendingSeen = false;
 let reopenNotice = "";      // set when re-opening a saved assessment
@@ -737,7 +780,7 @@ function loadPreservedOverlay(){
  }catch(e){announce('Browser storage cannot be read.');}
 }
 function sampleReport(){
- Object.assign(state,{entityType:'insurer',entityClass:'classE',fye:'2025-12-31',mode:'DISTIL',task:'',focus:['outsourcing','capital'],facts:{domestic:'unknown',recovery:'unknown'}});renderResults(true);
+ Object.assign(state,{entityType:'insurer',entityClass:'classE',fye:'2025-12-31',mode:'DISTIL',task:'',focus:['outsourcing','capital'],facts:{domestic:'unknown',recovery:'unknown'},study:{}});renderResults(true);
 }
 
 /* ---------- navigation ---------- */
@@ -752,7 +795,7 @@ function openDialog(id){ const el=document.getElementById(id);el.classList.remov
 function closeDialog(id){ document.getElementById(id).close(); }
 function goHome(){ showOnly("landing"); }
 function startWizard(){
-  Object.assign(state,{entityType:"",entityClass:"",fye:"",mode:"",task:"",focus:[],facts:{}});
+  Object.assign(state,{entityType:"",entityClass:"",fye:"",mode:"",task:"",focus:[],facts:{},study:{}});studyChanged={};
   document.getElementById("entityType").value="";
   document.getElementById("fye").value="";
   document.getElementById("preparedBy").value="";
@@ -909,7 +952,7 @@ function currentSummary(){
 
 /* Class background is overview-only, source-labelled research; it never determines applicability. */
 function profileSourceLabel(source){
-  return {law:'Law',rule:'BMA rule',guidance:'BMA guidance (expectation)',official:'Official commentary',industry:'Industry perspective',news:'News report'}[source?.kind]||'Source not classified';
+  return {law:'Law',rule:'BMA rule',code:'BMA code',notice:'BMA notice',guidance:'BMA guidance (expectation)',official:'Official commentary',standard:'International standard',industry:'Industry perspective',news:'News report'}[source?.kind]||'Source not classified';
 }
 function profileEvidence(claim){
   return `<span class="profile-evidence">${(claim.sources||[]).map(id=>{
@@ -951,22 +994,22 @@ const PROFILE_LABELS={
   entity:{why:'Why the regime exists',routes:'Sub-categories and routes',differs:'How it differs from neighbouring categories',applies:'What qualifies an entity'},
   topic:{why:'Why it exists',routes:'Approval routes and asset categories',differs:'How it differs from related approaches',applies:'What applies (requirements from primary law)'}
 };
-function renderProfileSections(d,{kind,shared=[],fallbackGlance=[]}){
-  const insurer=kind==='class',L=PROFILE_LABELS[kind]||PROFILE_LABELS.entity;
+function renderProfileSections(d,{kind,shared=[],fallbackGlance=[],labels=null,afterGlance=''}){
+  const insurer=kind==='class',L={...(PROFILE_LABELS[kind]||PROFILE_LABELS.entity),...(labels||{})};
   const timeline=insurer&&shared.length?`<details class="profile-disclosure"><summary>Shared class-system timeline</summary><div class="profile-table-scroll"><table><caption>Bermuda insurer-class reforms (shown once per overview)</caption><thead><tr><th scope="col">Date</th><th scope="col">Event and evidence</th></tr></thead><tbody>${shared.map(c=>`<tr><th scope="row">${esc(c.date)}</th><td>${profileClaim(c)}</td></tr>`).join('')}</tbody></table></div></details>`:'';
   const developments=(d.developments||[]).map(entryId=>{const e=KB.entries.find(item=>item.id===entryId);return e?`<p><a href="#selectedChanges">${esc(e.data.instrument||e.text)} — see the existing Selected Changes &amp; Pending Items entry</a></p>`:'';}).join('');
   const history=insurer||d.history?.length?`<details class="profile-disclosure"><summary>Origin and history</summary>${(d.history||[]).map(profileClaim).join('')}${timeline}</details>`:'';
-  const why=d.purpose?.length||d.industry?.length?`<details class="profile-disclosure"><summary>${L.why}</summary><h4>Stated official context</h4>${(d.purpose||[]).map(profileClaim).join('')}${d.industry?.length?`<h4>Industry view</h4>${d.industry.map(profileClaim).join('')}`:''}</details>`:'';
-  const subcategories=d.subcategories?.length?`<details class="profile-disclosure"><summary>${L.routes}</summary><p class="profile-intro">${kind==='topic'?'Background on the approval routes and categories set out in the rules and BMA instructions. It does not determine whether a particular firm, model or asset is approved.':'Background descriptions of routes within this selection. They do not determine which route applies to a particular entity.'}</p>${d.subcategories.map(s=>`<h4>${esc(s.label)}</h4>${(s.claims||[]).map(profileClaim).join('')}`).join('')}</details>`:'';
-  const qualification=insurer||d.qualification?.length?`<details class="profile-disclosure"><summary>${L.applies}</summary>${(d.qualification||[]).map(profileClaim).join('')}<p><b>Confirm applicability with the BMA and your advisers.</b></p></details>`:'';
+  const why=d.purpose?.length||d.industry?.length?`<details class="profile-disclosure"><summary>${esc(L.why)}</summary><h4>Stated official context</h4>${(d.purpose||[]).map(profileClaim).join('')}${d.industry?.length?`<h4>Industry view</h4>${d.industry.map(profileClaim).join('')}`:''}</details>`:'';
+  const subcategories=d.subcategories?.length?`<details class="profile-disclosure"><summary>${esc(L.routes)}</summary><p class="profile-intro">${L.routesIntro?esc(L.routesIntro):kind==='topic'?'Background on the approval routes and categories set out in the rules and BMA instructions. It does not determine whether a particular firm, model or asset is approved.':'Background descriptions of routes within this selection. They do not determine which route applies to a particular entity.'}</p>${d.subcategories.map(s=>`<h4>${esc(s.label)}</h4>${(s.claims||[]).map(profileClaim).join('')}`).join('')}</details>`:'';
+  const qualification=insurer||d.qualification?.length?`<details class="profile-disclosure"><summary>${esc(L.applies)}</summary>${(d.qualification||[]).map(profileClaim).join('')}<p><b>Confirm applicability with the BMA and your advisers.</b></p></details>`:'';
   const footprint=d.footprint?.length||d.market?.length?`<details class="profile-disclosure profile-footprint"><summary>Market footprint</summary>${(d.footprint||[]).map(profileClaim).join('')}${(d.market||[]).map(profileClaim).join('')}</details>`:'';
   const terms=d.terms?.length?`<details class="profile-disclosure"><summary>Key terms</summary><p class="profile-intro">Statutory terms are defined in law. Regulatory terms describe BMA returns, groupings or processes. Market-usage terms describe how the industry uses a label and do not establish legal status.</p>${d.terms.map(profileTerm).join('')}</details>`:'';
-  return `<details class="profile-disclosure" open><summary>At a glance</summary>${(d.glance||fallbackGlance).map(profileClaim).join('')}</details>
+  return `<details class="profile-disclosure" open><summary>At a glance</summary>${(d.glance||fallbackGlance).map(profileClaim).join('')}</details>${afterGlance}
       ${history}
       ${why}
       ${profileBlock('How it is used in practice',d.business,'Descriptive market context from labelled sources. It is not an eligibility test or a statement of what an entity must do.')}
       ${subcategories}
-      ${profileBlock(L.differs,d.distinctions)}
+      ${profileBlock(esc(L.differs),d.distinctions)}
       ${qualification}
       ${footprint}
       ${terms}
@@ -974,23 +1017,321 @@ function renderProfileSections(d,{kind,shared=[],fallbackGlance=[]}){
       ${developments||d.horizon?.length?`<details class="profile-disclosure"><summary>Current and upcoming developments</summary><p>${d.horizon?.length?'These are linked horizon items and dated notes, not operative changes or duplicated requirements. Confirm current status before relying on them.':'These are linked horizon items, not operative changes or duplicated requirements.'}</p>${developments}${(d.horizon||[]).map(profileClaim).join('')}</details>`:''}
       <details class="profile-disclosure"><summary>Sources for this profile</summary>${profileSourceGroups([d,shared])}</details>`;
 }
+/* Topic deep-dives. Scope is either an insurer-class array (original SBA form, unchanged) or an object:
+   {insurerClasses, entityTypes, dabaClasses, rule}. A rule reuses eligible(); unknown facts never hide a card. */
+const ENTITY_TYPE_LABELS={insurer:'Insurers',intermediary:'Insurance managers, brokers and agents',bank:'Banks and deposit companies',investment:'Investment businesses',fundadmin:'Fund administration providers',trust:'Trust businesses',msb:'Money service businesses',csp:'Corporate service providers',daba:'Digital asset businesses'};
+function topicInScope(t,inputs=state){
+  const sc=t?.scope;
+  if(Array.isArray(sc))return inputs.entityType==='insurer'&&sc.includes(inputs.entityClass);
+  if(!sc||typeof sc!=='object')return false;
+  let hit=false;
+  if(inputs.entityType==='insurer')hit=(sc.insurerClasses||[]).includes(inputs.entityClass);
+  else if(inputs.entityType==='daba')hit=(sc.entityTypes||[]).includes('daba')&&(!sc.dabaClasses||sc.dabaClasses.includes(inputs.entityClass));
+  else hit=(sc.entityTypes||[]).includes(inputs.entityType);
+  if(hit&&sc.rule)hit=eligible({rule:{kind:sc.rule}},inputs);
+  return hit;
+}
 function topicProfilesFor(){
-  if(state.entityType!=='insurer')return [];
-  return Object.entries(KB.topic_profiles||{}).filter(([,t])=>(t.scope||[]).includes(state.entityClass));
+  return Object.entries(KB.topic_profiles||{}).filter(([,t])=>topicInScope(t));
+}
+function topicScopeText(t){
+  const sc=t.scope;
+  if(Array.isArray(sc))return 'Applies to the selected class as background: '+sc.map(c=>KB.insurerClasses[c]||c).join(', ')+'.';
+  const parts=[];
+  if(sc.insurerClasses?.length)parts.push(sc.insurerClasses.length===Object.keys(KB.insurerClasses).length?'all insurer classes in this tool':'insurers in '+sc.insurerClasses.map(c=>KB.insurerClasses[c]||c).join(', '));
+  for(const type of sc.entityTypes||[])parts.push(type==='daba'&&sc.dabaClasses?'digital asset businesses ('+sc.dabaClasses.map(c=>KB.dabaClasses[c]||c).join(', ')+')':(ENTITY_TYPE_LABELS[type]||type).toLowerCase());
+  return 'Shown as background for: '+parts.join('; ')+'.';
 }
 function renderTopicProfiles(num){
   if(state.mode!=='MAP')return '';
-  return topicProfilesFor().map(([id,t])=>`<section class="card" id="topic-${esc(id)}" aria-label="${esc(t.title)}">
+  return topicProfilesFor().map(([id,t])=>`<section class="card${t.checklist?' topic-compact-print':''}" id="topic-${esc(id)}" aria-label="${esc(t.title)}">
       <h3>${num()}Topic deep-dive: ${esc(t.title)} — context, not requirements</h3>
-      <div class="callout c-warn"><span>Background and context on a cross-cutting topic. Requirements are cited to the rules; BMA guidance and industry views are labelled. This does not determine whether a firm, model or asset qualifies or is approved.</span></div>
-      <p class="profile-meta">Applies to the selected class as background: ${esc((t.scope||[]).map(c=>KB.insurerClasses[c]||c).join(', '))}. Source labels distinguish law, BMA rules, BMA guidance, official commentary, industry perspective and news.</p>
-      ${renderProfileSections(t,{kind:'topic'})}
+      <div class="callout c-warn"><span>Background and context on a cross-cutting topic. Requirements are cited to the rules; BMA guidance and industry views are labelled. This does not determine whether a firm, model or asset qualifies or is approved.${t.checklist?' Not legal or professional advice; not issued, endorsed or approved by the Bermuda Monetary Authority.':''}</span></div>
+      <p class="profile-meta">${esc(topicScopeText(t))} Source labels distinguish law, BMA rules, BMA guidance, official commentary, industry perspective and news.</p>
+      ${renderProfileSections(t,{kind:'topic',labels:t.labels||null,afterGlance:t.checklist?renderChecklist(id,t):''})}
+      ${t.checklist?'<p class="print-only topic-print-pointer">Printed summary. The full deep-dive (history, purpose, practice, distinctions, scope, key terms, limits, developments and sources) and its learning checklist are shown on screen. Use the checklist\'s Print checklist button to print the checklist on its own.</p>':''}
       ${profileMetaLine(t.meta)}
-    </section>`).join('');
+    </section>`).join('')+topicScopeNotes();
+}
+/* A one-line note only where the topic's primary instrument itself limits its scope; otherwise nothing. */
+function topicScopeNotes(){
+  if(state.mode!=='MAP')return '';
+  return Object.entries(KB.topic_profiles||{}).filter(([,t])=>Array.isArray(t.out_of_scope)&&!topicInScope(t)).map(([id,t])=>{
+    const note=t.out_of_scope.find(n=>(n.entityTypes||[]).includes(state.entityType));
+    return note?`<p class="profile-meta" id="topic-scope-${esc(id)}"><b>${esc(t.title)}:</b> ${esc(note.text)}${profileEvidence(note)}</p>`:'';
+  }).join('');
 }
 function relatedTopicLinks(){
   const list=topicProfilesFor();
   return list.length?`<p class="profile-meta">Related topic${list.length>1?'s':''}: ${list.map(([id,t])=>`<a href="#topic-${esc(id)}">${esc(t.title)} deep-dive (below)</a>`).join(' · ')}</p>`:'';
+}
+function topicJourneyLine(){
+  const all=topicProfilesFor();if(!all.length)return '';
+  if(state.mode==='DISTIL'){
+    const withList=all.filter(([,t])=>t.checklist);
+    return withList.length?`<p class="profile-meta"><a href="#" onclick="event.preventDefault();openJourney('MAP')">A learning checklist for ${esc(withList.map(([,t])=>t.title).join(', '))} is available in the regulatory landscape overview.</a></p>`:'';
+  }
+  if(state.mode==='EXECUTE')return `<p class="profile-meta"><a href="#" onclick="event.preventDefault();openJourney('MAP')">Topic deep-dive${all.length>1?'s':''} available in the regulatory landscape overview: ${esc(all.map(([,t])=>t.title).join(', '))}.</a></p>`;
+  return '';
+}
+
+/* ---------- Learning checklists: study aids only. No scores, percentages or compliance status. ---------- */
+const STUDY_STATUSES=[['not-reviewed','Not reviewed'],['reviewing','Reviewing'],['understood','Understood'],['not-applicable','Not applicable to my study']];
+const CL_BASES=[['requirement','Requirements'],['expectation','BMA expectations'],['observation','BMA observations (dated)'],['good-practice','Good practice']];
+const CL_OWNER_ORDER=['board','senior management','risk','compliance','actuarial','finance','HR','IT','outsourcing owner','legal','internal audit','company secretary'];
+const CL_STUDY_FACTS=['amlRfi','keyVetting','completeBefore'];
+const CL_NOTICE='Educational study aid only: not legal or professional advice and not evidence of compliance. Independent project; not issued, endorsed or approved by the Bermuda Monetary Authority.';
+const checklistViews={};
+let checklistBound=false,studyChanged={};
+function checklistView(tid){return checklistViews[tid]||(checklistViews[tid]={bases:{requirement:true,expectation:true,observation:false,'good-practice':false},horizon:false,group:'stage',expanded:false,notes:false});}
+function shortHash(value){const text=canonical(value);let h=2166136261;for(let i=0;i<text.length;i++){h^=text.charCodeAt(i);h=Math.imul(h,16777619);}return (h>>>0).toString(16).padStart(8,'0');}
+function checklistFingerprint(t){return shortHash(t.checklist);}
+function checklistTopic(tid){const t=KB.topic_profiles?.[tid];return t?.checklist?t:null;}
+function studyRecord(tid,create=false){
+  const t=checklistTopic(tid);if(!t)return null;
+  if(!state.study||typeof state.study!=='object'||Array.isArray(state.study))state.study={};
+  if(!state.study[tid]&&create)state.study[tid]={v:t.checklist.version,fp:checklistFingerprint(t),items:{}};
+  return state.study[tid]||null;
+}
+function studyStatus(tid,itemId){return studyRecord(tid)?.items?.[itemId]?.s||'not-reviewed';}
+function studyNoteText(tid,itemId){return studyRecord(tid)?.items?.[itemId]?.n||'';}
+function studyFact(tid,key){return studyRecord(tid)?.facts?.[key]||'unknown';}
+function cleanNote(text){return String(text??'').replace(/[\u0000-\u001f\u007f]/g,' ').trim().slice(0,280);}
+function syncStudyContext(){if(reportContext)reportContext.inputs.study=JSON.parse(JSON.stringify(state.study||{}));}
+function studyItem(tid,itemId){return checklistTopic(tid)?.checklist.items.find(i=>i.id===itemId)||null;}
+function studySet(tid,itemId,status){
+  const item=studyItem(tid,itemId);if(!item||!STUDY_STATUSES.some(([v])=>v===status))return false;
+  const rec=studyRecord(tid,true),cur={...(rec.items[itemId]||{})};
+  if(status==='not-reviewed'&&!cur.n)delete rec.items[itemId];else rec.items[itemId]={...cur,s:status,h:shortHash(item)};
+  studyChanged[tid]=(studyChanged[tid]||[]).filter(id=>id!==itemId);syncStudyContext();return true;
+}
+function studyNote(tid,itemId,text){
+  const item=studyItem(tid,itemId);if(!item)return false;
+  const rec=studyRecord(tid,true),note=cleanNote(text),cur={s:'not-reviewed',...(rec.items[itemId]||{})};
+  if(note)cur.n=note;else delete cur.n;
+  if(cur.s==='not-reviewed'&&!cur.n)delete rec.items[itemId];else rec.items[itemId]={...cur,h:shortHash(item)};
+  syncStudyContext();return true;
+}
+function studySetFact(tid,key,value){
+  const fact=checklistTopic(tid)?.checklist.facts?.find(f=>f.id===key);
+  if(!fact||!fact.options.some(([v])=>v===value))return false;
+  const rec=studyRecord(tid,true);rec.facts={...(rec.facts||{})};
+  if(value==='unknown')delete rec.facts[key];else rec.facts[key]=value;
+  if(!Object.keys(rec.facts).length)delete rec.facts;
+  syncStudyContext();return true;
+}
+/* Saved study state is validated field by field; anything malformed makes the whole bookmark invalid (it is then ignored, never overwritten). */
+function validStudy(study){
+  const record=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
+  if(!record(study))return false;
+  const topics=Object.entries(study);if(topics.length>10)return false;
+  for(const [tid,r] of topics){
+    if(!/^[a-z0-9_]{1,40}$/.test(tid)||!record(r))return false;
+    if(Object.keys(r).some(k=>!['v','fp','items','facts'].includes(k)))return false;
+    if(typeof r.v!=='string'||r.v.length>10||typeof r.fp!=='string'||!/^[0-9a-f]{8}$/.test(r.fp))return false;
+    if(!record(r.items)||Object.keys(r.items).length>400)return false;
+    for(const [iid,x] of Object.entries(r.items)){
+      if(!/^[a-z0-9-]{1,60}$/.test(iid)||!record(x)||Object.keys(x).some(k=>!['s','n','h'].includes(k)))return false;
+      if(!STUDY_STATUSES.some(([v])=>v===x.s))return false;
+      if(x.n!==undefined&&(typeof x.n!=='string'||!x.n.length||x.n.length>280||/[\u0000-\u001f\u007f]/.test(x.n)))return false;
+      if(x.h!==undefined&&(typeof x.h!=='string'||!/^[0-9a-f]{8}$/.test(x.h)))return false;
+    }
+    if(r.facts!==undefined){
+      if(!record(r.facts))return false;
+      for(const [k,v] of Object.entries(r.facts))if(!CL_STUDY_FACTS.includes(k)||!['yes','no'].includes(v))return false;
+    }
+  }
+  return true;
+}
+/* On re-opening: drop topics and items that no longer exist, and list items whose text changed since saving. */
+function reconcileStudy(study){
+  const out={},notes=[];studyChanged={};
+  for(const [tid,r] of Object.entries(study||{})){
+    const t=checklistTopic(tid);
+    if(!t){notes.push('Study notes for a checklist that is no longer available ('+tid+') were set aside.');continue;}
+    const items={},changed=[],dropped=[];
+    for(const [iid,x] of Object.entries(r.items||{})){
+      const item=t.checklist.items.find(i=>i.id===iid);
+      if(!item){dropped.push(iid);continue;}
+      if(x.h&&x.h!==shortHash(item))changed.push(iid);
+      items[iid]={...x};
+    }
+    out[tid]={v:t.checklist.version,fp:checklistFingerprint(t),items,...(r.facts?{facts:{...r.facts}}:{})};
+    if(changed.length){studyChanged[tid]=changed;notes.push(t.title+': '+changed.length+' checklist item(s) changed since this bookmark was saved ('+changed.join(', ')+'). They are marked in the checklist.');}
+    if(dropped.length)notes.push(t.title+': '+dropped.length+' saved item(s) no longer exist and were set aside ('+dropped.join(', ')+').');
+    if(r.fp!==checklistFingerprint(t)&&!changed.length&&!dropped.length)notes.push(t.title+': the checklist has been updated since this bookmark was saved.');
+  }
+  return {study:out,notes};
+}
+function clLabel(item){
+  if(item.basis==='requirement')return item.code?'Code requirement':'Requirement';
+  return {expectation:'BMA expectation',observation:'BMA observation (dated)','good-practice':'Good practice',link:'Related entry'}[item.basis]||'Item';
+}
+function clStatusLabel(status){return {'review-pending':'Source scope to confirm','not-established':'Not established',conflicting:'Conflicting sources','single-source':'Single-source context'}[status]||'';}
+function clItemApplies(item,inputs=state){
+  const a=item.applies||{};
+  if(a.entityTypes&&!a.entityTypes.includes(inputs.entityType))return false;
+  if(a.classes&&!(inputs.entityType==='insurer'&&a.classes.includes(inputs.entityClass)))return false;
+  if(a.dabaClasses&&!(inputs.entityType==='daba'&&a.dabaClasses.includes(inputs.entityClass)))return false;
+  return true;
+}
+function clFactState(tid,t,item){
+  const facts=item.applies?.facts;if(!facts)return {hidden:false,depends:[]};
+  const depends=[];
+  for(const [key,allowed] of Object.entries(facts)){
+    const value=studyFact(tid,key);
+    if(allowed.includes(value))continue;
+    if(value==='unknown'){depends.push(t.checklist.facts?.find(f=>f.id===key)?.label||key);continue;}
+    return {hidden:true,depends:[]};
+  }
+  return {hidden:false,depends};
+}
+function clItems(tid,t){
+  const v=checklistView(tid),all=t.checklist.items.filter(i=>clItemApplies(i)),shown=[],hiddenByFacts=[];
+  for(const item of all){
+    if(item.horizon){if(!v.horizon)continue;}
+    else if(item.basis!=='link'&&!v.bases[item.basis])continue;
+    const fs=clFactState(tid,t,item);
+    if(fs.hidden){hiddenByFacts.push(item);continue;}
+    shown.push({item,depends:fs.depends});
+  }
+  return {all,shown,hiddenByFacts};
+}
+function clGroups(tid,t,shown){
+  const v=checklistView(tid);let keys;
+  if(v.group==='owner'){const owners=[...new Set(shown.map(x=>x.item.owner||'unassigned'))];keys=owners.sort((a,b)=>(CL_OWNER_ORDER.indexOf(a)+1||99)-(CL_OWNER_ORDER.indexOf(b)+1||99)).map(o=>[o,'Typical owner: '+o,x=>(x.item.owner||'unassigned')===o]);}
+  else if(v.group==='basis')keys=['requirement','expectation','observation','good-practice','link'].map(b=>[b,{requirement:'Requirements',expectation:'BMA expectations',observation:'BMA observations (dated)','good-practice':'Good practice',link:'Related entries'}[b],x=>x.item.basis===b]);
+  else keys=[...t.checklist.stages].sort((a,b)=>a.order-b.order).map(s=>[s.id,s.label,x=>x.item.stage===s.id]);
+  return keys.map(([key,label,test])=>({key,label,items:shown.filter(test)})).filter(g=>g.items.length);
+}
+function clReviewed(tid,list){return list.filter(x=>studyStatus(tid,x.item.id)!=='not-reviewed').length;}
+function clSummaryText(tid,t){
+  const {all,shown,hiddenByFacts}=clItems(tid,t);
+  return `${clReviewed(tid,shown)} of ${shown.length} shown items reviewed · ${all.length} items apply to this profile${hiddenByFacts.length?` · ${hiddenByFacts.length} hidden by your study filters`:''}.`;
+}
+function clFilterText(tid,t){
+  const v=checklistView(tid),shown=CL_BASES.filter(([b])=>v.bases[b]).map(([,l])=>l);
+  if(v.horizon)shown.push('Future items');
+  const facts=(t.checklist.facts||[]).map(f=>f.label+' '+(f.options.find(([x])=>x===studyFact(tid,f.id))?.[1]||'Not sure'));
+  return 'Shown: '+(shown.join(', ')||'none')+'. Grouped by '+({stage:'stage',owner:'typical owner',basis:'basis'}[v.group])+'.'+(facts.length?' Study filters: '+facts.join('; ')+'.':'');
+}
+function clMetaLine(){return 'Knowledge base v'+KB.version+' · generated '+new Date().toISOString().slice(0,10)+' · profile: '+entityLabel();}
+function clContextNotes(tid,t){
+  const cl=t.checklist;let html='';
+  if(cl.effective)html+=`<p class="profile-meta">${esc(cl.effective.note)} For this profile: ${esc(profileLongDate(state.entityType==='bank'?cl.effective.bank:cl.effective.default))}.</p>`;
+  const w=(cl.weight||[]).find(x=>(x.entityTypes||[]).includes(state.entityType));
+  if(w)html+=`<p class="profile-meta"><b>Legal weight of items labelled "Code requirement":</b> ${esc(w.text)}${profileEvidence(w)}</p>`;
+  return html;
+}
+function clItemHtml(tid,{item,depends}){
+  const base='cl-'+tid+'-'+item.id,status=studyStatus(tid,item.id),note=studyNoteText(tid,item.id),v=checklistView(tid);
+  const sources=(item.sources||[]).map(id=>KB.class_profile_sources[id]).filter(Boolean);
+  const evidence=sources.map(s=>{const href=safeSourceUrl(s.url);return `<span class="profile-label">${esc(profileSourceLabel(s))}</span>${href?`<a href="${esc(href)}" target="_blank" rel="noopener noreferrer">${esc(s.title)} ↗</a>`:esc(s.title)}`;}).join(' · ');
+  const refs=(item.ref_entries||[]).map(id=>KB.entries.find(e=>e.id===id)).filter(Boolean);
+  const where={framework:'regulatory landscape overview',focus:'regulatory landscape overview focus areas',filing:'obligations and filings',governance:'obligations and filings',consequence:'obligations and filings',task:'application preparation'};
+  const stat=clStatusLabel(item.status);
+  return `<div class="cl-item" id="${esc(base)}">
+      <p id="${esc(base)}-t"><span class="cl-basis cl-basis-${esc(item.basis)}">${esc(clLabel(item))}</span>${item.horizon?'<span class="cl-basis">Future item: proposal or not yet in force</span>':''}${item.group?'<span class="cl-basis">Group background reading</span>':''}${depends.length?`<span class="cl-depends">Depends on: ${esc(depends.join(', '))}</span>`:''}${(studyChanged[tid]||[]).includes(item.id)?'<span class="cl-depends">Changed since this bookmark was saved</span>':''}${esc(item.text)}</p>
+      <span class="cl-meta">${evidence?evidence+' · ':''}citation: ${esc(item.pin||'Citation to confirm')}${stat?` · <b>${esc(stat)}</b>`:''}${item.basis==='observation'&&item.source_date?` · <b>${esc(item.source_date)}</b>`:''}${item.owner?' · typical owner: '+esc(item.owner):''}</span>
+      ${refs.length?`<span class="cl-meta">Related existing entr${refs.length>1?'ies':'y'}: ${refs.map(e=>esc(e.data?.name||e.data?.title||e.citation||e.id)+' ('+esc(where[e.topic]||'another journey')+')').join('; ')}</span>`:''}
+      ${item.topic_link&&KB.topic_profiles?.[item.topic_link]?`<span class="cl-meta"><a href="#topic-${esc(item.topic_link)}">${esc(KB.topic_profiles[item.topic_link].title)} deep-dive</a></span>`:''}
+      ${item.evidence?.length?`<details${v.expanded?' open':''}><summary>Evidence examples (generic)</summary><ul class="list">${item.evidence.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></details>`:''}
+      <fieldset class="cl-status" aria-describedby="${esc(base)}-t"><legend>Your study status</legend>${STUDY_STATUSES.map(([val,label])=>`<label><input type="radio" name="${esc(base)}-s" value="${val}" data-cl-topic="${esc(tid)}" data-cl-item="${esc(item.id)}" data-cl-kind="status"${status===val?' checked':''}>${esc(label)}</label>`).join('')}</fieldset>
+      <div class="cl-note"><label for="${esc(base)}-n">Note (optional, up to 280 characters; do not include confidential details)</label><input type="text" id="${esc(base)}-n" maxlength="280" autocomplete="off" value="${esc(note)}" data-cl-topic="${esc(tid)}" data-cl-item="${esc(item.id)}" data-cl-kind="note"></div>
+      <span class="cl-meta cl-own print-only">${esc(clOwnText(tid,item.id))}</span>
+    </div>`;
+}
+function clOwnText(tid,itemId){const note=studyNoteText(tid,itemId);return 'Your study status: '+STUDY_STATUSES.find(([v])=>v===studyStatus(tid,itemId))[1]+(note?' · Your note: '+note:'');}
+function renderChecklistBody(tid,t){
+  const {shown}=clItems(tid,t);
+  const groups=clGroups(tid,t,shown);
+  return `<div class="cl-print-head print-only callout c-warn"><span><b>${esc(t.title)}: learning checklist.</b> ${esc(CL_NOTICE)} ${esc(clMetaLine())}. ${esc(clFilterText(tid,t))}</span></div>`+
+    (groups.length?groups.map((g,i)=>`<div class="cl-group"><h4>${esc(g.label)} <span class="revmeta" id="cl-gc-${esc(tid)}-${i}">${clReviewed(tid,g.items)} of ${g.items.length} reviewed</span></h4>${g.items.map(x=>clItemHtml(tid,x)).join('')}</div>`).join(''):'<p>No items match the current filters.</p>');
+}
+function renderChecklist(tid,t){
+  const cl=t.checklist,v=checklistView(tid),{all}=clItems(tid,t),T=esc(tid);
+  const facts=(cl.facts||[]).map(f=>`<label>${esc(f.label)} <select data-cl-topic="${T}" data-cl-kind="fact" data-cl-fact="${esc(f.id)}">${f.options.map(([val,label])=>`<option value="${esc(val)}"${studyFact(tid,f.id)===val?' selected':''}>${esc(label)}</option>`).join('')}</select></label>`).join('');
+  return `<details class="cl-root" id="cl-${T}"><summary>Learning checklist (${all.length} items for this profile)</summary>
+      <p class="profile-intro">${esc(cl.intro)}</p>
+      ${clContextNotes(tid,t)}
+      <div class="cl-controls no-print">
+        <fieldset><legend>Show</legend>${CL_BASES.map(([b,label])=>`<label><input type="checkbox" value="${b}" data-cl-topic="${T}" data-cl-kind="basis"${v.bases[b]?' checked':''}>${esc(label)}</label>`).join('')}<label><input type="checkbox" data-cl-topic="${T}" data-cl-kind="horizon"${v.horizon?' checked':''}>Future items (proposals)</label></fieldset>
+        <fieldset><legend>Group by</legend>${[['stage','Stage'],['owner','Typical owner'],['basis','Basis']].map(([val,label])=>`<label><input type="radio" name="cl-${T}-group" value="${val}" data-cl-topic="${T}" data-cl-kind="group"${v.group===val?' checked':''}>${label}</label>`).join('')}</fieldset>
+        ${facts?`<fieldset><legend>Study filters (used in this checklist only; they do not change the report)</legend>${facts}</fieldset>`:''}
+        <div><button type="button" class="btn btn-ghost btn-sm" data-cl-topic="${T}" data-cl-action="expand">${v.expanded?'Collapse all':'Expand all'}</button></div>
+      </div>
+      <p class="cl-summary" id="cl-summary-${T}" aria-live="polite">${esc(clSummaryText(tid,t))}</p>
+      <div class="cl-body" id="cl-body-${T}">${renderChecklistBody(tid,t)}</div>
+      <p class="cl-print-pointer print-only">A learning checklist is available on screen for this topic. Use its Print checklist button to print it on its own.</p>
+      <div class="cl-export no-print"><button type="button" class="btn btn-ghost btn-sm" data-cl-topic="${T}" data-cl-action="csv">Export CSV</button><button type="button" class="btn btn-ghost btn-sm" data-cl-topic="${T}" data-cl-action="md">Export Markdown</button><button type="button" class="btn btn-ghost btn-sm" data-cl-topic="${T}" data-cl-action="print">Print checklist</button><label><input type="checkbox" data-cl-topic="${T}" data-cl-kind="notes"${v.notes?' checked':''}>Include my study statuses and notes in exports</label></div>
+    </details>`;
+}
+function refreshChecklist(tid){
+  const t=checklistTopic(tid);if(!t)return;
+  const body=document.getElementById('cl-body-'+tid);if(body)body.innerHTML=renderChecklistBody(tid,t);
+  updateChecklistCounts(tid);
+}
+function updateChecklistCounts(tid){
+  const t=checklistTopic(tid);if(!t)return;
+  const summary=document.getElementById('cl-summary-'+tid);if(summary)summary.textContent=clSummaryText(tid,t);
+  clGroups(tid,t,clItems(tid,t).shown).forEach((g,i)=>{const el=document.getElementById('cl-gc-'+tid+'-'+i);if(el)el.textContent=clReviewed(tid,g.items)+' of '+g.items.length+' reviewed';});
+}
+function updateChecklistItem(tid,itemId){
+  const el=document.getElementById('cl-'+tid+'-'+itemId)?.querySelector?.('.cl-own');if(el)el.textContent=clOwnText(tid,itemId);
+}
+function clExportRows(tid,t,withNotes){
+  const stages=Object.fromEntries(t.checklist.stages.map(s=>[s.id,s.label]));
+  return clItems(tid,t).shown.map(({item,depends})=>({stage:stages[item.stage]||item.stage,id:item.id,basis:clLabel(item)+(item.horizon?' (future item)':'')+(item.basis==='observation'&&item.source_date?' — '+item.source_date:''),text:item.text,sources:(item.sources||[]).map(id=>KB.class_profile_sources[id]?.title).filter(Boolean).join('; '),citation:item.pin||'',status:clStatusLabel(item.status),depends:depends.join(', '),owner:item.owner||'',...(withNotes?{study:STUDY_STATUSES.find(([v])=>v===studyStatus(tid,item.id))[1],note:studyNoteText(tid,item.id)}:{})}));
+}
+function csvCell(value){let text=String(value??'');if(/^[=+\-@\t\r]/.test(text))text="'"+text;return /[",\r\n]/.test(text)?'"'+text.replace(/"/g,'""')+'"':text;}
+function checklistCsv(tid,withNotes=checklistView(tid).notes){
+  const t=checklistTopic(tid);if(!t)return '';
+  const head=[['Checklist',t.title+' (learning checklist)'],['Notice',CL_NOTICE],['Knowledge base','v'+KB.version],['Generated',new Date().toISOString().slice(0,10)],['Profile',entityLabel()],['Filters',clFilterText(tid,t)],['Your study statuses and notes',withNotes?'Included at your request':'Not included'],[]];
+  const cols=['Stage','Item ID','Basis','Item','Sources','Citation','Source status','Depends on','Typical owner',...(withNotes?['Your study status','Your note']:[])];
+  const keys=['stage','id','basis','text','sources','citation','status','depends','owner',...(withNotes?['study','note']:[])];
+  return [...head.map(r=>r.map(csvCell).join(',')),cols.map(csvCell).join(','),...clExportRows(tid,t,withNotes).map(r=>keys.map(k=>csvCell(r[k])).join(','))].join('\r\n')+'\r\n';
+}
+function checklistMarkdown(tid,withNotes=checklistView(tid).notes){
+  const t=checklistTopic(tid);if(!t)return '';
+  const md=value=>String(value??'').replace(/[\r\n]+/g,' ').replace(/([\\`*_{}\[\]<>#|!])/g,'\\$1');
+  const rows=clExportRows(tid,t,withNotes),lines=['# '+md(t.title)+': learning checklist','','> '+md(CL_NOTICE),'','- Knowledge base: v'+md(KB.version),'- Generated: '+new Date().toISOString().slice(0,10),'- Profile: '+md(entityLabel()),'- Filters: '+md(clFilterText(tid,t)),'- Your study statuses and notes: '+(withNotes?'included at your request':'not included'),''];
+  let stage='';
+  for(const r of rows){
+    if(r.stage!==stage){stage=r.stage;lines.push('## '+md(stage),'');}
+    lines.push('- **'+md(r.basis)+'** '+md(r.text)+' (citation: '+md(r.citation)+(r.sources?'; sources: '+md(r.sources):'')+(r.status?'; '+md(r.status):'')+')'+(r.depends?' Depends on: '+md(r.depends)+'.':'')+(withNotes?' Your study status: '+md(r.study)+'.'+(r.note?' Your note: '+md(r.note):''):''));
+  }
+  return lines.join('\n')+'\n';
+}
+function checklistFileName(tid,ext){return 'bcn-checklist-'+tid+'-'+String(state.entityClass||state.entityType||'profile').replace(/[^\w-]/g,'_')+'.'+ext;}
+function printChecklist(tid){
+  const root=document.getElementById('cl-'+tid),host=document.getElementById('topic-'+tid);
+  if(!root||!host)return;
+  root.open=true;root.classList.toggle('cl-with-notes',checklistView(tid).notes);host.classList.add('cl-print-host');document.body.dataset.printChecklist=tid;
+  const done=()=>{host.classList.remove('cl-print-host');root.classList.remove('cl-with-notes');delete document.body.dataset.printChecklist;window.removeEventListener('afterprint',done);};
+  window.addEventListener('afterprint',done);window.print();
+}
+function bindChecklists(root){
+  if(checklistBound||!root?.addEventListener)return;checklistBound=true;
+  root.addEventListener('change',event=>{
+    const el=event.target,tid=el?.dataset?.clTopic;if(!tid||!checklistTopic(tid))return;
+    const kind=el.dataset.clKind,v=checklistView(tid);
+    if(kind==='status'&&studySet(tid,el.dataset.clItem,el.value)){updateChecklistItem(tid,el.dataset.clItem);updateChecklistCounts(tid);announce('Study status for '+el.dataset.clItem+': '+STUDY_STATUSES.find(([x])=>x===el.value)[1]+'. This is a study aid, not a compliance assessment. Save the assessment to keep it.');}
+    else if(kind==='note'){el.value=cleanNote(el.value);studyNote(tid,el.dataset.clItem,el.value);updateChecklistItem(tid,el.dataset.clItem);announce('Note updated for '+el.dataset.clItem+'. Notes stay in this page unless you save the assessment.');}
+    else if(kind==='basis'){v.bases[el.value]=el.checked;refreshChecklist(tid);announce('Checklist filter updated. '+clSummaryText(tid,checklistTopic(tid)));}
+    else if(kind==='horizon'){v.horizon=el.checked;refreshChecklist(tid);announce('Future items '+(el.checked?'shown':'hidden')+'.');}
+    else if(kind==='group'){v.group=el.value;refreshChecklist(tid);announce('Checklist grouped by '+{stage:'stage',owner:'typical owner',basis:'basis'}[el.value]+'.');}
+    else if(kind==='fact'&&studySetFact(tid,el.dataset.clFact,el.value)){refreshChecklist(tid);announce('Study filter updated. '+clSummaryText(tid,checklistTopic(tid)));}
+    else if(kind==='notes'){v.notes=el.checked;announce(el.checked?'Exports will include your study statuses and notes.':'Exports will not include your study statuses and notes.');}
+  });
+  root.addEventListener('click',event=>{
+    const el=event.target?.closest?.('[data-cl-action]');if(!el)return;
+    const tid=el.dataset.clTopic;if(!checklistTopic(tid))return;
+    const action=el.dataset.clAction,v=checklistView(tid);
+    if(action==='expand'){v.expanded=!v.expanded;document.getElementById('cl-body-'+tid)?.querySelectorAll('details').forEach(d=>{d.open=v.expanded;});el.textContent=v.expanded?'Collapse all':'Expand all';}
+    else if(action==='csv'){downloadText(checklistCsv(tid),'text/csv;charset=utf-8',checklistFileName(tid,'csv'));announce('Checklist exported as CSV with the reliance notice, knowledge-base version and filters. '+(v.notes?'Your study statuses and notes are included.':'Your study statuses and notes are not included.'));}
+    else if(action==='md'){downloadText(checklistMarkdown(tid),'text/markdown;charset=utf-8',checklistFileName(tid,'md'));announce('Checklist exported as Markdown with the reliance notice, knowledge-base version and filters. '+(v.notes?'Your study statuses and notes are included.':'Your study statuses and notes are not included.'));}
+    else if(action==='print')printChecklist(tid);
+  });
 }
 function entityProfileRecord(store){
   const byType=store?.[state.entityType],nested=byType?.[state.entityClass];
@@ -1044,8 +1385,8 @@ function renderEntityCoverageNotice(num){
   const details=entityProfileRecord(KB.entity_profile_details),context=details?null:entityProfileRecord(KB.entity_profile_context);
   const open=`<section class="card" id="entityBackground" aria-label="Entity background"><h3>${num()}Entity background (context, not requirements)</h3><div class="callout c-warn"><span>Background and context only. This material does not determine licence status, eligibility or the scope of a particular entity's permission.</span></div>`;
   const close=`<p>Confirm applicability with the BMA and your advisers. Use the existing obligations and framework entries for operational follow-up, and check any item marked for review against current primary material.</p>`;
-  if(details)return `${open}<p class="profile-meta">${esc(details.title)} · Source labels distinguish law, BMA rules, BMA guidance, official commentary, industry perspective and news. Each claim has a citation and retrieval date.</p>${renderProfileSections(details,{kind:'entity'})}${close}${profileMetaLine(details.meta)}</section>`;
-  if(context){const settled=context.claims.filter(c=>!['review-pending','not-established','conflicting'].includes(c.status));const limits=context.claims.filter(c=>['review-pending','not-established','conflicting'].includes(c.status));return `${open}<p class="profile-meta">${esc(context.title)}</p><details class="profile-disclosure" open><summary>Core framework</summary>${(settled.length?settled:context.claims).map(profileClaim).join('')}</details>${limits.length?`<details class="profile-disclosure"><summary>Boundaries and review points</summary>${limits.map(profileClaim).join('')}</details>`:''}<details class="profile-disclosure"><summary>Sources for this profile</summary>${profileSourceGroups(context.claims)}</details>${close}<p class="profile-meta">Source-labelled context; reviewed material and interpretation limits are shown separately.</p></section>`;}
+  if(details)return `${open}<p class="profile-meta">${esc(details.title)} · Source labels distinguish law, BMA rules, BMA guidance, official commentary, industry perspective and news. Each claim has a citation and retrieval date.</p>${renderProfileSections(details,{kind:'entity'})}${close}${relatedTopicLinks()}${profileMetaLine(details.meta)}</section>`;
+  if(context){const settled=context.claims.filter(c=>!['review-pending','not-established','conflicting'].includes(c.status));const limits=context.claims.filter(c=>['review-pending','not-established','conflicting'].includes(c.status));return `${open}<p class="profile-meta">${esc(context.title)}</p><details class="profile-disclosure" open><summary>Core framework</summary>${(settled.length?settled:context.claims).map(profileClaim).join('')}</details>${limits.length?`<details class="profile-disclosure"><summary>Boundaries and review points</summary>${limits.map(profileClaim).join('')}</details>`:''}<details class="profile-disclosure"><summary>Sources for this profile</summary>${profileSourceGroups(context.claims)}</details>${close}${relatedTopicLinks()}<p class="profile-meta">Source-labelled context; reviewed material and interpretation limits are shown separately.</p></section>`;}
   return `<section class="card" id="entityBackground" aria-label="Entity background"><h3>${num()}Sector background (coverage limits)</h3><div class="callout c-warn"><span>A full source-labelled background profile is not published for ${esc(entityLabel())} in this candidate. Existing framework-level entries remain available, but this Navigator does not infer licence scope, exemptions, capital requirements or registration status from another sector or entity type.</span></div><p>Use the entries marked Verify or Unverified as a research starting point only. Confirm the current legislation, BMA instrument, licence conditions and any exemption or direction with the BMA and your advisers before relying on them.</p></section>`;
 }
 
@@ -1056,7 +1397,7 @@ function renderResults(fromSaved){
     if(state.mode==='MAP')state.focus=[...document.querySelectorAll("#focusChecks input:checked")].map(i=>i.value);
     state.task=document.getElementById("taskType").value;
   }
-  if(KB.version!=="2.9.0"||KB.app_version!=="2.9.0"){announce("Application and knowledge-base versions differ. Reload both assets before generating a report.");return;}
+  if(KB.version!=="2.10.0"||KB.app_version!=="2.10.0"){announce("Application and knowledge-base versions differ. Reload both assets before generating a report.");return;}
   if(!validInputs(state)){announce("Assessment inputs are invalid. Start a new assessment.");return;}
   usedEntryIds=[]; legalPendingSeen=false;
   const akb=activeKB();
@@ -1084,6 +1425,7 @@ function renderResults(fromSaved){
       </div>
     </div>
     ${reopenNotice}
+    <div class="callout c-warn print-only"><span><b>Educational information only — not legal or professional advice.</b> Independent project; not issued, endorsed or approved by the Bermuda Monetary Authority. KB v${esc(akb.version)} · generated ${today}. Pending legal review.</span></div>
     ${migrationNotice?`<div class="callout c-warn">${esc(migrationNotice)}</div>`:""}
     <nav class="card no-print" aria-label="Related guidance">
       <p>Explore another view for this entity. Review the relevant facts before generating guidance.</p>
@@ -1099,8 +1441,9 @@ function renderResults(fromSaved){
     <div id="legalReviewNotice"></div>
     <div class="card"><h3>${num()}Entity Class Summary</h3><p style="font-size:14.5px">${currentSummary()||"—"}</p></div>`;
 
-  if(state.mode==='MAP')html+=renderClassProfile(num)+renderTopicProfiles(num)+renderEntityCoverageNotice(num);
+  if(state.mode==='MAP')html+=renderClassProfile(num)+renderEntityCoverageNotice(num)+renderTopicProfiles(num);
   else if(state.entityType==='insurer'&&(KB.class_profiles[state.entityClass]||KB.class_profile_context?.[state.entityClass]))html+='<p class="profile-meta"><a href="#classBackground" onclick="event.preventDefault();openJourney(\'MAP\')">Class background is available in the regulatory landscape overview.</a></p>';
+  if(state.mode==='EXECUTE')html+=topicJourneyLine();
 
   if(state.mode==="MAP"){
     html+=`<div class="card"><h3>${num()}Legislative & Regulatory Framework</h3><ul class="list">`+
@@ -1130,7 +1473,7 @@ function renderResults(fromSaved){
 
   if(state.mode==="DISTIL"){
     html+=`<div class="card"><h3>${num()}Governance & Board Expectations — Checklist</h3><ul class="list tick">`+
-      governance.map(g=>`<li>${esc(g.text)} ${BADGE[g.verification]}${srcPill(g)}<span class="prov" style="display:block;color:var(--muted);font-size:12px">${esc(g.citation||"")}</span>${g.rule?.kind==='pcc'?pccPreparation(g):''}${revMeta(g)}</li>`).join("")+`</ul></div>`;
+      governance.map(g=>`<li>${esc(g.text)} ${BADGE[g.verification]}${srcPill(g)}<span class="prov" style="display:block;color:var(--muted);font-size:12px">${esc(g.citation||"")}</span>${g.rule?.kind==='pcc'?pccPreparation(g):''}${revMeta(g)}</li>`).join("")+`</ul>${topicJourneyLine()}</div>`;
   }
 
   if(state.mode==="MAP"&&state.focus.length){
@@ -1187,13 +1530,14 @@ function renderResults(fromSaved){
       : ["Verify each item marked “Verify” or “Unverified” against current legislation, Rules, Codes, and Guidance Notes on bma.bm (owner: compliance).","Map each filing to an owner and diarise deadlines with adequate lead time for board and auditor/actuary sign-off (owner: CCO).","Review the applicable governance expectations with the board and document responses (owner: company secretary / board).","Use Regulatory landscape overview to inspect the detailed governing instruments and selected changes for this entity (owner: compliance).","Obtain professional advice on any item involving interpretation, discretion, or material exposure (owner: board)."];
   html+=`<div class="card report-next-steps"><h3>${num()}Recommended Next Steps</h3><ol style="padding-left:22px;font-size:14px">${steps.map(s=>`<li style="padding:5px 0">${s}</li>`).join("")}</ol></div>`;
 
-  html+=`<div class="callout c-info" style="margin-top:20px"><span class="ci">§</span><span><b>Disclaimer.</b> This output is general information generated ${today} from knowledge base v${esc(akb.version)} (as at ${fmtD(akb.as_at)}), not legal, regulatory, actuarial, or professional advice. Requirements change; verify all obligations, deadlines, fees, and forms against current Bermuda legislation and BMA Rules, Codes, and Guidance Notes (bma.bm), and obtain professional advice before acting or filing.</span></div>`;
+  html+=`<div class="callout c-info" style="margin-top:20px"><span class="ci">§</span><span><b>Disclaimer.</b> This output is general information generated ${today} from knowledge base v${esc(akb.version)} (as at ${fmtD(akb.as_at)}), not legal, regulatory, actuarial, or professional advice. Requirements change; verify all obligations, deadlines, fees, and forms against current Bermuda legislation and BMA Rules, Codes, and Guidance Notes (bma.bm), and obtain professional advice before acting or filing. This Navigator is an independent educational project and is not issued, endorsed or approved by the Bermuda Monetary Authority.</span></div>`;
 
 
 
   const r=document.getElementById("results");
   r.innerHTML=html;
-  enhanceTables(r);
+  enhanceTables(r);bindChecklists(r);
+  setPrintFooter('KB v'+akb.version+' · generated '+today+' · educational, not advice · not BMA-issued');
   if(true){
     const isClassBackground=state.mode==='MAP'&&((state.entityType==='insurer'&&(!!KB.class_profiles[state.entityClass]||!!KB.class_profile_context?.[state.entityClass]))||!!(entityProfileRecord(KB.entity_profile_details)||entityProfileRecord(KB.entity_profile_context)));
     document.getElementById("legalReviewNotice").innerHTML = isClassBackground?'':
@@ -1206,6 +1550,9 @@ function renderResults(fromSaved){
   window.scrollTo(0,0);
 }
 
+/* NAV-03: a running footer in the bottom page-margin box of every printed page (it never covers report content). */
+function printFooterCss(text){return '@media print{@page{@bottom-center{content:"'+String(text).replace(/[\\"]/g,'\\$&').replace(/[\r\n]+/g,' ')+'";font-size:7.5pt;color:#333}}}';}
+function setPrintFooter(text){const el=document.getElementById('printFooterStyle');if(el)el.textContent=printFooterCss(text);}
 function enhanceTables(root){
   if(root.id==='results'){
     const headings=[...root.querySelectorAll('.card>h3')];
@@ -1339,6 +1686,7 @@ function validInputs(inputs){
       else if(!Object.hasOwn(FACT_OPTIONS,key)||!FACT_OPTIONS[key].some(([v])=>v===value))return false;
     }
   }
+  if(inputs.study!==undefined&&!validStudy(inputs.study))return false;
   return typeof inputs.entityClass==='string'&&(inputs.fye===''||validDate(inputs.fye))&&typeof inputs.task==='string'&&inputs.task.length<=100&&Array.isArray(inputs.focus)&&inputs.focus.every(key=>KB.focusAreas.some(a=>a[0]===key));
 }
 function getAssessments(){
@@ -1385,9 +1733,10 @@ function exportAssessments(){
 }
 function reopenAssessment(id){
   const record=getAssessments().find(r=>r.id===id);if(!record)return;
-  Object.assign(state,JSON.parse(JSON.stringify(record.inputs)),{facts:record.inputs.facts||{}});syncForm();
+  Object.assign(state,JSON.parse(JSON.stringify(record.inputs)),{facts:record.inputs.facts||{},study:{}});
+  const studyCheck=reconcileStudy(record.inputs.study);state.study=studyCheck.study;syncForm();
   const kb=activeKB(),changed=record.kb_version!==kb.version||record.kb_fingerprint!==kbFingerprint(kb);
-  reopenNotice=`<div class="callout c-info"><span><b>Re-opened input bookmark</b>, saved ${esc(new Date(record.saved_at).toLocaleString('en-GB'))} by ${esc(record.prepared_by)} against KB ${esc(record.kb_version)}. This report is regenerated from current content.${changed?' <b>Content has changed, or the legacy record has no change fingerprint; results may differ.</b>':''}</span></div>`;
+  reopenNotice=`<div class="callout c-info"><span><b>Re-opened input bookmark</b>, saved ${esc(new Date(record.saved_at).toLocaleString('en-GB'))} by ${esc(record.prepared_by)} against KB ${esc(record.kb_version)}. This report is regenerated from current content.${changed?' <b>Content has changed, or the legacy record has no change fingerprint; results may differ.</b>':''}${studyCheck.notes.length?' <b>Learning checklist:</b> '+esc(studyCheck.notes.join(' ')):''}</span></div>`;
   if(!record.inputs.facts){
     showOnly('wizard');toStep(3);announce('Legacy bookmark preserved. Confirm the new applicability questions; unknown answers remain conditional.');return;
   }
