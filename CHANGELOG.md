@@ -2,6 +2,8 @@
 
 ## v2.10.0 — owner-authorised publication, 27 September 2026
 
+Published from commit `23c6ff46fef3ff0395c333e7a3dc4c89233ca126`; [GitHub Pages deployment succeeded](https://github.com/Dankhisa/bermuda-compliance-navigator/actions/runs/36364577666). All ten checked public files matched the release manifest. A live smoke test showed KB 2.10.0 with the security policy active. A Class 4 overview generated through the UI showed the three topic cards; a study status set on the Operational Resilience checklist updated its summary, with no console errors or policy violations.
+
 The owner authorised publication of 2.10.0 after approving the research (Gate 2) and the built topic cards and checklists as editorial copy (Gate 3). No counsel sign-off or legal opinion is claimed.
 
 - **Three topic deep-dives** in the regulatory landscape overview, built on the SBA card's template:

@@ -1,5 +1,16 @@
 # Verification and coverage — release 2.10.0
 
+## Owner-authorised release checks — 27 September 2026
+
+Publication completed from commit `23c6ff46fef3ff0395c333e7a3dc4c89233ca126` with a [successful GitHub Pages deployment](https://github.com/Dankhisa/bermuda-compliance-navigator/actions/runs/36364577666). All ten checked public files matched the release manifest.
+
+In the live checks the site reported KB and app version 2.10.0 with release date 27 September 2026, and the Content Security Policy was present. A Class 4 overview, generated through the UI:
+- showed the solvency self-assessment, Operational Resilience and PCC topic cards with their summary-print setting;
+- showed the Act-specific legal-weight note in the Operational Resilience checklist;
+- updated the checklist summary when a study status was set by mouse.
+
+No console errors or policy violations were captured. These observations supersede the prepublication status below.
+
 ## 2.10.0 prepublication pass — 27 September 2026
 
 The owner authorised publication of 2.10.0 after approving the topic cards and checklists as editorial copy; no counsel sign-off or legal opinion is claimed. The checks below were made on the local candidate and re-run at the release gate.
