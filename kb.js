@@ -1,9 +1,9 @@
 /* Static educational knowledge base. Original research and per-entry review dates are preserved. See VERIFICATION.md. */
 const KB = {
-  "version": "2.10.0",
+  "version": "2.11.0",
   "as_at": "2026-07-02",
   "generated": "2026-07-02",
-  "app_version": "2.10.0",
+  "app_version": "2.11.0",
   "schema": {
     "required": [
       "id",
@@ -2937,7 +2937,7 @@ const KB = {
         "iigb"
       ],
       "topic": "consequence",
-      "text": "Breach trigger: continued non-filing after the maximum extended filing period has expired. Research finding (2 July 2026): the limit is a statutory cap on the aggregate extension period, not a count of applications — s.17(4) caps the total filing period at seven months for the four-month classes and nine months for the six-month classes (a maximum of three additional months in each case). The 2026 fee schedule prices extension applications only for the first, second and third months past the filing deadline — no fourth month exists in the schedule. Once the cap is reached the Authority has no power under s.17(4) to allow further time, and continued non-filing is an ongoing contravention.",
+      "text": "Breach trigger: continued non-filing after the maximum extended filing period has expired. Research finding (2 July 2026): the limit is a statutory cap on the aggregate extension period, not a count of applications — s.17(4) caps the total filing period at seven months for the four-month classes and nine months for the six-month classes (a maximum of three additional months in each case). The 2026 fee schedule prices extension applications only for the first, second and third months past the filing deadline — no fourth month exists in the schedule. Section 17(4) expresses the longer period as \"not exceeding\" seven (or nine) months. This tool has not identified a provision allowing further time beyond that; confirm the position with the BMA or Bermuda counsel before relying on it.",
       "citation": "Insurance Act 1978, s.17(4); 2026 BMA fee schedule item 2(c)",
       "source": {
         "type": "legislation",
@@ -2950,14 +2950,14 @@ const KB = {
       "review_due": "2027-01-01",
       "legal_review": "pending",
       "data": {
-        "title": "Filing-extension limit — what the law actually says",
+        "title": "Filing-extension limit — the s.17(4) cap",
         "taskIds": [
           "extension"
         ],
         "rows": [
           {
             "breach": "Seeking an extension beyond the statutory maximum (7 months total for four-month classes; 9 months for six-month classes)",
-            "consequence": "Not legally available — the Authority's power to allow a longer period is capped by the words 'not exceeding seven [nine] months'",
+            "consequence": "Outside the period stated in s.17(4) ('not exceeding seven [nine] months'); confirm whether any other route applies.",
             "provision": "s.17(4)(a)–(b)",
             "ver": "established"
           },
@@ -2985,10 +2985,10 @@ const KB = {
           }
         ]
       },
-      "editorial_updated": "2026-09-21",
+      "editorial_updated": "2026-10-09",
       "fee_year": 2026,
       "revision": "2.2.0",
-      "evidence_note": "Targeted correction / scope safeguard, 21 September 2026. See VERIFICATION.md for checked provisions and unresolved coverage; no external legal sign-off."
+      "evidence_note": "Targeted correction / scope safeguard, 21 September 2026. See VERIFICATION.md for checked provisions and unresolved coverage; no external legal sign-off. Wording softened on 9 October 2026 (owner-approved NAV-20261005-01): the entry now describes the s.17(4) text and no longer states a conclusion on the Authority's powers; s.17(4) was not re-opened for this edit."
     },
     {
       "id": "conseq-sba-unapproved",
@@ -5735,12 +5735,12 @@ const KB = {
         "instrument": "Proposed Insurance Act asset-and-liability-statement amendment (2026 Bill)",
         "effective": "Proposal only — commencement and parliamentary outcome to be confirmed"
       },
-      "last_reviewed": "2026-09-25",
-      "review_due": "2026-10-02",
+      "last_reviewed": "2026-10-09",
+      "review_due": "2026-10-30",
       "legal_review": "pending",
-      "editorial_updated": "2026-09-25",
+      "editorial_updated": "2026-10-09",
       "revision": "2.7.4",
-      "evidence_note": "As-tabled Bill inspected 25 September 2026. No enacted section 17AA was found in the consolidated Act during this check. Verify the official parliamentary and Gazette status before release or reliance; no filing date is derived from this Bill."
+      "evidence_note": "As-tabled Bill inspected 25 September 2026 and its text re-read on 9 October 2026 from the House of Assembly PDF (clauses 2 to 4 and the explanatory memorandum match this entry). No enacted section 17AA was found in the consolidated Act during the 25 September check. Parliamentary stage, enactment and commencement are not established; verify through the House of Assembly order paper or Hansard and the Official Gazette before release or reliance. Existing asset-and-liability-statement rules (BR 123/2025, operative 1 January 2026) are addressed separately. No filing date is derived from this Bill."
     },
     {
       "id": "rec-cp-resolution-2026",
@@ -6587,5 +6587,5 @@ const KB = {
     ]
   },
   "schema_version": 2,
-  "release_date": "2026-09-27"
+  "release_date": "2026-10-09"
 };

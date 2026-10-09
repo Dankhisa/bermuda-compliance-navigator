@@ -72,6 +72,10 @@ The IIGB parenthesis names run-off treatment, publication lag and active-busines
 
 The [BMA Annual Report 2025](https://cdn.bma.bm/documents/2026-07-20-12-40-59-2025-Annual-Report---Bermuda-Monetary-Authority.pdf) lists eight IIGB licences in its all-insurers table (p.66) and refers to seven fully licensed IIGB entities in its innovation-supervision narrative (p.38). A previously retained copy of the official PDF matched the private SHA-256 manifest (`27d05bfad32b469e4ab77b7658fc8559b5e33e30c85b787cebe14f1d90b8212e`); both pages were inspected in that copy and cross-checked with a [text rendering of the report](https://bermuda.fm/regulatory/2962) on 25 September 2026. The live BMA PDF URL remained inaccessible to the web reader in this pass. The profile does not infer a reconciliation, common denominator or live register total. Reconfirm the BMA URL and source currency during release review.
 
+## 9 October 2026 — as-tabled Bill and BR 123/2025 re-read (2.11.0)
+
+The [House of Assembly's as-tabled Bill](https://parliament.bm/admin/uploads/bill/0b44daca8e9d13d1458755312ea4446f.pdf) and the official text of [BR 123/2025](https://www.bermudalaws.bm/Laws/Annual%20Law/Statutory%20Instruments/2025/Insurance%20%28Prudential%20Standards%29%20%28Class%20C%2C%20Class%20D%20and%20Class%20E%20Solevency%20Requirement%29%20Amendment%20Rules%202025) were retrieved and read on 9 October 2026. The Bill's clauses 2–4 match the knowledge-base entry; the PDF's file metadata (created 2 September, modified 9 September 2026) is not a tabling date. Parliamentary stage, enactment and commencement were not established. BR 123/2025 was made on 27 December 2025 and was operative on 1 January 2026. Retained copies and SHA-256 hashes are kept privately.
+
 ## 25 September 2026 — as-tabled Insurance Amendment Bill 2026 (2.7.1 local candidate)
 
 The [House of Assembly's as-tabled Bill](https://parliament.bm/admin/uploads/bill/0b44daca8e9d13d1458755312ea4446f.pdf), clauses 2–4 and explanatory memorandum pp.1–3, proposes an Insurance Act s.17AA for Class C/D/E insurers other than those carrying on domestic business. It proposes filing an asset and liability statement under s.17(4), BMA publication, related s.18A consequences and deemed commencement on 1 January 2026 **if enacted as drafted**. Official proposed text was inspected on 25 September 2026. Section 17AA was not found in the [consolidated Act](https://www.bermudalaws.bm/Laws/Consolidated%20Law/1978/Insurance%20Act%201978) during that check. The official parliamentary/Gazette outcome was not independently established; the entry is a horizon proposal only, not a new operative obligation or calculated date. The separate 2025 Class C/D/E prudential-rules asset-and-liability-statement entry is unchanged. Recheck enactment and commencement before release and at the short 2 October 2026 review date.
@@ -145,7 +149,7 @@ PCC issuer hierarchy, fingerprints, universal translation/authentication and nam
 
 > Bermuda Regulatory Compliance Navigator — knowledge base research log.
 > Research conducted: **2 July 2026** (all "retrieved" dates below are 2 July 2026 unless stated).
-> Researcher: automated research pass (Claude) against official and secondary sources; **pending legal review** — see LEGAL_REVIEW flag in kb.js.
+> Researcher: automated research pass (Claude) against official and secondary sources; **not legally reviewed** — see the legal_review flag in kb.js.
 
 Source-type taxonomy used in the knowledge base (kb.js):
 

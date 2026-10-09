@@ -1,3 +1,17 @@
+# Verification and coverage — release 2.11.0
+
+## 2.11.0 prepublication pass — 9 October 2026
+
+This release changes wording, entry metadata and scope statements only. It adds no entries and changes no calculation, fee, calendar or CI/SPI content. The owner approved each change as editorial copy; no counsel sign-off or legal opinion is claimed. Publication authority is recorded separately.
+
+**Observed on the local candidate (9 October 2026):**
+- `node tests/regression.test.cjs`: **95 tests, 95 pass, 0 fail, 0 skipped** (2.10.0: 92). The first run after the version bump failed two tests that hard-coded the 2.10.0 version in regular expressions; they were updated to 2.11.0 and the suite re-run.
+- Served from a local HTTP server on 127.0.0.1 and driven through the page's own functions in a browser pane: KB and app version 2.11.0, release date 2026-10-09, 162 entries, Content Security Policy present with no violation events; no console errors. The home notice and the obligations-report banner use the new review-status wording and "pending legal review" appears nowhere on the page. The Class 3A extension report shows the retitled extension-limit entry and neither "what the law actually says" nor "has no power". The Class E overview shows the corporate income tax scope sentence and the new metadata line. Every external link opened in a new tab carries `noreferrer`. The step-1 sentence on one entity and class per assessment is visible at step 1. At 390 px wide the landing page, step 1 and a Class E obligations report showed no document-level horizontal overflow.
+- Fingerprints: the 158 original entries other than `focus-cap-4`, `conseq-sba-unapproved` and `conseq-extension-cap` have the same subset hash (`6ddecace…`) computed from the 2.10.0 commit and from this candidate. The all-161 and all-162 pins were re-recorded after the two owner-approved entry changes.
+- Sources: the as-tabled Insurance Amendment Bill 2026 PDF and the BR 123/2025 text were retrieved and read on 9 October 2026 (see SOURCES.md). The Bill matches the knowledge-base entry; its parliamentary stage, enactment and commencement are **not established**.
+
+**Not checked in this pass:** s.17(4) of the Insurance Act was not re-opened for the extension-limit wording; the CITA return and instalment dates were not confirmed, so no tax date is shown; the BMA Police Clearance Certificate notice was not opened; axe-core and the manual accessibility audit were not re-run; print and print-preview, the calendar download, KB import/merge/recovery and direct-file/offline operation were not re-checked; no live-site check was made because this candidate is not published. The 2.10.0 checks above remain the most recent for those items.
+
 # Verification and coverage — release 2.10.0
 
 ## Owner-authorised release checks — 27 September 2026
