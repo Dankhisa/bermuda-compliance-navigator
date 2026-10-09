@@ -39,12 +39,39 @@ test('all 162 shipped entries pass the import schema',()=>{
 test('the 161 original entries match their pinned, owner-approved fingerprints',()=>{
   // 2.4.0 baseline was 2694e7586ca47be93b620c045e1f6774355ab915bcfade97ee00a15cbab3dab9. On 25 September 2026 the owner approved
   // (SBA decision T3) corrections to focus-cap-4 and conseq-sba-unapproved only; the other 159 original entries stay pinned separately.
+  // On 9 October 2026 the owner approved NAV-20261005-01: conseq-extension-cap wording was softened (title, one text sentence, one row), so it joins the
+  // excluded ids below. The remaining 158 original entries are byte-identical to 2.10.0: their subset hash 6ddecace... was computed from both git commit 3c62699 and the edited kb.js and matched.
+  // Only the all-161 (was ff075125...) and all-162 (was 2251345a...) pins were re-recorded, for that one entry plus the owner-approved ALS Bill note.
   const f=fixture();
   const hash=list=>crypto.createHash('sha256').update(JSON.stringify(list)).digest('hex');
   const original=f.data("KB.entries.filter(e=>e.id!=='rec-bill-insurance-als-2026')");
   assert.equal(original.length,161);
-  assert.equal(hash(original.filter(e=>!['focus-cap-4','conseq-sba-unapproved'].includes(e.id))),'452483c41ef2510f9f5237f83554488e853e3977ef9f95b0a4a0f62e2d49175d');
-  assert.equal(hash(original),'ff0751259c7130f52e9eaf651a32d085d27e7b57ec411471a5299802af0ee0a0');
+  assert.equal(hash(original.filter(e=>!['focus-cap-4','conseq-sba-unapproved','conseq-extension-cap'].includes(e.id))),'6ddecacec7aa872e053206f337de01a69f8d6e73584bf61c54d0865b61485a1f');
+  assert.equal(hash(original),'115ab1b20ecefd2ca728b9af2cda62e4e220abcfa6d47bc1049ab40d5f37ebda');
+});
+test('no knowledge-base entry states a legal conclusion in the tool own voice (NAV-20261005-01 wording lint)',()=>{
+  const f=fixture();
+  const text=JSON.stringify(f.data('KB.entries'));
+  for(const phrase of [/what the law (actually )?says/i,/has no power/i,/the law says/i])assert.ok(!phrase.test(text),'banned phrase present: '+phrase);
+  const e=f.data("KB.entries.find(e=>e.id==='conseq-extension-cap')");
+  assert.equal(e.data.title,'Filing-extension limit — the s.17(4) cap');
+  assert.match(e.text,/This tool has not identified a provision allowing further time beyond that; confirm the position with the BMA or Bermuda counsel/);
+  assert.match(e.data.rows[0].consequence,/confirm whether any other route applies/);
+});
+test('the ALS Bill entry carries a dated note and a rolled review date without becoming an operative requirement',()=>{
+  const f=fixture();
+  const e=f.data("KB.entries.find(e=>e.id==='rec-bill-insurance-als-2026')");
+  assert.equal(e.last_reviewed,'2026-10-09');assert.equal(e.review_due,'2026-10-30');assert.equal(e.legal_review,'pending');
+  assert.match(e.evidence_note,/re-read on 9 October 2026/);assert.match(e.evidence_note,/not established/);
+  assert.match(e.text,/not treated here as an operative requirement/);
+});
+test('review-status wording says the content is not legally reviewed and never implies a review is under way',()=>{
+  const html=require('fs').readFileSync(require('path').join(__dirname,'..','index.html'),'utf8');
+  assert.match(html,/The knowledge base has not been reviewed by a lawyer or by the BMA\./);
+  assert.match(html,/Not legally reviewed\./);
+  assert.match(html,/Illustrative content, not legally reviewed; not for operational reliance\./);
+  assert.match(html,/has not been reviewed by a lawyer or by the BMA, and no external legal sign-off is claimed/);
+  assert.ok(!/pending legal review/i.test(html),'old wording must not remain in index.html');
 });
 test('owner-approved SBA entry corrections cite Schedule XXVI and drop the non-long-term scope',()=>{
   const f=fixture();
@@ -56,7 +83,7 @@ test('owner-approved SBA entry corrections cite Schedule XXVI and drop the non-l
 });
 test('pilot profiles have source-backed claims and primary support for legal cells',()=>{
   const f=fixture();
-  assert.equal(f.run('KB.version'),'2.10.0');assert.equal(f.run('KB.app_version'),'2.10.0');
+  assert.equal(f.run('KB.version'),'2.11.0');assert.equal(f.run('KB.app_version'),'2.11.0');
   const errors=f.data(`(()=>{const errors=[],sources=KB.class_profile_sources,claim=(c,legal=false)=>{
     if(!c||typeof c.text!=='string'||!c.text||!Array.isArray(c.sources)||!c.sources.length||!c.pin)errors.push('incomplete claim');
     else for(const id of c.sources){const s=sources[id];if(!s||!s.url||!s.retrieved||![1,2,3,4].includes(s.tier))errors.push('source '+id);}
@@ -79,7 +106,7 @@ test('pilot profiles stay in overview, show the approved SPI audit wording witho
   assert.match(result,/Class background \(context, not requirements\)/);
   assert.match(result,/Restricted SPI: GAAP financial statements included in the Statutory Financial Return are unaudited under SPI Rules 2020, r\.7\(3\)\(b\)/);
   assert.match(result,/Confirm the interaction and any case-specific modification with Bermuda counsel or the BMA/);
-  assert.ok(!result.includes('pending legal review'));
+  assert.ok(!result.includes('not legally reviewed'));
   assert.match(result,/Confirm applicability with the BMA and your advisers/);
   assert.match(result,/Conflicting sources/);
   assert.match(result,/Class 3A context, not an alternative route/);assert.match(result,/retrieved 2026-09-24/);
@@ -119,7 +146,7 @@ test('non-insurer selections show sector coverage limits without cross-sector in
   assert.match(result,/Banking and deposit-taking background/);
   assert.match(result,/restricted-banking licences/);
   assert.match(result,/At a glance/);
-  assert.ok(!result.includes('Illustrative content — pending legal review'));
+  assert.ok(!result.includes('Illustrative content, not legally reviewed'));
 });
 test('every selectable class and entity type has an overview background section',()=>{
   const f=fixture();
@@ -589,7 +616,7 @@ test('entity details take precedence over context per selection, with sub-catego
   assert.match(result,/Entity background \(context, not requirements\)/);assert.match(result,/Intermediary profile/);
   assert.match(result,/Sub-categories and routes/);assert.ok(result.includes('Insurance &lt;manager&gt;'));assert.match(result,/Manager claim\./);
   assert.match(result,/Limits of current information/);assert.match(result,/Insurance Act 1978/);assert.match(result,/Editorial review pending/);
-  assert.ok(!result.includes('Intermediary role context'),'context replaced');assert.ok(!result.includes('Illustrative content — pending legal review'));
+  assert.ok(!result.includes('Intermediary role context'),'context replaced');assert.ok(!result.includes('Illustrative content, not legally reviewed'));
   assert.match(render(f,'daba','classM'),/DABA M profile/);
   result=render(f,'daba','classF');assert.match(result,/DABA Class F context/);assert.match(result,/Core framework/);
   assert.match(render(f,'msb',''),/Sources for this profile/);
@@ -851,7 +878,7 @@ test('SBA card, the 162 entries and the original source register are unchanged (
   const f=fixture(),hash=x=>crypto.createHash('sha256').update(JSON.stringify(x)).digest('hex');
   assert.equal(hash(f.data('KB.topic_profiles.sba')),'c816859ed0e02ffc165b68a24377cea9be4c494498730b35bc67913d50c2afc0');
   assert.deepEqual(f.data('KB.topic_profiles.sba.scope'),['classC','classD','classE']);
-  assert.equal(hash(f.data('KB.entries')),'2251345a5b34cc83ed482af5108c8cacd9a0f68f3c9ab05da67c331ca4c10b41');
+  assert.equal(hash(f.data('KB.entries')),'494117777bf4c8e9b1a60a72741e4264855e501ea32199336c2013420253a9aa');
   const original=f.data(`Object.fromEntries(Object.entries(KB.class_profile_sources).filter(([id])=>!${JSON.stringify(NEW_SOURCE_IDS)}.includes(id)))`);
   assert.equal(Object.keys(original).length,79);assert.equal(hash(original),'80efe0deb00d20d60e080be7b139b8148cc1f7adcc56313989aca5071c0531ff');
 });
@@ -969,11 +996,11 @@ test('checklist exports carry the reliance notice, KB version and filters; notes
   const f=fixture();render(f,'insurer','classE');
   f.run(`studySet('opres','opres-a01','understood');studyNote('opres','opres-a01','=HYPERLINK("x") <script>alert(1)</script> private note')`);
   let csv=f.run("checklistCsv('opres',false)");
-  for(const p of [/not issued, endorsed or approved by the Bermuda Monetary Authority/,/Knowledge base,v2\.10\.0/,/Filters,"?Shown: Requirements, BMA expectations/,/Your study statuses and notes,Not included/,/Profile,/])assert.match(csv,p);
+  for(const p of [/not issued, endorsed or approved by the Bermuda Monetary Authority/,/Knowledge base,v2\.11\.0/,/Filters,"?Shown: Requirements, BMA expectations/,/Your study statuses and notes,Not included/,/Profile,/])assert.match(csv,p);
   assert.ok(!csv.includes('private note'));
   csv=f.run("checklistCsv('opres',true)");assert.match(csv,/Your study status,Your note/);assert.ok(csv.includes(`"'=HYPERLINK(""x"") <script>alert(1)</script> private note"`),'CSV formula prefix neutralised');
   let md=f.run("checklistMarkdown('opres',false)");
-  for(const p of [/^# Operational Resilience and Outsourcing Code: learning checklist/,/> Educational study aid only/,/- Knowledge base: v2\.10\.0/,/- Filters: Shown: Requirements, BMA expectations/,/## Scope and dates/])assert.match(md,p);
+  for(const p of [/^# Operational Resilience and Outsourcing Code: learning checklist/,/> Educational study aid only/,/- Knowledge base: v2\.11\.0/,/- Filters: Shown: Requirements, BMA expectations/,/## Scope and dates/])assert.match(md,p);
   assert.ok(!md.includes('private note'));
   md=f.run("checklistMarkdown('opres',true)");assert.ok(md.includes('\\<script\\>')&&!md.includes('<script>'),'markdown escaped');
 });
@@ -1011,8 +1038,8 @@ test('printed and screen reports carry the NAV-01 reliance notice, NAV-03 footer
   const f=fixture();
   for(const mode of ['MAP','DISTIL','EXECUTE']){
     const result=render(f,'insurer','classE',mode);
-    assert.match(result,/class="callout c-warn print-only"><span><b>Educational information only — not legal or professional advice\.<\/b> Independent project; not issued, endorsed or approved by the Bermuda Monetary Authority\. KB v2\.10\.0/,mode);
-    assert.match(f.element('printFooterStyle').textContent,/^@media print\{@page\{@bottom-center\{content:"KB v2\.10\.0 · generated [^"]+ · educational, not advice · not BMA-issued";/,mode);
+    assert.match(result,/class="callout c-warn print-only"><span><b>Educational information only — not legal or professional advice\.<\/b> Independent project; not issued, endorsed or approved by the Bermuda Monetary Authority\. KB v2\.11\.0/,mode);
+    assert.match(f.element('printFooterStyle').textContent,/^@media print\{@page\{@bottom-center\{content:"KB v2\.11\.0 · generated [^"]+ · educational, not advice · not BMA-issued";/,mode);
     assert.match(result,/This Navigator is an independent educational project and is not issued, endorsed or approved by the Bermuda Monetary Authority\./,mode);
   }
   assert.ok(html.includes(`<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">`));

@@ -300,7 +300,7 @@
       <button type="button" onclick="showSaved();return false;">Saved Assessments</button>
       <button type="button" onclick="showKbAdmin();return false;">Knowledge Base</button>
       <button type="button" onclick="openSettings();return false;">Privacy &amp; storage</button>
-      <a href="https://www.bma.bm" target="_blank" rel="noopener">BMA Website ↗</a>
+      <a href="https://www.bma.bm" target="_blank" rel="noopener noreferrer">BMA Website ↗</a>
     </nav>
   </div>
 </header>
@@ -329,7 +329,7 @@
       <p>Created by <strong>Daniel Khisa</strong>, this educational portfolio project demonstrates how regulatory research can be organised into practical, inspectable workflows: an entity questionnaire, dated source references, filing estimates, and correspondence starting points.</p>
       <p>The navigator uses vanilla HTML, CSS and JavaScript with a versioned local knowledge base. There is no account, subscription, paid AI service, analytics, backend or build step. Assessment bookmarks and knowledge-base updates stay in your browser unless you export them.</p>
       <p><strong>Scope:</strong> insurance content is more detailed; other sectors have limited framework coverage. SBA refers to the Scenario-Based Approach used in insurance valuation. This project does not provide quizzes, professional advice, regulatory approval or a complete compliance calendar.</p>
-      <p><strong>Independent demonstration:</strong> not issued, endorsed or approved by the Bermuda Monetary Authority. The knowledge base is pending legal review. Confirm the current source text and your entity's circumstances before relying on any output.</p>
+      <p><strong>Independent demonstration:</strong> not issued, endorsed or approved by the Bermuda Monetary Authority. The knowledge base has not been reviewed by a lawyer or by the BMA. Confirm the current source text and your entity's circumstances before relying on any output.</p>
       <p><a href="SOURCES.md">Read the source log</a> · <a href="CHANGELOG.md">Read the change history</a></p>
     </section>
   </section>
@@ -347,7 +347,7 @@
       <!-- Step 1 -->
       <div id="step1">
         <h2 class="qtitle">Tell us about the entity</h2>
-        <p class="qsub">Select the entity type and, where relevant, its class or licence category. Requirements differ by class and entity facts. Confirm the conditions shown in the report; this educational tool does not cover every exemption or licence profile.</p>
+        <p class="qsub">Select the entity type and, where relevant, its class or licence category. Requirements differ by class and entity facts. Confirm the conditions shown in the report; this educational tool does not cover every exemption or licence profile. One entity and class per assessment; portfolios and groups are not supported. Save each assessment separately.</p>
         <label class="fld" for="entityType">Entity type</label>
         <select id="entityType" onchange="onEntityType()">
           <option value="">— Select entity type —</option>
@@ -448,7 +448,7 @@
   </div>
 </footer>
 
-<script src="kb.js?v=2.10.0"></script>
+<script src="kb.js?v=2.11.0"></script>
 <script>
 /* =========================================================================
    APP — presentation layer. All regulatory content lives in kb.js (KB).
@@ -750,7 +750,7 @@ function presentationEntry(entry){
 }
 function contextCard(){
  const unknown=relevantFacts().filter(k=>fact(k)==='unknown').map(k=>FACT_LABELS[k]);
- return `<div class="card"><h3>Report scope &amp; assumptions</h3><p>${state.entityType==='insurer'?'Selected single insurer class; entity exemptions and directions must be checked. IILT, other innovative classes, groups and dual registrations are unsupported profiles.':'Framework-level sector coverage. Insurer application workflows and sector-specific fees are unavailable.'}</p><p>${unknown.length?'Unconfirmed: '+esc(unknown.join(', '))+'. Conditional entries are not confirmed obligations.':'Selected conditions are self-reported; verify them before acting.'}</p><p>Year-end estimates are limited to supported 2025–2026 reporting periods. Fee references support 2026 only. Event-driven and unresolved deadlines are omitted from calendar exports. Consultations are proposals.</p><p><a href="VERIFICATION.md" target="_blank" rel="noopener">Verification record and coverage limits</a></p></div>`;
+ return `<div class="card"><h3>Report scope &amp; assumptions</h3><p>${state.entityType==='insurer'?'Selected single insurer class; entity exemptions and directions must be checked. IILT, other innovative classes, groups and dual registrations are unsupported profiles.':'Framework-level sector coverage. Insurer application workflows and sector-specific fees are unavailable.'}</p><p>${unknown.length?'Unconfirmed: '+esc(unknown.join(', '))+'. Conditional entries are not confirmed obligations.':'Selected conditions are self-reported; verify them before acting.'}</p><p>Year-end estimates are limited to supported 2025–2026 reporting periods. Fee references support 2026 only. Event-driven and unresolved deadlines are omitted from calendar exports. Consultations are proposals. Bermuda corporate income tax (Corporate Income Tax Act 2023, administered by CITA) returns and instalment payments are not covered; confirm group scope and dates with CITA guidance and your tax advisers.</p><p><a href="VERIFICATION.md" target="_blank" rel="noopener noreferrer">Verification record and coverage limits</a></p></div>`;
 }
 function taskPccCard(){
  if(state.mode!=='EXECUTE'||!['newlicence','controller','approvedperson'].includes(state.task)||state.entityType!=='insurer')return '';
@@ -1397,7 +1397,7 @@ function renderResults(fromSaved){
     if(state.mode==='MAP')state.focus=[...document.querySelectorAll("#focusChecks input:checked")].map(i=>i.value);
     state.task=document.getElementById("taskType").value;
   }
-  if(KB.version!=="2.10.0"||KB.app_version!=="2.10.0"){announce("Application and knowledge-base versions differ. Reload both assets before generating a report.");return;}
+  if(KB.version!=="2.11.0"||KB.app_version!=="2.11.0"){announce("Application and knowledge-base versions differ. Reload both assets before generating a report.");return;}
   if(!validInputs(state)){announce("Assessment inputs are invalid. Start a new assessment.");return;}
   usedEntryIds=[]; legalPendingSeen=false;
   const akb=activeKB();
@@ -1413,7 +1413,7 @@ function renderResults(fromSaved){
   let html=`
     <div class="rhead">
       <div><h2>${esc(entityLabel())}</h2>
-        <div class="meta">${modeName} · Generated ${today} · Bermuda Monetary Authority regime${state.fye?` · FYE ${new Date(state.fye+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"})}`:""}</div>
+        <div class="meta">${modeName} · Generated ${today} · Bermuda regulatory regime (BMA-supervised)${state.fye?` · FYE ${new Date(state.fye+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"})}`:""}</div>
         <div class="meta"><span class="pill-kb">KB v${esc(akb.version)}</span> <span class="pill-kb">Original KB research ${fmtD(akb.as_at)}</span>${akb.overlay?` <span class="pill-kb">Includes local KB overlay (${akb.overlay.entries.length} entr${akb.overlay.entries.length===1?"y":"ies"})</span>`:""}</div>
       </div>
       <div class="no-print" style="display:flex;gap:10px;flex-wrap:wrap">
@@ -1425,7 +1425,7 @@ function renderResults(fromSaved){
       </div>
     </div>
     ${reopenNotice}
-    <div class="callout c-warn print-only"><span><b>Educational information only — not legal or professional advice.</b> Independent project; not issued, endorsed or approved by the Bermuda Monetary Authority. KB v${esc(akb.version)} · generated ${today}. Pending legal review.</span></div>
+    <div class="callout c-warn print-only"><span><b>Educational information only — not legal or professional advice.</b> Independent project; not issued, endorsed or approved by the Bermuda Monetary Authority. KB v${esc(akb.version)} · generated ${today}. Not legally reviewed.</span></div>
     ${migrationNotice?`<div class="callout c-warn">${esc(migrationNotice)}</div>`:""}
     <nav class="card no-print" aria-label="Related guidance">
       <p>Explore another view for this entity. Review the relevant facts before generating guidance.</p>
@@ -1541,7 +1541,7 @@ function renderResults(fromSaved){
   if(true){
     const isClassBackground=state.mode==='MAP'&&((state.entityType==='insurer'&&(!!KB.class_profiles[state.entityClass]||!!KB.class_profile_context?.[state.entityClass]))||!!(entityProfileRecord(KB.entity_profile_details)||entityProfileRecord(KB.entity_profile_context)));
     document.getElementById("legalReviewNotice").innerHTML = isClassBackground?'':
-      `<div class="callout c-warn" style="margin-top:10px"><span class="ci">⚠</span><span><b>Illustrative content — pending legal review; not for operational reliance.</b> No external legal sign-off is claimed. Local imported review labels are user-supplied and do not constitute endorsement.</span></div>`;
+      `<div class="callout c-warn" style="margin-top:10px"><span class="ci">⚠</span><span><b>Illustrative content, not legally reviewed; not for operational reliance.</b> The content has not been reviewed by a lawyer or by the BMA, and no external legal sign-off is claimed. Local imported review labels are user-supplied and do not constitute endorsement.</span></div>`;
   }
   reportContext={inputs:JSON.parse(JSON.stringify(state)),kb:JSON.parse(JSON.stringify(akb)),filings:JSON.parse(JSON.stringify(filings)),entryIds:[...usedEntryIds]};
   reopenNotice="";
@@ -1630,7 +1630,7 @@ function buildIcs(inputs=state,entries=scoped('filing'),kb=activeKB()){
   for(const {entry,date} of included){
     const next=new Date(date);next.setDate(next.getDate()+1);
     const summary='[VERIFY DATE] '+entry.data.name+' — '+label;
-    const description=entry.text+' | '+(entry.citation||'Verify current source')+' | Source: '+(safeSourceUrl(entry.source.url)||'Not linked')+' | KB '+kb.version+'; original research '+kb.as_at+'. Arithmetic estimate only; no extensions or exemptions applied. Educational content, pending legal review; not for operational reliance. Verify against current legislation and BMA guidance. This calendar represents a class profile, not an individual legal entity. Reimporting the same profile may update existing events.';
+    const description=entry.text+' | '+(entry.citation||'Verify current source')+' | Source: '+(safeSourceUrl(entry.source.url)||'Not linked')+' | KB '+kb.version+'; original research '+kb.as_at+'. Arithmetic estimate only; no extensions or exemptions applied. Educational content, not legally reviewed; not for operational reliance. Verify against current legislation and BMA guidance. This calendar represents a class profile, not an individual legal entity. Reimporting the same profile may update existing events.';
     lines.push('BEGIN:VEVENT','UID:'+entry.id+'-'+inputs.entityType+'-'+(inputs.entityClass||'sector')+'-'+icsDate(date)+'@compliance-navigator','DTSTAMP:'+stamp,'DTSTART;VALUE=DATE:'+icsDate(date),'DTEND;VALUE=DATE:'+icsDate(next),'SUMMARY:'+icsEscapeText(summary),'DESCRIPTION:'+icsEscapeText(description),'STATUS:TENTATIVE','TRANSP:TRANSPARENT');
     for(const days of [30,7])lines.push('BEGIN:VALARM','ACTION:DISPLAY','TRIGGER:-P'+days+'D','DESCRIPTION:'+icsEscapeText(days+' days before estimated date: '+summary),'END:VALARM');
     lines.push('END:VEVENT');
@@ -1792,7 +1792,7 @@ function previewFragment(){
   });
   const profileDiff=Object.entries(checked.meta.class_profiles).map(([id,p])=>{
     const before=kb.class_profiles[id];if(canonical(before)===canonical(p))return `<li>${esc(id)} profile — unchanged</li>`;
-    changes++;return `<li><b>${esc(id)} profile — changed</b><details><summary>Inspect profile JSON</summary><pre class="diff-value">Before: ${esc(JSON.stringify(before,null,2))}\nAfter (forced pending legal review on import): ${esc(JSON.stringify(p,null,2))}</pre></details></li>`;
+    changes++;return `<li><b>${esc(id)} profile — changed</b><details><summary>Inspect profile JSON</summary><pre class="diff-value">Before: ${esc(JSON.stringify(before,null,2))}\nAfter (forced to legal_review pending on import, shown as not legally reviewed): ${esc(JSON.stringify(p,null,2))}</pre></details></li>`;
   });
   out.innerHTML=`<div class="difflist"><b>Validation passed: ${changes} changed/new entries or profiles.</b><ul>${diff.join('')}${profileDiff.join('')}</ul></div>`;
   pendingFragment={raw,checked,baseline:kbFingerprint(kb),rawBaseline:storageSnapshot()};

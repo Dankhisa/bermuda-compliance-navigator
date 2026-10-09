@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v2.11.0 — 9 October 2026
+
+Wording, metadata and scope-statement changes. No new regulatory coverage, no new entries and no change to calculations, fees, calendar logic or the CI and SPI profiles. The owner approved each change as editorial copy; no counsel sign-off or legal opinion is claimed.
+
+- **Review-status wording.** "Pending legal review" no longer appears. Notices now say the content has not been reviewed by a lawyer or by the BMA, and report footers say "Not legally reviewed." The internal `legal_review` value is unchanged.
+- **Filing-extension limit entry** (`conseq-extension-cap`): the title and two sentences now describe the text of s.17(4) and no longer state a conclusion about the Authority's powers; readers are told to confirm the position with the BMA or Bermuda counsel. A regression test now rejects phrases such as "what the law actually says" and "has no power" in any entry.
+- **ALS Bill entry** (`rec-bill-insurance-als-2026`): dated note that the as-tabled text was re-read on 9 October 2026; stage, enactment and commencement are still not established; `review_due` moved to 30 October 2026. The entry remains a proposal and derives no filing date.
+- **Scope statement:** the report scope card now says Bermuda corporate income tax returns and instalment payments are not covered, with no dates.
+- **Smaller changes:** one entity and class per assessment is stated at step 1; the report metadata line reads "Bermuda regulatory regime (BMA-supervised)"; two external links gain `noreferrer`.
+- **Fingerprints.** Two entries changed, so the all-161 and all-162 pinned hashes were re-recorded on the owner's approval; the other 158 original entries are byte-identical to 2.10.0. Because the knowledge-base fingerprint changed, overlays stored with an earlier version stay stored but inactive.
+- Tests: 95 of 95 pass (2.10.0: 92).
+
 ## v2.10.0 — owner-authorised publication, 27 September 2026
 
 Published from commit `23c6ff46fef3ff0395c333e7a3dc4c89233ca126`; [GitHub Pages deployment succeeded](https://github.com/Dankhisa/bermuda-compliance-navigator/actions/runs/36364577666). All ten checked public files matched the release manifest. A live smoke test showed KB 2.10.0 with the security policy active. A Class 4 overview generated through the UI showed the three topic cards; a study status set on the Operational Resilience checklist updated its summary, with no console errors or policy violations.
