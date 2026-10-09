@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## v2.11.0 — 9 October 2026
+## v2.11.0 — owner-authorised publication, 9 October 2026
+
+Published from commit `861274f0c7af0ae8cdfc9c6a889847a964980090` (release branch `release-2.11.0`), merged as `87e64b51f1f26701d48cad146c0ece4c24c135bb` by pull request #1; [GitHub Pages deployment succeeded](https://github.com/Dankhisa/bermuda-compliance-navigator/actions/runs/37970014689). All ten checked public files matched the release manifest on 9 October 2026. From this release, changes to `main` go through a pull request.
 
 Wording, metadata and scope-statement changes. No new regulatory coverage, no new entries and no change to calculations, fees, calendar logic or the CI and SPI profiles. The owner approved each change as editorial copy; no counsel sign-off or legal opinion is claimed.
 
