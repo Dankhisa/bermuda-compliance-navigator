@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## v2.11.1 — 27 October 2026
+
+Corrections, source updates and one new horizon entry. No change to calculations, fees, calendar logic, topic cards or the CI and SPI profiles. The owner approved each change as editorial copy; no counsel sign-off or legal opinion is claimed.
+
+- **Asset and liability statement Act** (`rec-bill-insurance-als-2026`): Parliament's bill lists show the Insurance Amendment Act 2026 passed the House on 25 September and the Senate on 28 September 2026. The entry no longer calls it a proposal; it describes s.17AA and the s.18A consequences in the text Parliament publishes, notes the deemed 1 January 2026 commencement, records the Governor's assent on 1 October 2026 from Government House notice GN0854/2026 (seen in a republication of official notices), and points to the existing BR 123/2025 filing entry. It derives no new date. Review due 13 November 2026.
+- **Solvency II equivalence** (`summary-commercial`): now cites Commission Delegated Decision (EU) 2016/309 (captives and special purpose insurers excluded) instead of an uncited parenthesis.
+- **Annual fee** (`filing-annual-fee`): notes that the before-31-March timing is set by s.14(2) of the Insurance Act; the amounts stay marked verify.
+- **Extension request** (`task-extension`): the submission step cites the BMA's notice of 6 July 2026 on the Submit Portal.
+- **Enforcement entry** (`conseq-escalation`): retitled "Published BMA enforcement principles and outcomes", with its examples dated.
+- **AML focus entry** (`focus-aml-2`): badge set to verify, matching its source.
+- **New horizon entry** (`rec-cp-ai-2026`, every entity type, overview only): the BMA's 14 August 2026 consultation on a proposed cross-sector Guidance Note on the responsible use of AI; comment deadline 30 October 2026. The entry says the proposal creates no new obligations and no routine pre-approval of AI, and that it is not law. Entry count 163.
+- **README:** the knowledge-base summary now gives 163 entries and 153 original entries unchanged since 2.4.0 (it still said 162 and 159).
+- **Footer and navigation:** the footer date now follows the knowledge-base release date (2.11.0 still showed 27 September 2026); the "BMA Website" link moved from the header to the footer, labelled as external and not affiliated.
+- **Fingerprints:** the all-161 pin and the all-entries pin (now 163 entries) were re-recorded on the owner's approval; the other 153 original entries are byte-identical to 2.11.0. Overlays stored with an earlier version stay stored but inactive.
+- Tests: 98 of 98 pass (2.11.0: 95).
+
 ## v2.11.0 — owner-authorised publication, 9 October 2026
 
 Published from commit `861274f0c7af0ae8cdfc9c6a889847a964980090` (release branch `release-2.11.0`), merged as `87e64b51f1f26701d48cad146c0ece4c24c135bb` by pull request #1; [GitHub Pages deployment succeeded](https://github.com/Dankhisa/bermuda-compliance-navigator/actions/runs/37970014689). All ten checked public files matched the release manifest on 9 October 2026. From this release, changes to `main` go through a pull request.

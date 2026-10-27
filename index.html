@@ -300,7 +300,6 @@
       <button type="button" onclick="showSaved();return false;">Saved Assessments</button>
       <button type="button" onclick="showKbAdmin();return false;">Knowledge Base</button>
       <button type="button" onclick="openSettings();return false;">Privacy &amp; storage</button>
-      <a href="https://www.bma.bm" target="_blank" rel="noopener noreferrer">BMA Website ↗</a>
     </nav>
   </div>
 </header>
@@ -443,13 +442,14 @@
 
 <footer>
   <div class="fwrap">
-    <p><b>Created by Daniel Khisa.</b> <a href="https://dankhisa.github.io/" style="color:inherit;text-decoration:underline;text-underline-offset:3px">Daniel Khisa — portfolio</a> · Educational portfolio project · Updated <time datetime="2026-09-27">27 September 2026</time>. Original KB research: 2 July 2026; individual entries carry their own review dates.</p>
+    <p><b>Created by Daniel Khisa.</b> <a href="https://dankhisa.github.io/" style="color:inherit;text-decoration:underline;text-underline-offset:3px">Daniel Khisa — portfolio</a> · <a href="https://www.bma.bm" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;text-underline-offset:3px">Bermuda Monetary Authority website (external; this tool is not affiliated with the BMA)</a> · Educational portfolio project · Updated <time id="kbUpdated" datetime="2026-10-27">27 October 2026</time>. Original KB research: 2 July 2026; individual entries carry their own review dates.</p>
     <b>Disclaimer.</b> This tool provides general information only, generated from a static knowledge base as at the date shown on each report. It is not legal, regulatory, actuarial, tax, or other professional advice, and it does not create an adviser–client relationship. Regulatory requirements, fees, forms, and deadlines change. Before acting or filing, verify every obligation against the current consolidated Bermuda legislation, the Bermuda Monetary Authority's Rules, Codes of Conduct, and Guidance Notes (<b>bma.bm</b>), and obtain professional advice appropriate to your circumstances. Where an item is marked "Verify" or "Unverified", confirmation against primary sources is required.
   </div>
 </footer>
 
-<script src="kb.js?v=2.11.0"></script>
+<script src="kb.js?v=2.11.1"></script>
 <script>
+(function(){const el=document.getElementById("kbUpdated");if(el&&typeof KB!=="undefined"&&/^\d{4}-\d{2}-\d{2}$/.test(KB.release_date||"")){el.setAttribute("datetime",KB.release_date);el.textContent=new Date(KB.release_date+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});}})();
 /* =========================================================================
    APP — presentation layer. All regulatory content lives in kb.js (KB).
    ========================================================================= */
@@ -1397,7 +1397,7 @@ function renderResults(fromSaved){
     if(state.mode==='MAP')state.focus=[...document.querySelectorAll("#focusChecks input:checked")].map(i=>i.value);
     state.task=document.getElementById("taskType").value;
   }
-  if(KB.version!=="2.11.0"||KB.app_version!=="2.11.0"){announce("Application and knowledge-base versions differ. Reload both assets before generating a report.");return;}
+  if(KB.version!=="2.11.1"||KB.app_version!=="2.11.1"){announce("Application and knowledge-base versions differ. Reload both assets before generating a report.");return;}
   if(!validInputs(state)){announce("Assessment inputs are invalid. Start a new assessment.");return;}
   usedEntryIds=[]; legalPendingSeen=false;
   const akb=activeKB();
