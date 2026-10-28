@@ -1,3 +1,18 @@
+# Verification and coverage — release 2.11.1
+
+## 2.11.1 prepublication pass — 27 October 2026
+
+Corrections, source updates and one new horizon entry (`rec-cp-ai-2026`); no change to calculations, fees, calendar logic, topic cards or the CI and SPI profiles. The owner approved each change as editorial copy; no counsel sign-off or legal opinion is claimed. Publication authority is recorded separately.
+
+**Observed on the local candidate (27 October 2026):**
+- `node tests/regression.test.cjs`: **98 tests, 98 pass, 0 fail, 0 skipped** (2.11.0: 95).
+- Pre-publication walk-through, 27 October 2026 (candidate served from 127.0.0.1, driven through the page functions): KB and app 2.11.1, release date 2026-10-27, 163 entries, footer date 27 October 2026, no BMA link in the header and the footer link marked external and not affiliated. Class E overview: the Insurance Amendment Act 2026 entry with both passage dates and the assent notice, the AI consultation entry with its comment deadline, the EU 2016/309 citation, the AML focus entry badged Verify, no overdue badges. The ALS entry appears only for Classes C, D and E; the AI entry appears in the overview for insurers, banks and DABA Class T and not in the obligations or application reports. Class E obligations: the s.14(2) annual-fee note and the retitled enforcement entry. Class 3A extension request: the Submit Portal step and the s.17(4) title, with no banned phrases. No "pending legal review" text, every new-tab link has noreferrer, no console errors, no Content Security Policy violation events, and no horizontal overflow at 390 px (Class E overview and obligations).
+- The AI consultation PDF was opened and text-extracted on 27 October 2026 (cover; Part A paras 44, 49; Part B paras 1–4); the new entry appears in the overview for insurers, banks and DABA and not in the obligations journey (regression test).
+- Fingerprints: the 153 original entries outside the eight corrected entries hash identically (`8bc4f3ea…`) from the 2.11.0 commit and from this candidate; the all-161 pin and the all-entries pin (163 entries) were re-recorded.
+- Sources: Parliament's House and Senate bill lists (27 October 2026); the consolidated Insurance Act s.14(2) and s.17(4) and the BMA notice of 6 July 2026 (9 October 2026). Assent on 1 October 2026 is recorded in Government House notice GN0854/2026, seen via a republication of official notices (bernews.com, opened 27 October 2026); the gov.bm notice pages returned 404, so the Official Gazette original and the final text were **not opened**.
+
+**Not checked in this pass:** the Official Gazette; the AML/ATF Regulations 2008; axe-core, the manual accessibility audit, print and print-preview, calendar download, KB import/merge/recovery and direct-file/offline operation; the live site (not yet published).
+
 # Verification and coverage — release 2.11.0
 
 ## 2.11.0 prepublication pass — 9 October 2026

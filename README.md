@@ -9,9 +9,10 @@ An independent educational project by Daniel Khisa for exploring Bermuda regulat
 ## What it does
 
 - Separates three user journeys: a detailed regulatory regime map, an operational obligations-and-filings workplan, and task-specific application preparation.
-- Uses a 162-entry static knowledge base with source links and dated review metadata. Of the original 161 entries, 159 are unchanged since 2.4.0; the two Scenario-Based Approach entries were corrected in 2.9.0 with owner approval.
+- Uses a 163-entry static knowledge base with source links and dated review metadata. Of the original 161 entries, 153 are unchanged since 2.4.0; eight were corrected with owner approval (two Scenario-Based Approach entries in 2.9.0, one in 2.11.0 and five in 2.11.1).
 - Gives every selectable insurer class and non-insurer entity type a source-labelled background in the regulatory overview. Version 2.8.0 adds business context, licence and registration routes, key terms and dated counts, alongside the CI/SPI comparison profiles introduced earlier.
 - Version 2.9.0 adds a Scenario-Based Approach (SBA) topic deep-dive to the overview for Classes C, D and E.
+- Version 2.11.1 updates the asset-and-liability-statement entry after the Insurance Amendment Act 2026 passed both chambers, cites the EU Solvency II equivalence decision, ties the annual-fee timing to s.14(2), cites the BMA's Submit Portal notice, retitles the enforcement entry, sets the AML focus badge to verify, dates the footer from the release, and adds a horizon entry for the BMA's August 2026 consultation on responsible use of AI.
 - Version 2.11.0 softens review-status and filing-extension wording, adds dated notes to the ALS Bill entry, and states the corporate income tax scope limit; it adds no new regulatory coverage.
 - Version 2.10.0 adds three topic deep-dives with learning checklists: the solvency self-assessment (CISSA and GSSA), the Operational Resilience and Outsourcing Code, and Police Clearance Certificates and Key Person vetting.
 - Distinguishes selected insurer classes, DABA licences, investment licence conditions and unknown facts.
@@ -95,7 +96,7 @@ Version 2.10.0 adds cases for:
 - scope-correct rendering across all 24 selections
 - checklist filters, study facts and wording without scores
 - export notices and escaping, and bookmark round trips with rejection of malformed state
-- print notices, the security policy, and pinned fingerprints for the SBA card, the 162 entries and the original source register
+- print notices, the security policy, and pinned fingerprints for the SBA card, all knowledge-base entries and the original source register
 
 See VERIFICATION.md for the latest exact test count and browser checks actually observed. These tests do not constitute accessibility or legal sign-off.
 
@@ -109,7 +110,7 @@ Pilot profile imports are limited to the existing CI/SPI IDs and shipped source 
 
 ## Maintenance and sources
 
-Release version **2.11.0**, 9 October 2026, authorised for publication by the owner. The owner approved the 2.11.0 wording and metadata changes as editorial copy. Version 2.10.0 (27 September 2026) was authorised for publication by the owner after the owner approved the three topic deep-dives and their learning checklists as editorial copy. No counsel sign-off or legal opinion is claimed. The 162 entries, the SBA card, the CI/SPI profiles and every calculation, fee, calendar and application rule are unchanged. The previous release, 2.9.0, added the Scenario-Based Approach deep-dive and corrected its two related entries. Original entry research date: **2 July 2026**. Software/editorial release dates do not reverify every entry. Read [SOURCES.md](SOURCES.md), [VERIFICATION.md](VERIFICATION.md) and [CHANGELOG.md](CHANGELOG.md).
+Release version **2.11.1**, 27 October 2026, authorised for publication by the owner. The owner approved the 2.11.1 changes as editorial copy. Version 2.11.0, 9 October 2026, authorised for publication by the owner. The owner approved the 2.11.0 wording and metadata changes as editorial copy. Version 2.10.0 (27 September 2026) was authorised for publication by the owner after the owner approved the three topic deep-dives and their learning checklists as editorial copy. No counsel sign-off or legal opinion is claimed. In 2.10.0 the 162 entries, the SBA card, the CI/SPI profiles and every calculation, fee, calendar and application rule were unchanged. The previous release, 2.9.0, added the Scenario-Based Approach deep-dive and corrected its two related entries. Original entry research date: **2 July 2026**. Software/editorial release dates do not reverify every entry. Read [SOURCES.md](SOURCES.md), [VERIFICATION.md](VERIFICATION.md) and [CHANGELOG.md](CHANGELOG.md).
 
 Publish only the selected runtime, documentation, tests and preview assets. Private prompts, research downloads, local exports and career information do not belong in the public repository. Social preview source and PNG are in `assets/`.
 
