@@ -218,6 +218,16 @@
   .about-project p{margin:12px 0}.report-contents{display:flex;flex-wrap:wrap;gap:8px 18px;padding:14px 0;font-size:13px}
   .report-contents a{display:inline-block;padding:8px 0;color:#164c83}
   .report-contents a:hover{color:#10385f;text-decoration:underline}
+  .table-cue{display:none;margin:10px 0 0;font-size:12px;color:var(--muted)}
+  @media screen and (max-width:640px){
+    .table-cue{display:block}
+    .table-scroll table.stack-sm{min-width:0}
+    .table-scroll table.stack-sm thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+    .table-scroll table.stack-sm tbody,.table-scroll table.stack-sm tr{display:block}
+    .table-scroll table.stack-sm tr{padding:10px 0;border-bottom:1px solid var(--line)}
+    .table-scroll table.stack-sm td,.table-scroll table.stack-sm tbody th{display:block;min-width:0;padding:4px 0;border:0}
+    .table-scroll table.stack-sm td[data-label]::before,.table-scroll table.stack-sm tbody th[data-label]::before{content:attr(data-label);display:block;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+  }
   .source-note{font-weight:400}.card{scroll-margin-top:150px}summary{cursor:pointer}
   @media print{
     @page{size:auto;margin:10mm}
@@ -421,7 +431,7 @@
     <p>This free edition uses a local knowledge base. It does not send assessment inputs to an AI service, request an API key, or use analytics. External source links open third-party sites when you choose them.</p>
     <p>Saved assessment inputs and imported updates remain in this browser. Browser data can be lost or read by someone with access to this device. Use initials or a pseudonym and keep confidential entity information out of this demonstration. Exports contain the saved information.</p>
     <p>If you used an earlier edition, its API key may still be stored here. This edition does not read or use it. You can remove it explicitly below.</p>
-    <div class="actions"><button class="btn btn-ghost btn-sm" onclick="clearLegacyKey()">Remove legacy API key</button><button class="btn btn-primary btn-sm" onclick="closeSettings()">Close</button></div>
+    <div class="actions"><button class="btn btn-ghost btn-sm" onclick="clearLegacyKey()">Remove legacy API key</button><button id="settingsClose" class="btn btn-primary btn-sm" onclick="closeSettings()">Close</button></div>
     <p id="apiKeyStatus" role="status"></p>
   </div>
 </dialog>
@@ -442,12 +452,12 @@
 
 <footer>
   <div class="fwrap">
-    <p><b>Created by Daniel Khisa.</b> <a href="https://dankhisa.github.io/" style="color:inherit;text-decoration:underline;text-underline-offset:3px">Daniel Khisa — portfolio</a> · <a href="https://www.bma.bm" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;text-underline-offset:3px">Bermuda Monetary Authority website (external; this tool is not affiliated with the BMA)</a> · Educational portfolio project · Updated <time id="kbUpdated" datetime="2026-10-27">27 October 2026</time>. Original KB research: 2 July 2026; individual entries carry their own review dates.</p>
+    <p><b>Created by Daniel Khisa.</b> <a href="https://dankhisa.github.io/" style="color:inherit;text-decoration:underline;text-underline-offset:3px">Daniel Khisa — portfolio</a> · <a href="https://www.bma.bm" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;text-underline-offset:3px">Bermuda Monetary Authority website (external; this tool is not affiliated with the BMA)</a> · Educational portfolio project · Updated <time id="kbUpdated" datetime="2026-11-12">12 November 2026</time>. Original KB research: 2 July 2026; individual entries carry their own review dates.</p>
     <b>Disclaimer.</b> This tool provides general information only, generated from a static knowledge base as at the date shown on each report. It is not legal, regulatory, actuarial, tax, or other professional advice, and it does not create an adviser–client relationship. Regulatory requirements, fees, forms, and deadlines change. Before acting or filing, verify every obligation against the current consolidated Bermuda legislation, the Bermuda Monetary Authority's Rules, Codes of Conduct, and Guidance Notes (<b>bma.bm</b>), and obtain professional advice appropriate to your circumstances. Where an item is marked "Verify" or "Unverified", confirmation against primary sources is required.
   </div>
 </footer>
 
-<script src="kb.js?v=2.11.1"></script>
+<script src="kb.js?v=2.11.2"></script>
 <script>
 (function(){const el=document.getElementById("kbUpdated");if(el&&typeof KB!=="undefined"&&/^\d{4}-\d{2}-\d{2}$/.test(KB.release_date||"")){el.setAttribute("datetime",KB.release_date);el.textContent=new Date(KB.release_date+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});}})();
 /* =========================================================================
@@ -1397,7 +1407,7 @@ function renderResults(fromSaved){
     if(state.mode==='MAP')state.focus=[...document.querySelectorAll("#focusChecks input:checked")].map(i=>i.value);
     state.task=document.getElementById("taskType").value;
   }
-  if(KB.version!=="2.11.1"||KB.app_version!=="2.11.1"){announce("Application and knowledge-base versions differ. Reload both assets before generating a report.");return;}
+  if(KB.version!=="2.11.2"||KB.app_version!=="2.11.2"){announce("Application and knowledge-base versions differ. Reload both assets before generating a report.");return;}
   if(!validInputs(state)){announce("Assessment inputs are invalid. Start a new assessment.");return;}
   usedEntryIds=[]; legalPendingSeen=false;
   const akb=activeKB();
@@ -1564,10 +1574,20 @@ function enhanceTables(root){
   }
   root.querySelectorAll("table").forEach((table,i)=>{
     const heading=table.closest(".card")?.querySelector("h3");
-    const label=heading?.textContent||"Assessment records";
+    const label=(heading?.textContent||"Assessment records").replace(/^(\d+)(?=[A-Za-z])/,'$1. ');
     const wrap=document.createElement("div");wrap.className="table-scroll";wrap.tabIndex=0;wrap.setAttribute("role","region");wrap.setAttribute("aria-label",label+" — scroll horizontally if needed");
     table.before(wrap);wrap.append(table);
     table.querySelectorAll("thead th").forEach(th=>th.setAttribute("scope","col"));
+    if(root.id==='results'&&state.mode!=='MAP'){
+      const heads=[...table.querySelectorAll("thead th")].map(th=>th.textContent.trim());
+      table.classList.add("stack-sm");table.setAttribute("role","table");
+      table.querySelectorAll("thead,tbody").forEach(group=>group.setAttribute("role","rowgroup"));
+      table.querySelectorAll("tr").forEach(tr=>tr.setAttribute("role","row"));
+      table.querySelectorAll("thead th").forEach(th=>th.setAttribute("role","columnheader"));
+      table.querySelectorAll("tbody tr").forEach(tr=>[...tr.cells].forEach((cell,j)=>{cell.setAttribute("role",cell.tagName==="TH"?"rowheader":"cell");if(heads[j])cell.dataset.label=heads[j];}));
+    }else{
+      const cue=document.createElement("p");cue.className="table-cue no-print";cue.textContent="Swipe sideways for more columns";wrap.before(cue);
+    }
     const caption=document.createElement("caption");caption.className="sr-only";caption.textContent=label;table.prepend(caption);
   });
 }
@@ -1835,7 +1855,7 @@ async function copyTemplate(button){
 }
 
 /* ---------- Legacy credential removal (explicit local user action only) ---------- */
-function openSettings(){document.getElementById("apiKeyStatus").textContent="";openDialog("settingsModal");}
+function openSettings(){document.getElementById("apiKeyStatus").textContent="";openDialog("settingsModal");document.getElementById("settingsClose").focus();}
 function closeSettings(){ closeDialog("settingsModal"); }
 function clearLegacyKey(){
   try { localStorage.removeItem("bcn_api_key"); document.getElementById("apiKeyStatus").textContent="Legacy key removed from this browser."; }
