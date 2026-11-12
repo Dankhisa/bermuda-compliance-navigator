@@ -1,9 +1,9 @@
 /* Static educational knowledge base. Original research and per-entry review dates are preserved. See VERIFICATION.md. */
 const KB = {
-  "version": "2.11.1",
+  "version": "2.11.2",
   "as_at": "2026-07-02",
   "generated": "2026-07-02",
-  "app_version": "2.11.1",
+  "app_version": "2.11.2",
   "schema": {
     "required": [
       "id",
@@ -1131,8 +1131,8 @@ const KB = {
         "classE"
       ],
       "topic": "filing",
-      "text": "Paragraph 7A, inserted by BR 123/2025, requires an asset and liability statement on or before the filing date for Class C, D and E insurers, subject to the domestic-business exclusion in that paragraph. The amendment operates from 1 January 2026; this is not a statement that the first reporting year end is 2026. Confirm the applicable reporting period, domestic-business exclusion and current instructions before computing a deadline.",
-      "citation": "BR 123/2025, paragraphs 7A–7B inserted into the Class C/D/E Rules",
+      "text": "Paragraph 7A, inserted by BR 123/2025, requires an asset and liability statement on or before the filing date for Class C, D and E insurers, subject to the domestic-business exclusion in that paragraph. The amendment operates from 1 January 2026; this is not a statement that the first reporting year end is 2026. Insurance Act section 17AA, added by the Insurance Amendment Act 2026 (deemed to have come into operation on 1 January 2026), also requires Class C, D and E insurers other than those carrying on domestic business to file the statement in accordance with section 17(4), and the BMA must cause the statements filed to be published in a manner it considers appropriate. Section 18A late fees and the BMA's power to appoint an inspector apply to the statement (s.18A(1)(c) and (5)(e)). Confirm the applicable reporting period, domestic-business exclusion and current instructions before computing a deadline.",
+      "citation": "BR 123/2025, paragraphs 7A–7B inserted into the Class C/D/E Rules; Insurance Act 1978, s.17AA and s.18A(1)(c), (5)(e), as inserted and amended by the Insurance Amendment Act 2026 (2026:35, ss.2–3)",
       "source": {
         "type": "legislation",
         "name": "Insurance (Prudential Standards) (Class C, D and E Solvency Requirement) Amendment Rules 2025 (operative 1 Jan 2026)",
@@ -1149,12 +1149,12 @@ const KB = {
         "months": null,
         "date_note": "Not computed: confirm the reporting period and domestic-business exclusion against paragraph 7A and current BMA instructions."
       },
-      "editorial_updated": "2026-09-21",
+      "editorial_updated": "2026-11-02",
       "rule": {
         "kind": "als"
       },
       "revision": "2.2.0",
-      "evidence_note": "Targeted correction / scope safeguard, 21 September 2026. See VERIFICATION.md for checked provisions and unresolved coverage; no external legal sign-off."
+      "evidence_note": "Targeted correction / scope safeguard, 21 September 2026. See VERIFICATION.md for checked provisions and unresolved coverage; no external legal sign-off. 2 November 2026 (owner-approved NAV-20261102-01, D1): s.17AA and s.18A text added from the Insurance Act 1978 consolidation on bermudalaws.bm, retrieved 9 October 2026 (s.17AA inserted by 2026 : 35 s. 2; s.18A amended by 2026 : 35 s. 3; both effective 1 January 2026), which matches the Bill as tabled; the Official Gazette was not opened. No date is derived."
     },
     {
       "id": "filing-sfs-sfr-6m",
@@ -2874,6 +2874,17 @@ const KB = {
             "ver": "established"
           },
           {
+            "breach": "Asset and liability statement not filed by its filing date (Class C, D and E, other than insurers carrying on domestic business)",
+            "consequence": "Late fee for each week or part week at the first row's amounts (up to $1,000 for Class C and D, $5,000 for Class E); if the statement is still outstanding three months after the filing date, the Authority may appoint an inspector",
+            "provision": "s.17AA; s.18A(1)(c), (2), (5)(e)",
+            "ver": "verify",
+            "scope": [
+              "classC",
+              "classD",
+              "classE"
+            ]
+          },
+          {
             "breach": "Breach of the Act / Rules (incl. persistent non-filing)",
             "consequence": "Directions — including ceasing to write new business, premium caps, asset controls",
             "provision": "s.32(1)(c), (2)",
@@ -2913,10 +2924,10 @@ const KB = {
           }
         ]
       },
-      "editorial_updated": "2026-09-21",
+      "editorial_updated": "2026-11-02",
       "fee_year": 2026,
       "revision": "2.2.0",
-      "evidence_note": "Targeted correction / scope safeguard, 21 September 2026. See VERIFICATION.md for checked provisions and unresolved coverage; no external legal sign-off."
+      "evidence_note": "Targeted correction / scope safeguard, 21 September 2026. See VERIFICATION.md for checked provisions and unresolved coverage; no external legal sign-off. 2 November 2026 (owner-approved NAV-20261102-01, D2): a Class C/D/E-only row adds the asset and liability statement under s.17AA and s.18A(1)(c), (2), (5)(e), from the Insurance Act 1978 consolidation on bermudalaws.bm retrieved 9 October 2026 (s.18A amended by 2026 : 35 s. 3); the Official Gazette was not opened."
     },
     {
       "id": "conseq-extension-cap",
@@ -2969,7 +2980,7 @@ const KB = {
           },
           {
             "breach": "Non-filing after the capped period expires",
-            "consequence": "Ongoing contravention: weekly late fees continue (s.18A), inspector appointment available, intervention directions and civil penalties on the table",
+            "consequence": "Weekly late fees under s.18A continue; inspector, direction and civil-penalty provisions may be engaged.",
             "provision": "ss.18A, 30, 32, 32D",
             "ver": "established"
           }
@@ -2980,15 +2991,15 @@ const KB = {
             "srcLabel": "Practitioner view — not a BMA source"
           },
           {
-            "t": "If it becomes clear the capped date cannot be met, tell the supervisor before it passes and propose a supervised remediation path — at that point the BMA's discretion lies in how it enforces, not in granting more time.",
+            "t": "If it becomes clear the capped date cannot be met, tell the supervisor before it passes and propose a remediation path; take Bermuda counsel's advice on the options that remain.",
             "srcLabel": "Practitioner view — not a BMA source"
           }
         ]
       },
-      "editorial_updated": "2026-10-09",
+      "editorial_updated": "2026-11-02",
       "fee_year": 2026,
       "revision": "2.2.0",
-      "evidence_note": "Targeted correction / scope safeguard, 21 September 2026. See VERIFICATION.md for checked provisions and unresolved coverage; no external legal sign-off. Wording softened on 9 October 2026 (owner-approved NAV-20261005-01): the entry now describes the s.17(4) text and no longer states a conclusion on the Authority's powers; s.17(4) was not re-opened for this edit."
+      "evidence_note": "Targeted correction / scope safeguard, 21 September 2026. See VERIFICATION.md for checked provisions and unresolved coverage; no external legal sign-off. Wording softened on 9 October 2026 (owner-approved NAV-20261005-01): the entry now describes the s.17(4) text and no longer states a conclusion on the Authority's powers; s.17(4) was not re-opened for this edit. Revised on 2 November 2026 (owner-accepted NAV-20261102-03): the second practitioner tip and the third table row no longer describe how the BMA would use its powers; s.17(4) was not re-opened."
     },
     {
       "id": "conseq-sba-unapproved",
@@ -5722,8 +5733,8 @@ const KB = {
         "classE"
       ],
       "topic": "framework",
-      "text": "The Insurance Amendment Act 2026 passed the House of Assembly on 25 September 2026 and the Senate on 28 September 2026 (Parliament bill lists, checked 27 October 2026). In the text Parliament publishes, it inserts Insurance Act section 17AA: Class C, D and E insurers other than those carrying on domestic business must file an asset and liability statement in accordance with section 17(4), and the BMA publishes those statements; section 18A late fees and inspector powers extend to the statement. It is deemed to have come into operation on 1 January 2026. A Government House notice of assents (GN0854/2026, published 1 October 2026) records the Governor's assent on 1 October 2026; it was seen in a republication of official notices, not in the Official Gazette itself. The statement is already required by BR 123/2025 (see the filing entry); confirm the final text before relying on the statutory route.",
-      "citation": "Insurance Amendment Act 2026, clauses 2–4 (text as published by Parliament); House and Senate bill lists, parliament.bm",
+      "text": "The Insurance Amendment Act 2026 passed the House of Assembly on 25 September 2026 and the Senate on 28 September 2026 (Parliament bill lists, checked 27 October 2026). It inserts Insurance Act section 17AA: Class C, D and E insurers other than those carrying on domestic business must file an asset and liability statement in accordance with section 17(4), and the BMA publishes those statements; section 18A late fees and inspector powers extend to the statement. It is deemed to have come into operation on 1 January 2026. A Government House notice of assents (GN0854/2026, published 1 October 2026) records the Governor's assent on 1 October 2026; it was seen in a republication of official notices, not in the Official Gazette itself. The statement is already required by BR 123/2025 (see the filing entry). The Insurance Act 1978 as consolidated on bermudalaws.bm shows section 17AA and the section 18A changes as made by this Act (2026:35) with effect from 1 January 2026.",
+      "citation": "Insurance Amendment Act 2026, clauses 2–4 (2026:35); Insurance Act 1978 as consolidated on bermudalaws.bm, ss.17AA and 18A; House and Senate bill lists, parliament.bm",
       "source": {
         "type": "legislation",
         "name": "Parliament of Bermuda — Insurance Amendment Act 2026 (text as published; House and Senate bill lists)",
@@ -5735,12 +5746,12 @@ const KB = {
         "instrument": "Insurance Amendment Act 2026 (asset and liability statement, s.17AA)",
         "effective": "Passed both chambers 25 and 28 September 2026; assent 1 October 2026 (Government House notice GN0854/2026); deemed commencement 1 January 2026"
       },
-      "last_reviewed": "2026-10-27",
-      "review_due": "2026-11-13",
+      "last_reviewed": "2026-11-02",
+      "review_due": "2027-03-16",
       "legal_review": "pending",
-      "editorial_updated": "2026-10-27",
+      "editorial_updated": "2026-11-02",
       "revision": "2.11.1",
-      "evidence_note": "As-tabled Bill inspected 25 September 2026 and its text re-read on 9 October 2026 from the House of Assembly PDF (clauses 2 to 4 and the explanatory memorandum match this entry). No enacted section 17AA was found in the consolidated Act during the 25 September check. Parliamentary stage, enactment and commencement are not established; verify through the House of Assembly order paper or Hansard and the Official Gazette before release or reliance. Existing asset-and-liability-statement rules (BR 123/2025, operative 1 January 2026) are addressed separately. No filing date is derived from this Bill. 27 October 2026 (owner-approved P6): Parliament's House and Senate bill lists show the Act passed on 25 and 28 September 2026; the PDF linked from the Senate list is byte-identical to the tabled text; Governor's assent on 1 October 2026 is reported by a secondary source and was not confirmed; the Official Gazette was not opened. review_due 13 November 2026 is tied to that Gazette check. No filing date is derived from this entry; the statement's filing duty comes from BR 123/2025 and s.17(4). Pre-publication check, 27 October 2026: assent notice GN0854/2026 (Government House, 1 October 2026) seen via the Bernews republication of official notices; gov.bm notice pages returned 404."
+      "evidence_note": "As-tabled Bill inspected 25 September 2026 and its text re-read on 9 October 2026 from the House of Assembly PDF (clauses 2 to 4 and the explanatory memorandum match this entry). No enacted section 17AA was found in the consolidated Act during the 25 September check. Parliamentary stage, enactment and commencement are not established; verify through the House of Assembly order paper or Hansard and the Official Gazette before release or reliance. Existing asset-and-liability-statement rules (BR 123/2025, operative 1 January 2026) are addressed separately. No filing date is derived from this Bill. 27 October 2026 (owner-approved P6): Parliament's House and Senate bill lists show the Act passed on 25 and 28 September 2026; the PDF linked from the Senate list is byte-identical to the tabled text; Governor's assent on 1 October 2026 is reported by a secondary source and was not confirmed; the Official Gazette was not opened. review_due 13 November 2026 is tied to that Gazette check. No filing date is derived from this entry; the statement's filing duty comes from BR 123/2025 and s.17(4). Pre-publication check, 27 October 2026: assent notice GN0854/2026 (Government House, 1 October 2026) seen via the Bernews republication of official notices; gov.bm notice pages returned 404. 2 November 2026 (owner-approved NAV-20261102-01, D3; scheduled review): the Insurance Act 1978 consolidation on bermudalaws.bm, retrieved 9 October 2026 and re-read, shows s.17AA inserted by 2026 : 35 s. 2 and s.18A amended by 2026 : 35 s. 3, both effective 1 January 2026, in the same words as the Bill as tabled. The Official Gazette was still not opened. review_due moved to 16 March 2027, aligned with the filing entry."
     },
     {
       "id": "rec-cp-resolution-2026",
@@ -5801,7 +5812,7 @@ const KB = {
         "csp"
       ],
       "topic": "framework",
-      "text": "Consultation paper (14 August 2026) on a proposed cross-sector Guidance Note on the responsible use of artificial intelligence by BMA-regulated entities, with a comment deadline of 30 October 2026. The proposal says it creates no new statutory or regulatory obligations, no separate AI licensing and no routine pre-approval of AI systems; it explains how existing requirements may apply, and a specific requirement in another instrument prevails. This is a proposal, not law; no final guidance had been identified on 27 October 2026.",
+      "text": "Consultation paper (14 August 2026) on a proposed cross-sector Guidance Note on the responsible use of artificial intelligence by BMA-regulated entities, for which the comment period closed on 30 October 2026. The proposal says it creates no new statutory or regulatory obligations, no separate AI licensing and no routine pre-approval of AI systems; it explains how existing requirements may apply, and a specific requirement in another instrument prevails. This is a proposal, not law; no final guidance had been identified on 27 October 2026.",
       "citation": "BMA Consultation Paper — The Responsible Use of Artificial Intelligence in Financial Services in Bermuda, 14 August 2026, cover, Part A paras 44 and 49, Part B paras 1–4",
       "source": {
         "type": "bma-guidance",
@@ -5809,18 +5820,18 @@ const KB = {
         "url": "https://cdn.bma.bm/documents/2026-08-14-13-36-19-Consultation-Paper---Guidance-Note-on-the-Responsible-Use-of-Artificial-Intelligence-in-Bermudas-Financial-Services-Sector.pdf",
         "published": "2026-08-14"
       },
-      "verification": "established",
+      "verification": "verify",
       "data": {
         "role": "recent",
         "instrument": "Proposed Guidance Note on the responsible use of AI (consultation)",
-        "effective": "Comment deadline 30 October 2026 — proposal only; no final guidance identified as at 27 October 2026"
+        "effective": "Comment period closed 30 October 2026 — proposal only; no final guidance identified as at 27 October 2026"
       },
       "last_reviewed": "2026-10-27",
       "review_due": "2026-12-15",
       "legal_review": "pending",
-      "editorial_updated": "2026-10-27",
+      "editorial_updated": "2026-11-02",
       "revision": "2.11.1",
-      "evidence_note": "Added 27 October 2026 on the owner's approval (option B). The consultation PDF was opened and text-extracted on 27 October 2026 (cover; Part A paras 44, 49; Part B paras 1-4). Badge established covers the status and dates only; the proposal itself is not in force. A full topic card is in owner review (Gate 2)."
+      "evidence_note": "Added 27 October 2026 on the owner's approval (option B). The consultation PDF was opened and text-extracted on 27 October 2026 (cover; Part A paras 44, 49; Part B paras 1-4). The badge was established (status and dates only) until 2 November 2026, when it moved to verify to match the other consultations and the text was updated for the closed comment period (owner-accepted NAV-20261102-04); the proposal itself is not in force. A full topic card is in owner review (Gate 2)."
     },
     {
       "id": "rec-cp-pspi-2026",
@@ -6635,5 +6646,5 @@ const KB = {
     ]
   },
   "schema_version": 2,
-  "release_date": "2026-10-27"
+  "release_date": "2026-11-12"
 };

@@ -1,8 +1,25 @@
-# Verification and coverage — release 2.11.1
+# Verification and coverage — release 2.11.2
+
+## 2.11.2 candidate checks — 2 and 12 November 2026
+
+Corrections to five entries (`filing-als-cde`, `conseq-late-filing`, `rec-bill-insurance-als-2026`, `conseq-extension-cap`, `rec-cp-ai-2026`), a privacy-dialog focus fix, an automated test workflow and the 2.11.1 publication record. No change to calculations, fees, calendar logic, topic cards or the CI and SPI profiles. The owner accepted each change on 2 or 12 November 2026 as editorial copy; no counsel sign-off or legal opinion is claimed. Publication authority is recorded separately.
+
+**Observed on the local candidate (2 November 2026 unless a later date is given):**
+- `node tests/regression.test.cjs`: **104 tests, 104 pass, 0 fail, 0 skipped** (2.11.1: 98). Each new or changed test failed before its change and passed after it.
+- Fingerprints: `filing-als-cde` and `conseq-late-filing` join the corrected entries; the 151 original entries outside the ten corrected entries hash identically (`900c0fe7…`) from the 2.11.1 commit and from this candidate; the all-161 pin (`9f150bec…`) and the all-entries pin (`7c336b7f…`) were re-recorded.
+- Browser check, 2 November 2026 (candidate served from 127.0.0.1, driven through the page functions): KB and app 2.11.2, release date 2026-11-02, 163 entries, footer date 2 November 2026, Content Security Policy present, no console errors. Opening Privacy & storage puts focus on Close (desktop and 375 px). Class 3A extension request and Class E obligations: the new tip and row wording, none of the removed phrases. Class E overview: the AI consultation row is badged Verify and says the comment period closed on 30 October 2026; it stays out of the obligations report. No horizontal overflow at 375 px.
+- Browser check of the asset and liability statement changes, 2 November 2026 (same setup): the Class C, D and E obligations reports show the section 17AA and section 18A text with the row still marked conditional and no date computed; the extension request for those classes shows the new consequence row; the overview's Act entry cites the bermudalaws.bm consolidation. Class 1, 3A and 3B outputs show neither. No console errors; no horizontal overflow at 375 px.
+- Phone layout and table labels, added and checked 12 November 2026 (candidate served from 127.0.0.1 at 390 px): Class E obligations, 13 of 13 tables stacked as labelled cards with none wider than the screen; Class 3A extension request, 3 of 3; each cell carries its column name and explicit table, row and cell roles. Class E overview: its tables, including the class comparison, are not stacked and show the swipe cue. Table regions are labelled "2. Filing & Reporting Calendar". At desktop width the tables render as before and the cue is hidden. No console errors. The stacking rules sit in a screen-only media query; a printed PDF was not re-generated.
+- Release date, 12 November 2026: the candidate was built on 2 November and published on 12 November 2026, so `KB.release_date` and the footer were set to 12 November 2026 and the tests re-run (104 of 104). Entry-level edit dates stay at 2 November 2026.
+- Sources for the asset and liability statement: the Insurance Act 1978 as consolidated on bermudalaws.bm (copy retrieved 9 October 2026, re-read 2 November 2026) shows section 17AA "inserted by 2026 : 35 s. 2 effective 1 January 2026" and section 18A(1)(c) and (5)(e) "amended by 2026 : 35 s. 3", in the same words as the Bill as tabled (parliament.bm). The Official Gazette was not opened. Other sources: none re-opened for these edits. The AI consultation's 30 October 2026 comment deadline was already recorded from the paper (opened 27 October 2026); s.17(4) was not re-opened for the extension-limit wording.
+
+**Not checked in this pass:** the test workflow has not yet run on GitHub; the Official Gazette; axe-core, the manual accessibility audit, print and print-preview, calendar download, KB import/merge/recovery and direct-file/offline operation; the live site (not published).
 
 ## 2.11.1 prepublication pass — 27 October 2026
 
 Corrections, source updates and one new horizon entry (`rec-cp-ai-2026`); no change to calculations, fees, calendar logic, topic cards or the CI and SPI profiles. The owner approved each change as editorial copy; no counsel sign-off or legal opinion is claimed. Publication authority is recorded separately.
+
+**Owner-authorised release checks, 27 October 2026:** published by pull request #3 (`main` `8fdba7b`; [Pages run 40616185470](https://github.com/Dankhisa/bermuda-compliance-navigator/actions/runs/40616185470), successful). Ten served public files matched the release manifest (the three dotfiles are not served). A live smoke test showed KB and app version 2.11.1 with release date 27 October 2026 and 163 entries.
 
 **Observed on the local candidate (27 October 2026):**
 - `node tests/regression.test.cjs`: **98 tests, 98 pass, 0 fail, 0 skipped** (2.11.0: 95).
@@ -11,7 +28,7 @@ Corrections, source updates and one new horizon entry (`rec-cp-ai-2026`); no cha
 - Fingerprints: the 153 original entries outside the eight corrected entries hash identically (`8bc4f3ea…`) from the 2.11.0 commit and from this candidate; the all-161 pin and the all-entries pin (163 entries) were re-recorded.
 - Sources: Parliament's House and Senate bill lists (27 October 2026); the consolidated Insurance Act s.14(2) and s.17(4) and the BMA notice of 6 July 2026 (9 October 2026). Assent on 1 October 2026 is recorded in Government House notice GN0854/2026, seen via a republication of official notices (bernews.com, opened 27 October 2026); the gov.bm notice pages returned 404, so the Official Gazette original and the final text were **not opened**.
 
-**Not checked in this pass:** the Official Gazette; the AML/ATF Regulations 2008; axe-core, the manual accessibility audit, print and print-preview, calendar download, KB import/merge/recovery and direct-file/offline operation; the live site (not yet published).
+**Not checked in this pass:** the Official Gazette; the AML/ATF Regulations 2008; axe-core, the manual accessibility audit, print and print-preview, calendar download, KB import/merge/recovery and direct-file/offline operation; the live site (not yet published at the time of this pass; see the release checks above).
 
 # Verification and coverage — release 2.11.0
 

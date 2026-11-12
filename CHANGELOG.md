@@ -1,6 +1,22 @@
 # CHANGELOG
 
-## v2.11.1 — 27 October 2026
+## v2.11.2 — 12 November 2026
+
+Corrections to five entries, a privacy-dialog focus fix, automated tests on pull requests and the 2.11.1 publication record. No change to calculations, fees, calendar logic, topic cards or the CI and SPI profiles. The owner accepted each change on 2 or 12 November 2026 as editorial copy; no counsel sign-off or legal opinion is claimed.
+
+- **Asset and liability statement** (`filing-als-cde`, `conseq-late-filing`, `rec-bill-insurance-als-2026`): the Class C, D and E obligations report now names Insurance Act section 17AA, added by the Insurance Amendment Act 2026 (deemed to have come into operation on 1 January 2026): the statement is filed in accordance with section 17(4), the BMA must cause filed statements to be published, and section 18A late fees and the inspector power apply to it. A new consequence row, shown only for Classes C, D and E, sets out the late fee and inspector power. The Act entry now cites the Insurance Act as consolidated on bermudalaws.bm, which shows these provisions as made by 2026:35; its next review is 16 March 2027. No date is computed from the Act; the Official Gazette was not opened.
+- **Extension-limit entry** (`conseq-extension-cap`): the second practitioner tip no longer says the BMA's discretion lies in how it enforces; it now says to tell the supervisor before the capped date passes, propose a remediation path and take Bermuda counsel's advice on the options that remain. The row for non-filing after the capped period now reads "Weekly late fees under s.18A continue; inspector, direction and civil-penalty provisions may be engaged." The wording test bans the removed phrases.
+- **AI consultation entry** (`rec-cp-ai-2026`): badged Verify, like the other consultations, and the text now says the comment period closed on 30 October 2026.
+- **Privacy dialog**: opens with focus on Close rather than on Remove legacy API key.
+- **Reports on phones**: at 640 px and below, tables in the obligations and application reports show each row as a card with the column name above each value, so due dates and status are no longer off-screen. Overview tables, including the class comparison, keep sideways scrolling and show a "Swipe sideways for more columns" cue. Print and desktop layouts are unchanged.
+- **Screen readers**: table regions are announced as "2. Filing & Reporting Calendar" rather than "2Filing…".
+- **Automated tests**: a GitHub Actions workflow (`.github/workflows/tests.yml`) runs the regression tests on every pull request and on pushes to `main`, with read-only repository permissions.
+- **2.11.1 publication record**: the v2.11.1 entry below now names its release and merge commits and its Pages run; VERIFICATION records the live checks.
+- Tests: 104 (2.11.1: 98). Fingerprints: `filing-als-cde` and `conseq-late-filing` join the corrected entries; the remaining 151 untouched original entries hash identically from 2.11.1 and from this release (`900c0fe7…`); the all-161 and all-entries pins were re-recorded.
+
+## v2.11.1 — owner-authorised publication, 27 October 2026
+
+Published from commit `4c349ae7fb795456cb79dc458ebdc7a9b4598df0` (release branch `release-2.11.1`), merged as `8fdba7be65be9aa9d1fe483c9b8cd924528b176d` by pull request #3; [GitHub Pages deployment succeeded](https://github.com/Dankhisa/bermuda-compliance-navigator/actions/runs/40616185470). All ten served public files matched the release manifest on 27 October 2026.
 
 Corrections, source updates and one new horizon entry. No change to calculations, fees, calendar logic, topic cards or the CI and SPI profiles. The owner approved each change as editorial copy; no counsel sign-off or legal opinion is claimed.
 
