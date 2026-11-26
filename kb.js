@@ -1,9 +1,9 @@
 /* Static educational knowledge base. Original research and per-entry review dates are preserved. See VERIFICATION.md. */
 const KB = {
-  "version": "2.11.2",
+  "version": "2.11.3",
   "as_at": "2026-07-02",
   "generated": "2026-07-02",
-  "app_version": "2.11.2",
+  "app_version": "2.11.3",
   "schema": {
     "required": [
       "id",
@@ -2518,8 +2518,8 @@ const KB = {
         "iigb"
       ],
       "topic": "task",
-      "text": "Registration or licensing is granted under the sector's governing Act (e.g. registration as an insurer under s.4 Insurance Act 1978). The application must satisfy the minimum criteria (fit and proper controllers and officers, adequate capital, sound business plan). The Authority must be satisfied the applicant meets its minimum margin of solvency (and ECR for commercial classes) on registration (s.5).",
-      "citation": "Insurance Act 1978, ss.4, 5",
+      "text": "Registration or licensing is granted under the sector's governing Act (e.g. registration as an insurer under s.4 Insurance Act 1978). The application must satisfy the minimum criteria (fit and proper controllers and officers, adequate capital, sound business plan). The Authority must be satisfied that the minimum criteria are fulfilled (s.5). It must also be satisfied that the applicant meets its minimum margin of solvency and, for the classes listed in s.6(4), its enhanced capital requirement (s.6(1) and (4)); for some classes the Act allows this to be met by the date business commences (s.6(1A) and (5)).",
+      "citation": "Insurance Act 1978, ss.4–6",
       "source": {
         "type": "legislation",
         "name": "Insurance Act 1978 (consolidated to Insurance Amendment (No. 2) Act 2025, effective 7 Jan 2026)",
@@ -2557,9 +2557,9 @@ const KB = {
           "Check the separate Key Person Police Clearance Certificate conditions below; do not assume every appointee is in scope."
         ],
         "escalate": "Licence applications involve regulatory discretion and structuring decisions. Engage Bermuda counsel and, for insurers, an insurance manager or advisor familiar with the BMA assessment process before submission.",
-        "template": "[Entity / applicant letterhead]\n[Date]\nBermuda Monetary Authority\n[Confirm current form and submission channel]\n\nSubject: Insurer registration application — [proposed entity] — [requested class]\n\nDear Sir or Madam,\n\nWe submit this application on behalf of [applicant / legal form] for registration as a [class] insurer under section 4 of the Insurance Act 1978. The intended commencement date is [date, subject to registration and applicable conditions].\n\nThe proposed business is [business lines, customers, territories and operating model]. The ownership and group arrangements are [summary]. The facts supporting the requested class are [analysis].\n\n[Explain how section 5 and the relevant minimum criteria are addressed. Summarise capital, solvency projections, governance, management and service-provider arrangements with references to supporting evidence.]\n\n[Where the PCC notice applies to an individual, identify the accompanying documentation or the BMA's response on a proposed substitute. Do not assume acceptance. Distinguish the application fee from any registration fee payable on grant.]\n\nWe request consideration of registration in the stated class and confirmation of further information or conditions required.\n\n[Record authority to submit actually obtained. List only documents actually enclosed, any outstanding items, the confirmed fee item and actual payment status.]\n\nYours faithfully,\n[Name / capacity / contact]"
+        "template": "[Entity / applicant letterhead]\n[Date]\nBermuda Monetary Authority\n[Confirm current form and submission channel]\n\nSubject: Insurer registration application — [proposed entity] — [requested class]\n\nDear Sir or Madam,\n\nWe submit this application on behalf of [applicant / legal form] for registration as a [class] insurer under section 4 of the Insurance Act 1978. The intended commencement date is [date, subject to registration and applicable conditions].\n\nThe proposed business is [business lines, customers, territories and operating model]. The ownership and group arrangements are [summary]. The facts supporting the requested class are [analysis].\n\n[Explain how sections 5 and 6 and the relevant minimum criteria are addressed. Summarise capital, solvency projections, governance, management and service-provider arrangements with references to supporting evidence.]\n\n[Where the PCC notice applies to an individual, identify the accompanying documentation or the BMA's response on a proposed substitute. Do not assume acceptance. Distinguish the application fee from any registration fee payable on grant.]\n\nWe request consideration of registration in the stated class and confirmation of further information or conditions required.\n\n[Record authority to submit actually obtained. List only documents actually enclosed, any outstanding items, the confirmed fee item and actual payment status.]\n\nYours faithfully,\n[Name / capacity / contact]"
       },
-      "editorial_updated": "2026-09-22",
+      "editorial_updated": "2026-11-25",
       "sources": [
         {
           "type": "bma-primary",
@@ -2570,7 +2570,7 @@ const KB = {
       ],
       "fee_year": 2026,
       "revision": "2.3.0",
-      "evidence_note": "Request-specific drafting review, 22 September 2026. See SOURCES.md for primary-source gateways and limitations. Forms, fees and submission channels require confirmation. No external legal sign-off."
+      "evidence_note": "Request-specific drafting review, 22 September 2026. See SOURCES.md for primary-source gateways and limitations. Forms, fees and submission channels require confirmation. No external legal sign-off. 25 November 2026 (owner-approved R-IA-03): the solvency test on registration is attributed to s.6 and the minimum criteria to s.5, checked against the Insurance Act 1978 consolidation on bermudalaws.bm retrieved 9 October 2026; not re-downloaded; no external legal sign-off."
     },
     {
       "id": "task-modification",
@@ -2887,7 +2887,7 @@ const KB = {
           {
             "breach": "Breach of the Act / Rules (incl. persistent non-filing)",
             "consequence": "Directions — including ceasing to write new business, premium caps, asset controls",
-            "provision": "s.32(1)(c), (2)",
+            "provision": "s.32(1)(b), (2)",
             "ver": "established"
           },
           {
@@ -2924,10 +2924,10 @@ const KB = {
           }
         ]
       },
-      "editorial_updated": "2026-11-02",
+      "editorial_updated": "2026-11-25",
       "fee_year": 2026,
       "revision": "2.2.0",
-      "evidence_note": "Targeted correction / scope safeguard, 21 September 2026. See VERIFICATION.md for checked provisions and unresolved coverage; no external legal sign-off. 2 November 2026 (owner-approved NAV-20261102-01, D2): a Class C/D/E-only row adds the asset and liability statement under s.17AA and s.18A(1)(c), (2), (5)(e), from the Insurance Act 1978 consolidation on bermudalaws.bm retrieved 9 October 2026 (s.18A amended by 2026 : 35 s. 3); the Official Gazette was not opened."
+      "evidence_note": "Targeted correction / scope safeguard, 21 September 2026. See VERIFICATION.md for checked provisions and unresolved coverage; no external legal sign-off. 2 November 2026 (owner-approved NAV-20261102-01, D2): a Class C/D/E-only row adds the asset and liability statement under s.17AA and s.18A(1)(c), (2), (5)(e), from the Insurance Act 1978 consolidation on bermudalaws.bm retrieved 9 October 2026 (s.18A amended by 2026 : 35 s. 3); the Official Gazette was not opened. 25 November 2026 (owner-approved R-IA-02): the breach-of-the-Act row now cites s.32(1)(b), checked against the Insurance Act 1978 consolidation on bermudalaws.bm retrieved 9 October 2026; not re-downloaded; no external legal sign-off."
     },
     {
       "id": "conseq-extension-cap",
@@ -3096,7 +3096,7 @@ const KB = {
           {
             "breach": "Sustained breach",
             "consequence": "Directions (cease writing, asset custody/localisation), inspector appointment, ultimately cancellation and winding-up petition powers",
-            "provision": "ss.32, 30, 41",
+            "provision": "ss.32, 30, 35, 41",
             "ver": "established"
           }
         ],
@@ -3107,7 +3107,8 @@ const KB = {
           }
         ]
       },
-      "editorial_updated": "2026-09-16"
+      "editorial_updated": "2026-11-25",
+      "evidence_note": "25 November 2026 (owner-approved R-IA-05): the sustained-breach row adds s.35 for the winding-up petition, checked against the Insurance Act 1978 consolidation on bermudalaws.bm retrieved 9 October 2026; not re-downloaded; no external legal sign-off."
     },
     {
       "id": "conseq-ecr-breach",
@@ -3192,7 +3193,7 @@ const KB = {
       ],
       "topic": "consequence",
       "text": "Failure to follow the applicable shareholder or insurer notification route. Duties differ by actor, class and public/private share status; see the selected-context explanation.",
-      "citation": "Insurance Act 1978, ss.30D–30H",
+      "citation": "Insurance Act 1978, ss.30D–30I",
       "source": {
         "type": "legislation",
         "name": "Insurance Act 1978 (consolidated to Insurance Amendment (No. 2) Act 2025, effective 7 Jan 2026)",
@@ -3223,8 +3224,8 @@ const KB = {
           },
           {
             "breach": "Unapproved controller in place",
-            "consequence": "Express intervention ground — directions against the insurer; powers of restriction and forced sale of the relevant shares",
-            "provision": "s.32(1)(e); s.30H",
+            "consequence": "Express intervention ground — directions to the insurer; where a notice of objection applies, the Authority may restrict the shares and the Court may order their sale on its application",
+            "provision": "s.32(1)(d); s.30I",
             "ver": "established"
           },
           {
@@ -3245,10 +3246,10 @@ const KB = {
           }
         ]
       },
-      "editorial_updated": "2026-09-21",
+      "editorial_updated": "2026-11-25",
       "fee_year": 2026,
       "revision": "2.2.0",
-      "evidence_note": "Targeted correction / scope safeguard, 21 September 2026. See VERIFICATION.md for checked provisions and unresolved coverage; no external legal sign-off."
+      "evidence_note": "Targeted correction / scope safeguard, 21 September 2026. See VERIFICATION.md for checked provisions and unresolved coverage; no external legal sign-off. 25 November 2026 (owner-approved R-IA-01): the intervention ground and share-restriction references and wording were corrected (s.32(1)(d); s.30I), checked against the Insurance Act 1978 consolidation on bermudalaws.bm retrieved 9 October 2026; not re-downloaded; no external legal sign-off."
     },
     {
       "id": "conseq-principal-rep",
@@ -3657,7 +3658,7 @@ const KB = {
           {
             "breach": "False, misleading or inaccurate information supplied in connection with registration",
             "consequence": "Ground for cancellation of registration",
-            "provision": "s.41(1)(b)",
+            "provision": "s.41(1)(b) (insurers); s.42(1)(b) (intermediaries)",
             "ver": "established"
           },
           {
@@ -3674,7 +3675,8 @@ const KB = {
           }
         ]
       },
-      "editorial_updated": "2026-09-16"
+      "editorial_updated": "2026-11-25",
+      "evidence_note": "25 November 2026 (owner-approved R-IA-04): the cancellation row adds s.42(1)(b) for intermediaries, checked against the Insurance Act 1978 consolidation on bermudalaws.bm retrieved 9 October 2026; not re-downloaded; no external legal sign-off."
     },
     {
       "id": "conseq-sector-generic",
@@ -6646,5 +6648,5 @@ const KB = {
     ]
   },
   "schema_version": 2,
-  "release_date": "2026-11-12"
+  "release_date": "2026-11-25"
 };

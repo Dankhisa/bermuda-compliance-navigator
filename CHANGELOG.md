@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v2.11.3 — 25 November 2026
+
+Corrections to Insurance Act 1978 section references in five entries. No change to calculations, fees, calendar logic, topic cards, review dates or the CI and SPI profiles. The owner accepted each change on 25 November 2026 as editorial copy; no counsel sign-off or legal opinion is claimed. References were checked against the Insurance Act 1978 as consolidated on bermudalaws.bm (copy retrieved 9 October 2026).
+
+- **Unapproved controller** (`conseq-controller`): the intervention-ground row cited s.32(1)(e), which concerns the enhanced capital requirement, and s.30H, which concerns objection to an existing controller. It now cites s.32(1)(d) and s.30I, and says that where a notice of objection applies the Authority may restrict the shares and the Court may order their sale on its application. The entry citation now runs to s.30I.
+- **Late filings** (`conseq-late-filing`): the directions row for breach of the Act or Rules cited s.32(1)(c), which concerns the minimum criteria; it now cites s.32(1)(b).
+- **New registration** (`task-newlicence`): the solvency test on registration was attributed to s.5. The entry now says s.5 requires the minimum criteria to be fulfilled, and s.6(1) and (4) set the minimum margin of solvency and, for the listed classes, the enhanced capital requirement, which for some classes may be met by the date business commences (s.6(1A) and (5)). The citation and the draft letter refer to sections 5 and 6.
+- **False information** (`conseq-false-info`): the cancellation row adds s.42(1)(b), the equivalent ground for insurance managers, brokers, agents and other intermediaries.
+- **Solvency breach** (`conseq-msm-breach`): the sustained-breach row adds s.35, the Authority's winding-up petition power.
+
 ## v2.11.2 — 12 November 2026
 
 Corrections to five entries, a privacy-dialog focus fix, automated tests on pull requests and the 2.11.1 publication record. No change to calculations, fees, calendar logic, topic cards or the CI and SPI profiles. The owner accepted each change on 2 or 12 November 2026 as editorial copy; no counsel sign-off or legal opinion is claimed.
