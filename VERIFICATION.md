@@ -1,4 +1,16 @@
-# Verification and coverage — release 2.11.2
+# Verification and coverage — release 2.11.3
+
+## 2.11.3 candidate checks — 25 November 2026
+
+Corrections to Insurance Act section references in five entries (`conseq-controller`, `conseq-late-filing`, `task-newlicence`, `conseq-false-info`, `conseq-msm-breach`). No change to calculations, fees, calendar logic, topic cards, review dates or the CI and SPI profiles. The owner accepted each change on 25 November 2026 as editorial copy; no counsel sign-off or legal opinion is claimed. Publication authority is recorded separately.
+
+**Observed on the local candidate (25 November 2026):**
+- `node tests/regression.test.cjs`: **109 tests, 109 pass, 0 fail, 0 skipped** (2.11.2: 104). Each new test failed before its change and passed after it.
+- Fingerprints: `conseq-controller`, `task-newlicence`, `conseq-false-info` and `conseq-msm-breach` join the corrected entries (`conseq-late-filing` already had); the 147 original entries outside the fourteen corrected entries hash identically (`f0f8c9e3…`) from the 2.11.2 commit and from this candidate; the all-161 pin (`7b434f4e…`) and the all-entries pin (`d65f342b…`) were re-recorded.
+- Sources: the Insurance Act 1978 as consolidated on bermudalaws.bm (copy retrieved 9 October 2026, re-read 25 November 2026): ss.5, 6(1), (1A), (4), (5), 30H, 30I, 32(1)(b) to (e), 35, 41(1)(b), 42(1)(b). A fresh copy was not downloaded. Each edited entry carries a dated evidence note.
+- Browser check, 25 November 2026 (candidate served from 127.0.0.1, driven through the page functions): Class 3A, Class E and Collateralized obligations reports and their controller, extension and registration requests show the corrected references and wording; the intermediary outputs show the s.42(1)(b) reference; none of the replaced references appear, and every report carries the KB v2.11.3 notice; no console errors. KB and app 2.11.3, release date 2026-11-25, 163 entries, footer and print footer dated 25 November 2026, Content Security Policy present.
+
+**Not checked in this pass:** a freshly downloaded consolidation of the Act; the Official Gazette; phone width and print (no layout or label change); axe-core, the manual accessibility audit, calendar download, KB import/merge/recovery and direct-file/offline operation; the live site (not published).
 
 ## 2.11.2 candidate checks — 2 and 12 November 2026
 

@@ -61,12 +61,13 @@ test('the 161 original entries match their pinned, owner-approved fingerprints',
   // excluded ids. The remaining 151 original entries hash to 900c0fe7... from both 8fdba7b and the edited kb.js;
   // all-161 f5f2646d... -> 29e10a8b..., all-entries (163) c42da2c3... -> 7af89b10....
   // Release 2.11.2 combines all three: all-161 f5f2646d... -> 9f150bec..., all-entries (163) c42da2c3... -> 7c336b7f....
+  // 25 November 2026: owner approved R-IA-01, R-IA-02, R-IA-03, R-IA-04, R-IA-05; conseq-controller, task-newlicence, conseq-false-info, conseq-msm-breach join(s) the excluded ids. The remaining 147 originals hash to f0f8c9e3... from both a41a2c4 and the edited kb.js; all-161 9f150bec... -> 7b434f4e..., all-entries 7c336b7f... -> d65f342b....
   const f=fixture();
   const hash=list=>crypto.createHash('sha256').update(JSON.stringify(list)).digest('hex');
   const original=f.data("KB.entries.filter(e=>!['rec-bill-insurance-als-2026','rec-cp-ai-2026'].includes(e.id))");
   assert.equal(original.length,161);
-  assert.equal(hash(original.filter(e=>!['focus-cap-4','conseq-sba-unapproved','conseq-extension-cap','summary-commercial','filing-annual-fee','task-extension','conseq-escalation','focus-aml-2','filing-als-cde','conseq-late-filing'].includes(e.id))),'900c0fe7541e9a8d9a794aeffde68451b3ec1484d2ee5d52e3d552fe556e8f87');
-  assert.equal(hash(original),'9f150bec49838593ea96b28f9b873e107d119602f1b79116777202b0f4a3f1e2');
+  assert.equal(hash(original.filter(e=>!['focus-cap-4','conseq-sba-unapproved','conseq-extension-cap','summary-commercial','filing-annual-fee','task-extension','conseq-escalation','focus-aml-2','filing-als-cde','conseq-late-filing','conseq-controller','task-newlicence','conseq-false-info','conseq-msm-breach'].includes(e.id))),'f0f8c9e39649954f28f30b19b3b6276f8063eb3f8b642ce06bd898fd533e56fa');
+  assert.equal(hash(original),'7b434f4e0d3f08558703181f357bfc5d850ed511db1c4cf3ce5424fc4abc5e6a');
 });
 test('no knowledge-base entry states a legal conclusion in the tool own voice (NAV-20261005-01 and NAV-20261102-03 wording lint)',()=>{
   const f=fixture();
@@ -120,6 +121,29 @@ test('owner-approved P8 and P9 (27 October 2026): AML focus badge and footer rel
   assert.equal(m[1],f.run('KB.release_date'),'static footer date must equal KB.release_date');
   assert.ok(!html.includes('27 September 2026</time>'));
 });
+test('the unapproved-controller row cites s.32(1)(d) and s.30I and says the Court orders a sale (R-IA-01)',()=>{
+  const f=fixture(),e=f.data("KB.entries.find(e=>e.id==='conseq-controller')");
+  assert.equal(e.citation,'Insurance Act 1978, ss.30D–30I');
+  const r=e.data.rows.find(r=>r.breach==='Unapproved controller in place');
+  assert.equal(r.provision,'s.32(1)(d); s.30I');assert.match(r.consequence,/directions to the insurer; where a notice of objection applies/);assert.match(r.consequence,/the Court may order their sale on its application$/);
+});
+test('the breach-of-the-Act directions row cites s.32(1)(b) (R-IA-02)',()=>{
+  const f=fixture(),e=f.data("KB.entries.find(e=>e.id==='conseq-late-filing')");
+  const r=e.data.rows.find(r=>r.breach.startsWith('Breach of the Act / Rules'));assert.equal(r.provision,'s.32(1)(b), (2)');
+});
+test('the registration task attributes the solvency test to s.6 and keeps s.5 for the minimum criteria (R-IA-03)',()=>{
+  const f=fixture(),e=f.data("KB.entries.find(e=>e.id==='task-newlicence')");
+  assert.equal(e.citation,'Insurance Act 1978, ss.4–6');assert.match(e.text,/minimum criteria are fulfilled \(s\.5\)/);assert.match(e.text,/\(s\.6\(1\) and \(4\)\)/);assert.match(e.text,/\(s\.6\(1A\) and \(5\)\)/);
+  assert.ok(!/on registration \(s\.5\)/.test(JSON.stringify(e)));assert.match(e.data.template,/Explain how sections 5 and 6 and/);
+});
+test('the false-information cancellation row cites both the insurer and intermediary provisions (R-IA-04)',()=>{
+  const f=fixture(),e=f.data("KB.entries.find(e=>e.id==='conseq-false-info')");
+  const r=e.data.rows.find(r=>r.consequence==='Ground for cancellation of registration');assert.equal(r.provision,'s.41(1)(b) (insurers); s.42(1)(b) (intermediaries)');
+});
+test('the sustained-solvency-breach row includes the s.35 winding-up petition provision (R-IA-05)',()=>{
+  const f=fixture(),e=f.data("KB.entries.find(e=>e.id==='conseq-msm-breach')");
+  const r=e.data.rows.find(r=>r.breach==='Sustained breach');assert.equal(r.provision,'ss.32, 30, 35, 41');
+});
 test('the AI consultation horizon entry is a sourced proposal shown in the overview for every entity type only',()=>{
   const f=fixture();
   const e=f.data("KB.entries.find(e=>e.id==='rec-cp-ai-2026')");
@@ -145,7 +169,7 @@ test('owner-approved SBA entry corrections cite Schedule XXVI and drop the non-l
 });
 test('pilot profiles have source-backed claims and primary support for legal cells',()=>{
   const f=fixture();
-  assert.equal(f.run('KB.version'),'2.11.2');assert.equal(f.run('KB.app_version'),'2.11.2');
+  assert.equal(f.run('KB.version'),'2.11.3');assert.equal(f.run('KB.app_version'),'2.11.3');
   const errors=f.data(`(()=>{const errors=[],sources=KB.class_profile_sources,claim=(c,legal=false)=>{
     if(!c||typeof c.text!=='string'||!c.text||!Array.isArray(c.sources)||!c.sources.length||!c.pin)errors.push('incomplete claim');
     else for(const id of c.sources){const s=sources[id];if(!s||!s.url||!s.retrieved||![1,2,3,4].includes(s.tier))errors.push('source '+id);}
@@ -988,7 +1012,7 @@ test('SBA card, the 163 entries and the original source register are unchanged (
   const f=fixture(),hash=x=>crypto.createHash('sha256').update(JSON.stringify(x)).digest('hex');
   assert.equal(hash(f.data('KB.topic_profiles.sba')),'c816859ed0e02ffc165b68a24377cea9be4c494498730b35bc67913d50c2afc0');
   assert.deepEqual(f.data('KB.topic_profiles.sba.scope'),['classC','classD','classE']);
-  assert.equal(hash(f.data('KB.entries')),'7c336b7f83dfbbca57d48bc9fa660235367968f0459bb26972a551d0b228b5ed');
+  assert.equal(hash(f.data('KB.entries')),'d65f342b0b975e8e641c659d90e6571aacdc058eb7b08f0f765475c1b26c57dd');
   const original=f.data(`Object.fromEntries(Object.entries(KB.class_profile_sources).filter(([id])=>!${JSON.stringify(NEW_SOURCE_IDS)}.includes(id)))`);
   assert.equal(Object.keys(original).length,79);assert.equal(hash(original),'80efe0deb00d20d60e080be7b139b8148cc1f7adcc56313989aca5071c0531ff');
 });
@@ -1106,11 +1130,11 @@ test('checklist exports carry the reliance notice, KB version and filters; notes
   const f=fixture();render(f,'insurer','classE');
   f.run(`studySet('opres','opres-a01','understood');studyNote('opres','opres-a01','=HYPERLINK("x") <script>alert(1)</script> private note')`);
   let csv=f.run("checklistCsv('opres',false)");
-  for(const p of [/not issued, endorsed or approved by the Bermuda Monetary Authority/,/Knowledge base,v2\.11\.2/,/Filters,"?Shown: Requirements, BMA expectations/,/Your study statuses and notes,Not included/,/Profile,/])assert.match(csv,p);
+  for(const p of [/not issued, endorsed or approved by the Bermuda Monetary Authority/,/Knowledge base,v2\.11\.3/,/Filters,"?Shown: Requirements, BMA expectations/,/Your study statuses and notes,Not included/,/Profile,/])assert.match(csv,p);
   assert.ok(!csv.includes('private note'));
   csv=f.run("checklistCsv('opres',true)");assert.match(csv,/Your study status,Your note/);assert.ok(csv.includes(`"'=HYPERLINK(""x"") <script>alert(1)</script> private note"`),'CSV formula prefix neutralised');
   let md=f.run("checklistMarkdown('opres',false)");
-  for(const p of [/^# Operational Resilience and Outsourcing Code: learning checklist/,/> Educational study aid only/,/- Knowledge base: v2\.11\.2/,/- Filters: Shown: Requirements, BMA expectations/,/## Scope and dates/])assert.match(md,p);
+  for(const p of [/^# Operational Resilience and Outsourcing Code: learning checklist/,/> Educational study aid only/,/- Knowledge base: v2\.11\.3/,/- Filters: Shown: Requirements, BMA expectations/,/## Scope and dates/])assert.match(md,p);
   assert.ok(!md.includes('private note'));
   md=f.run("checklistMarkdown('opres',true)");assert.ok(md.includes('\\<script\\>')&&!md.includes('<script>'),'markdown escaped');
 });
@@ -1148,8 +1172,8 @@ test('printed and screen reports carry the NAV-01 reliance notice, NAV-03 footer
   const f=fixture();
   for(const mode of ['MAP','DISTIL','EXECUTE']){
     const result=render(f,'insurer','classE',mode);
-    assert.match(result,/class="callout c-warn print-only"><span><b>Educational information only — not legal or professional advice\.<\/b> Independent project; not issued, endorsed or approved by the Bermuda Monetary Authority\. KB v2\.11\.2/,mode);
-    assert.match(f.element('printFooterStyle').textContent,/^@media print\{@page\{@bottom-center\{content:"KB v2\.11\.2 · generated [^"]+ · educational, not advice · not BMA-issued";/,mode);
+    assert.match(result,/class="callout c-warn print-only"><span><b>Educational information only — not legal or professional advice\.<\/b> Independent project; not issued, endorsed or approved by the Bermuda Monetary Authority\. KB v2\.11\.3/,mode);
+    assert.match(f.element('printFooterStyle').textContent,/^@media print\{@page\{@bottom-center\{content:"KB v2\.11\.3 · generated [^"]+ · educational, not advice · not BMA-issued";/,mode);
     assert.match(result,/This Navigator is an independent educational project and is not issued, endorsed or approved by the Bermuda Monetary Authority\./,mode);
   }
   assert.ok(html.includes(`<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">`));
